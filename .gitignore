@@ -14,3 +14,5 @@ Saved
 *.xcworkspace
 .vsconfig
 .idea
+/Content/__ExternalActors__/
+/Content/__ExternalObjects__/
