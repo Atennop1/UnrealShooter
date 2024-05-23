@@ -22,5 +22,4 @@ protected:
 public:
 	UShooterCharacterMovingComponent();
 	void Move(const FVector2D Input) const;
-	void Rotate(const FVector2D Input) const;
 };
