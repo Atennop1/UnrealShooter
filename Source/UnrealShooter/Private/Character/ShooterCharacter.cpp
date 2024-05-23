@@ -11,6 +11,9 @@ void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (MovementComponent == nullptr)
-		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "Movement component is not set up!");
+	if (MovingComponent == nullptr)
+		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "MovingComponent is not set up!");
+
+	if (CrouchingComponent == nullptr)
+		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "CrouchingComponent is not set up!");
 }
