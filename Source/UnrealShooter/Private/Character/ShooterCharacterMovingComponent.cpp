@@ -22,9 +22,3 @@ void UShooterCharacterMovingComponent::Move(const FVector2D Value) const
 	Character->AddMovementInput(Character->GetActorForwardVector(), Value.Y);
 	Character->AddMovementInput(Character->GetActorRightVector(), Value.X);
 }
-
-void UShooterCharacterMovingComponent::Rotate(const FVector2D Input) const
-{
-	Character->AddControllerYawInput(Input.X);
-	Character->AddControllerPitchInput(Input.Y);
-}
