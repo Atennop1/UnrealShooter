@@ -27,13 +27,6 @@ void UShooterCharacterCrouchingComponent::BeginPlay()
 	CrouchingTimeline.AddInterpFloat(CrouchingCurve, OnTimelineUpdate);
 }
 
-// ReSharper disable once CppMemberFunctionMayBeConst
-void UShooterCharacterCrouchingComponent::CrouchUpdate(const float Alpha)
-{
-	const float HalfHeight = FMath::Lerp(NormalHalfHeight, CrouchedHalfHeight, Alpha);
-	Character->GetCapsuleComponent()->SetCapsuleHalfHeight(HalfHeight);
-}
-
 void UShooterCharacterCrouchingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -42,12 +35,20 @@ void UShooterCharacterCrouchingComponent::TickComponent(float DeltaTime, ELevelT
 
 void UShooterCharacterCrouchingComponent::StartCrouching()
 {
-	IsCrouched = true;
+	IsCrouching = true;
 	CrouchingTimeline.Play();
 }
 
 void UShooterCharacterCrouchingComponent::StopCrouching()
 {
-	IsCrouched = false;
+	IsCrouching = false;
 	CrouchingTimeline.Reverse();
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void UShooterCharacterCrouchingComponent::CrouchUpdate(const float Alpha)
+{
+	const float HalfHeight = FMath::Lerp(NormalHalfHeight, CrouchedHalfHeight, Alpha);
+	Character->GetCapsuleComponent()->SetCapsuleHalfHeight(HalfHeight);
+	Character->GetMesh()->SetRelativeLocation(FVector(0, 0, HalfHeight * -1));
 }

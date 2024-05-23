@@ -19,7 +19,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UCurveFloat *CrouchingCurve = nullptr;
 	FTimeline CrouchingTimeline;
-	bool IsCrouched = false;
+
+	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
+	bool IsCrouching = false;
 
 	UPROPERTY(EditDefaultsOnly)
 	float CrouchedHalfHeight = 50;
@@ -36,7 +38,4 @@ public:
 	UShooterCharacterCrouchingComponent();
 	void StartCrouching();
 	void StopCrouching();
-
-	UFUNCTION(BlueprintCallable, BlueprintPure)
-	bool GetIsCrouched() const { return IsCrouched; }
 };
