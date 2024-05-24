@@ -15,8 +15,11 @@ class UNREALSHOOTER_API UShooterCharacterRotatingComponent : public UActorCompon
 private:
 	UPROPERTY()
 	class AShooterCharacter *Character = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	float HalfDeadZoneAngle = 30;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta=(AllowPrivateAccess))
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	UCameraComponent *CharacterCamera = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))

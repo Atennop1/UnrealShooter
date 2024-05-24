@@ -33,6 +33,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction *CrouchAction;
 
+	UPROPERTY(EditDefaultsOnly)
+	UInputAction *AimAction;
+
 	void CallMove(const FInputActionValue &Value);
 	void CallRotate(const FInputActionValue &Value);
 
@@ -41,6 +44,9 @@ private:
 
 	void CallStartCrouch(const FInputActionValue &Value);
 	void CallStopCrouch(const FInputActionValue &Value);
+
+	void CallStartAim(const FInputActionValue &Value);
+	void CallStopAim(const FInputActionValue &Value);
 
 protected:
 	virtual void OnPossess(APawn *PossessingPawn) override;
