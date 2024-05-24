@@ -12,9 +12,7 @@ void UShooterCharacterMovingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
-	
-	if (!Character)
-		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "ShooterCharacterMovingComponent must be on ShooterCharacter!");
+	check (Character != nullptr)
 }
 
 void UShooterCharacterMovingComponent::Move(const FVector2D Value) const

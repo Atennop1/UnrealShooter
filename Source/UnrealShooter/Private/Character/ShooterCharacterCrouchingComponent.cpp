@@ -14,12 +14,7 @@ void UShooterCharacterCrouchingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
-
-	if (Character == nullptr)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "ShooterCharacterCrouchingComponent must be on ShooterCharacter!");
-		return;
-	}
+	check(Character != nullptr)
 		
 	FOnTimelineFloat OnTimelineUpdate;
 	NormalHalfHeight = Character->GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
