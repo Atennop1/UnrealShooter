@@ -2,6 +2,7 @@
 
 #include "Character/ShooterCharacterRotatingComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UShooterCharacterRotatingComponent::UShooterCharacterRotatingComponent()
 {
@@ -21,13 +22,14 @@ void UShooterCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTi
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	LocationCameraPointingAt = CharacterCamera->GetComponentLocation() + CharacterCamera->GetForwardVector() * 500;
+	Character->GetCharacterMovement()->bUseControllerDesiredRotation = Character->GetVelocity() != FVector::Zero();
 }
 
 void UShooterCharacterRotatingComponent::Rotate(const FVector2D Input) const
 {
 	Character->AddControllerYawInput(Input.X);
 	Character->AddControllerPitchInput(Input.Y);
-	
+
 	FVector CharacterForwardVector = Character->GetActorRotation().Vector();
 	FVector CameraForwardVector = CharacterCamera->GetComponentRotation().Vector();
 	CharacterForwardVector.Z = CameraForwardVector.Z = 0;

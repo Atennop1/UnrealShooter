@@ -30,10 +30,10 @@ void AShooterPlayerController::OnPossess(APawn *PossessingPawn)
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallMove(const FInputActionValue& Value) { PossessedCharacter->Move(Value.Get<FVector2D>()); }
+void AShooterPlayerController::CallMove(const FInputActionValue& Value) { PossessedCharacter->GetMovingComponent()->Move(Value.Get<FVector2D>()); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallRotate(const FInputActionValue& Value) { PossessedCharacter->Rotate(Value.Get<FVector2D>()); }
+void AShooterPlayerController::CallRotate(const FInputActionValue& Value) { PossessedCharacter->GetRotatingComponent()->Rotate(Value.Get<FVector2D>()); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void AShooterPlayerController::CallJump(const FInputActionValue& Value) { PossessedCharacter->Jump(); }
@@ -42,13 +42,13 @@ void AShooterPlayerController::CallJump(const FInputActionValue& Value) { Posses
 void AShooterPlayerController::CallStopJumping(const FInputActionValue& Value) { PossessedCharacter->StopJumping(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallStartCrouch(const FInputActionValue& Value) { PossessedCharacter->StartCrouch(); }
+void AShooterPlayerController::CallStartCrouch(const FInputActionValue& Value) { PossessedCharacter->GetCrouchingComponent()->StartCrouching(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallStopCrouch(const FInputActionValue& Value) { PossessedCharacter->StopCrouch(); }
+void AShooterPlayerController::CallStopCrouch(const FInputActionValue& Value) { PossessedCharacter->GetCrouchingComponent()->StopCrouching(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallStartAim(const FInputActionValue& Value) { PossessedCharacter->StartAim(); }
+void AShooterPlayerController::CallStartAim(const FInputActionValue& Value) { PossessedCharacter->GetAimingComponent()->StartAim(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallStopAim(const FInputActionValue& Value) { PossessedCharacter->StopAim(); }
+void AShooterPlayerController::CallStopAim(const FInputActionValue& Value) { PossessedCharacter->GetAimingComponent()->StopAim(); }

@@ -13,22 +13,22 @@ class UNREALSHOOTER_API UShooterCharacterWeaponHoldingComponent : public UActorC
 	GENERATED_BODY()
 
 private:
+	UPROPERTY()
+	class AShooterCharacter *Character = nullptr;
+	
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
 	bool IsHoldingWeapon = false;
-
-	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
-	bool IsAiming = false;
 
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
 	TScriptInterface<IWeapon> HoldingWeapon = nullptr;
 
 public: 
 	UShooterCharacterWeaponHoldingComponent();
-	IWeapon *GetHoldingWeapon() const { return Cast<IWeapon>(HoldingWeapon.GetObject()); }
+	virtual void BeginPlay() override;
 	
-	void Hold(const IWeapon *Weapon);
+	IWeapon *GetHoldingWeapon() const { return Cast<IWeapon>(HoldingWeapon.GetObject()); }
+	bool GetIsHoldingWeapon() const { return IsHoldingWeapon; }
+	
+	void Hold(const TScriptInterface<IWeapon> Weapon);
 	void Unhold();
-
-	void StartAim();
-	void StopAim();
 };

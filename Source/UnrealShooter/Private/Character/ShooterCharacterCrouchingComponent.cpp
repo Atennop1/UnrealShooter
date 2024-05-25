@@ -15,7 +15,7 @@ void UShooterCharacterCrouchingComponent::BeginPlay()
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check(Character != nullptr)
-		
+	
 	FOnTimelineFloat OnTimelineUpdate;
 	NormalHalfHeight = Character->GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
 	NormalSpeed = Character->GetCharacterMovement()->MaxWalkSpeed;

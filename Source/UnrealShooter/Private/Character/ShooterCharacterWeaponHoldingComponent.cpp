@@ -1,45 +1,31 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "Character/ShooterCharacterWeaponHoldingComponent.h"
+#include "Character/ShooterCharacter.h"
 
 UShooterCharacterWeaponHoldingComponent::UShooterCharacterWeaponHoldingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UShooterCharacterWeaponHoldingComponent::Hold(const IWeapon* Weapon)
+void UShooterCharacterWeaponHoldingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	Character = Cast<AShooterCharacter>(GetOwner());
+	check(Character != nullptr)
+}
+
+void UShooterCharacterWeaponHoldingComponent::Hold(const TScriptInterface<IWeapon> Weapon)
 {
 	IsHoldingWeapon = true;
 	
 	if (Weapon != nullptr)
-		HoldingWeapon.SetObject(Weapon->_getUObject());
+		HoldingWeapon = Weapon;
 }
 
 void UShooterCharacterWeaponHoldingComponent::Unhold()
 {
-	IsAiming = false;
+	Character->GetAimingComponent()->StopAim();
 	IsHoldingWeapon = false;
 	HoldingWeapon = nullptr;
-}
-
-void UShooterCharacterWeaponHoldingComponent::StartAim()
-{
-	if (HoldingWeapon == nullptr)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "Cant start aim when have no weapon!");
-		return;
-	}
-	
-	IsAiming = true;
-}
-
-void UShooterCharacterWeaponHoldingComponent::StopAim()
-{
-	if (HoldingWeapon == nullptr)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "Cant end aim when have no weapon!");
-		return;
-	}
-	
-	IsAiming = false;
 }

@@ -40,6 +40,8 @@ protected:
 
 public:
 	UShooterCharacterCrouchingComponent();
+	bool GetIsCrouching() const { return IsCrouching; }
+	
 	void StartCrouching();
 	void StopCrouching();
 };

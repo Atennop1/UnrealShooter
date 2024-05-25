@@ -31,5 +31,6 @@ protected:
 
 public:
 	UShooterCharacterRotatingComponent();
+	FVector GetLocationCameraPointingAt() const { return LocationCameraPointingAt; }
 	void Rotate(const FVector2D Input) const;
 };
