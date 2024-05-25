@@ -1,16 +1,16 @@
 ﻿// Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/ShooterCharacterCrouchingComponent.h"
+#include "Character/CharacterCrouchingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-UShooterCharacterCrouchingComponent::UShooterCharacterCrouchingComponent()
+UCharacterCrouchingComponent::UCharacterCrouchingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UShooterCharacterCrouchingComponent::BeginPlay()
+void UCharacterCrouchingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
@@ -24,14 +24,14 @@ void UShooterCharacterCrouchingComponent::BeginPlay()
 	CrouchingTimeline.AddInterpFloat(CrouchingCurve, OnTimelineUpdate);
 }
 
-void UShooterCharacterCrouchingComponent::StartCrouching()
+void UCharacterCrouchingComponent::StartCrouching()
 {
 	IsCrouching = true;
 	CrouchingTimeline.Play();
 	Character->GetCharacterMovement()->MaxWalkSpeed = CrouchedSpeed;
 }
 
-void UShooterCharacterCrouchingComponent::StopCrouching()
+void UCharacterCrouchingComponent::StopCrouching()
 {
 	IsCrouching = false;
 	CrouchingTimeline.Reverse();
@@ -39,14 +39,14 @@ void UShooterCharacterCrouchingComponent::StopCrouching()
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void UShooterCharacterCrouchingComponent::CrouchUpdate(const float Alpha)
+void UCharacterCrouchingComponent::CrouchUpdate(const float Alpha)
 {
 	const float HalfHeight = FMath::Lerp(NormalHalfHeight, CrouchedHalfHeight, Alpha);
 	Character->GetCapsuleComponent()->SetCapsuleHalfHeight(HalfHeight);
 	Character->GetMesh()->SetRelativeLocation(FVector(0, 0, HalfHeight * -1));
 }
 
-void UShooterCharacterCrouchingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UCharacterCrouchingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	CrouchingTimeline.TickTimeline(DeltaTime);

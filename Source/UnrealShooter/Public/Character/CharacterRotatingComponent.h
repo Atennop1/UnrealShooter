@@ -5,10 +5,10 @@
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
 #include "Components/ActorComponent.h"
-#include "ShooterCharacterRotatingComponent.generated.h"
+#include "CharacterRotatingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UShooterCharacterRotatingComponent : public UActorComponent
+class UNREALSHOOTER_API UCharacterRotatingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -30,7 +30,7 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	UShooterCharacterRotatingComponent();
+	UCharacterRotatingComponent();
 	FVector GetLocationCameraPointingAt() const { return LocationCameraPointingAt; }
 	void Rotate(const FVector2D Input) const;
 };

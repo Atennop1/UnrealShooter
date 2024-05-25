@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ShooterCharacterAimingComponent.h"
-#include "ShooterCharacterCrouchingComponent.h"
-#include "ShooterCharacterMovingComponent.h"
-#include "ShooterCharacterRotatingComponent.h"
-#include "ShooterCharacterWeaponHoldingComponent.h"
+#include "CharacterAimingComponent.h"
+#include "CharacterCrouchingComponent.h"
+#include "CharacterMovingComponent.h"
+#include "CharacterRotatingComponent.h"
+#include "CharacterWeaponHoldingComponent.h"
 #include "GameFramework/Character.h"
 #include "ShooterCharacter.generated.h"
 
@@ -18,19 +18,19 @@ class UNREALSHOOTER_API AShooterCharacter : public ACharacter
 
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	UShooterCharacterMovingComponent *MovingComponent = nullptr;
+	UCharacterMovingComponent *MovingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	UShooterCharacterRotatingComponent *RotatingComponent = nullptr;
+	UCharacterRotatingComponent *RotatingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	UShooterCharacterCrouchingComponent *CrouchingComponent = nullptr;
+	UCharacterCrouchingComponent *CrouchingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	UShooterCharacterWeaponHoldingComponent *WeaponHoldingComponent = nullptr;
+	UCharacterWeaponHoldingComponent *WeaponHoldingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	UShooterCharacterAimingComponent *AimingComponent = nullptr;
+	UCharacterAimingComponent *AimingComponent = nullptr;
 
 protected:
 	virtual void BeginPlay() override;
@@ -38,9 +38,9 @@ protected:
 public:
 	AShooterCharacter();
 
-	UShooterCharacterMovingComponent *GetMovingComponent() const { return MovingComponent; }
-	UShooterCharacterRotatingComponent *GetRotatingComponent() const { return RotatingComponent; }
-	UShooterCharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent; }
-	UShooterCharacterWeaponHoldingComponent *GetWeaponHoldingComponent() const { return WeaponHoldingComponent; }
-	UShooterCharacterAimingComponent *GetAimingComponent() const { return AimingComponent; }
+	UCharacterMovingComponent *GetMovingComponent() const { return MovingComponent; }
+	UCharacterRotatingComponent *GetRotatingComponent() const { return RotatingComponent; }
+	UCharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent; }
+	UCharacterWeaponHoldingComponent *GetWeaponHoldingComponent() const { return WeaponHoldingComponent; }
+	UCharacterAimingComponent *GetAimingComponent() const { return AimingComponent; }
 };

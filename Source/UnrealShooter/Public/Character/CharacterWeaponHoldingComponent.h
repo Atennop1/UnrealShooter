@@ -5,10 +5,10 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Weapon/IWeapon.h"
-#include "ShooterCharacterWeaponHoldingComponent.generated.h"
+#include "CharacterWeaponHoldingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UShooterCharacterWeaponHoldingComponent : public UActorComponent
+class UNREALSHOOTER_API UCharacterWeaponHoldingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -23,7 +23,7 @@ private:
 	TScriptInterface<IWeapon> HoldingWeapon = nullptr;
 
 public: 
-	UShooterCharacterWeaponHoldingComponent();
+	UCharacterWeaponHoldingComponent();
 	virtual void BeginPlay() override;
 	
 	IWeapon *GetHoldingWeapon() const { return Cast<IWeapon>(HoldingWeapon.GetObject()); }

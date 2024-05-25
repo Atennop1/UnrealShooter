@@ -5,10 +5,10 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/TimelineComponent.h"
-#include "ShooterCharacterCrouchingComponent.generated.h"
+#include "CharacterCrouchingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UShooterCharacterCrouchingComponent : public UActorComponent
+class UNREALSHOOTER_API UCharacterCrouchingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -39,7 +39,7 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	UShooterCharacterCrouchingComponent();
+	UCharacterCrouchingComponent();
 	bool GetIsCrouching() const { return IsCrouching; }
 	
 	void StartCrouching();

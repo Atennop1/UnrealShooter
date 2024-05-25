@@ -1,15 +1,15 @@
 ﻿// Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/ShooterCharacterRotatingComponent.h"
+#include "Character/CharacterRotatingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-UShooterCharacterRotatingComponent::UShooterCharacterRotatingComponent()
+UCharacterRotatingComponent::UCharacterRotatingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UShooterCharacterRotatingComponent::BeginPlay()
+void UCharacterRotatingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
@@ -18,14 +18,14 @@ void UShooterCharacterRotatingComponent::BeginPlay()
 	check(CharacterCamera != nullptr)
 }
 
-void UShooterCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	LocationCameraPointingAt = CharacterCamera->GetComponentLocation() + CharacterCamera->GetForwardVector() * 500;
 	Character->GetCharacterMovement()->bUseControllerDesiredRotation = Character->GetVelocity() != FVector::Zero();
 }
 
-void UShooterCharacterRotatingComponent::Rotate(const FVector2D Input) const
+void UCharacterRotatingComponent::Rotate(const FVector2D Input) const
 {
 	Character->AddControllerYawInput(Input.X);
 	Character->AddControllerPitchInput(Input.Y);

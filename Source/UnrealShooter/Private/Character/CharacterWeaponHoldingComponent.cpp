@@ -1,21 +1,21 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/ShooterCharacterWeaponHoldingComponent.h"
+#include "Character/CharacterWeaponHoldingComponent.h"
 #include "Character/ShooterCharacter.h"
 
-UShooterCharacterWeaponHoldingComponent::UShooterCharacterWeaponHoldingComponent()
+UCharacterWeaponHoldingComponent::UCharacterWeaponHoldingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UShooterCharacterWeaponHoldingComponent::BeginPlay()
+void UCharacterWeaponHoldingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check(Character != nullptr)
 }
 
-void UShooterCharacterWeaponHoldingComponent::Hold(const TScriptInterface<IWeapon> Weapon)
+void UCharacterWeaponHoldingComponent::Hold(const TScriptInterface<IWeapon> Weapon)
 {
 	IsHoldingWeapon = true;
 	
@@ -23,7 +23,7 @@ void UShooterCharacterWeaponHoldingComponent::Hold(const TScriptInterface<IWeapo
 		HoldingWeapon = Weapon;
 }
 
-void UShooterCharacterWeaponHoldingComponent::Unhold()
+void UCharacterWeaponHoldingComponent::Unhold()
 {
 	Character->GetAimingComponent()->StopAim();
 	IsHoldingWeapon = false;

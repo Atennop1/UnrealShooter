@@ -1,21 +1,21 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/ShooterCharacterAimingComponent.h"
+#include "Character/CharacterAimingComponent.h"
 #include "Character/ShooterCharacter.h"
 
-UShooterCharacterAimingComponent::UShooterCharacterAimingComponent()
+UCharacterAimingComponent::UCharacterAimingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UShooterCharacterAimingComponent::BeginPlay()
+void UCharacterAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check(Character != nullptr)
 }
 
-void UShooterCharacterAimingComponent::StartAim()
+void UCharacterAimingComponent::StartAim()
 {
 	if (Character->GetWeaponHoldingComponent()->GetHoldingWeapon() == nullptr)
 	{
@@ -26,7 +26,7 @@ void UShooterCharacterAimingComponent::StartAim()
 	IsAiming = true;
 }
 
-void UShooterCharacterAimingComponent::StopAim()
+void UCharacterAimingComponent::StopAim()
 {
 	if (Character->GetWeaponHoldingComponent()->GetHoldingWeapon() == nullptr)
 	{

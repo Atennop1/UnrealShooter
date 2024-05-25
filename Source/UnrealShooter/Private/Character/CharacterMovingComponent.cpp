@@ -1,21 +1,21 @@
 ﻿// Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/ShooterCharacterMovingComponent.h"
+#include "Character/CharacterMovingComponent.h"
 #include "Character/ShooterCharacter.h"
 
-UShooterCharacterMovingComponent::UShooterCharacterMovingComponent()
+UCharacterMovingComponent::UCharacterMovingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UShooterCharacterMovingComponent::BeginPlay()
+void UCharacterMovingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check (Character != nullptr)
 }
 
-void UShooterCharacterMovingComponent::Move(const FVector2D Value) const
+void UCharacterMovingComponent::Move(const FVector2D Value) const
 {
 	 //Character->SetActorRotation(FRotator(0, Character->GetControlRotation().Yaw, 0));
 	 Character->AddMovementInput(Character->GetActorRightVector(), Value.X);

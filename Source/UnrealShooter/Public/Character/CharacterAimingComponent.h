@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ShooterCharacterAimingComponent.generated.h"
+#include "CharacterAimingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UShooterCharacterAimingComponent : public UActorComponent
+class UNREALSHOOTER_API UCharacterAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -22,7 +22,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	UShooterCharacterAimingComponent();
+	UCharacterAimingComponent();
 	bool GetIsAiming() const { return IsAiming; }
 	
 	void StartAim();
