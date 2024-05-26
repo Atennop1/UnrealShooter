@@ -1,6 +1,6 @@
 ﻿// Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/CharacterMovingComponent.h"
+#include "Character/Movement/CharacterMovingComponent.h"
 #include "Character/ShooterCharacter.h"
 
 UCharacterMovingComponent::UCharacterMovingComponent()

@@ -1,6 +1,6 @@
 ﻿// Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/CharacterCrouchingComponent.h"
+#include "Character/Movement/CharacterCrouchingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"

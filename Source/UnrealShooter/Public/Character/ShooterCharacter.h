@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CharacterAimingComponent.h"
-#include "CharacterCrouchingComponent.h"
-#include "CharacterMovingComponent.h"
-#include "CharacterRotatingComponent.h"
-#include "CharacterWeaponHoldingComponent.h"
-#include "CharacterWeaponThrowingComponent.h"
+#include "Movement/CharacterCrouchingComponent.h"
+#include "Movement/CharacterMovingComponent.h"
+#include "Movement/CharacterRotatingComponent.h"
+#include "Weapon/CharacterWeaponHoldingComponent.h"
+#include "Weapon/CharacterWeaponThrowingComponent.h"
+#include "Weapon/CharacterAimingComponent.h"
 #include "GameFramework/Character.h"
 #include "ShooterCharacter.generated.h"
 

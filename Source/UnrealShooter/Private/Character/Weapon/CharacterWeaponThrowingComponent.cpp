@@ -1,8 +1,9 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/CharacterWeaponThrowingComponent.h"
-
+#include "Character/Weapon/CharacterWeaponThrowingComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "Character/Weapon/CharacterWeaponHoldingComponent.h"
 
 UCharacterWeaponThrowingComponent::UCharacterWeaponThrowingComponent()
 {

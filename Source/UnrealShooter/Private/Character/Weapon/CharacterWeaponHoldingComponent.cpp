@@ -1,7 +1,8 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/CharacterWeaponHoldingComponent.h"
+#include "Character/Weapon/CharacterWeaponHoldingComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "Character/Weapon/CharacterAimingComponent.h"
 #include "Weapon/Interfaces/IWeapon.h"
 
 UCharacterWeaponHoldingComponent::UCharacterWeaponHoldingComponent()

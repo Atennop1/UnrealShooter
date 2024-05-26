@@ -1,7 +1,8 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/CharacterAimingComponent.h"
+#include "Character/Weapon/CharacterAimingComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "Character/Weapon/CharacterWeaponHoldingComponent.h"
 
 UCharacterAimingComponent::UCharacterAimingComponent()
 {
