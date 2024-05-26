@@ -30,16 +30,16 @@ void UCharacterWeaponPickingComponent::TickComponent(float DeltaTime, ELevelTick
 
 	for (const auto Actor : Actors)
 	{
-		if (Actor->Implements<UWeaponPickable>())
-		{
-			const auto WeaponActor = GetWorld()->SpawnActor(PickablesToWeapons[Actor->GetClass()]);
-			TScriptInterface<IWeapon> Weapon;
-			Weapon.SetInterface(Cast<IWeapon>(WeaponActor));
-			Weapon.SetObject(WeaponActor);
+		if (!Actor->Implements<UWeaponPickable>() || !PickablesToWeapons.Contains(Actor->GetClass()))
+			return;
 			
-			Character->GetWeaponHoldingComponent()->Hold(Weapon);
-			GetWorld()->DestroyActor(Actor);
-		}
+		const auto WeaponActor = GetWorld()->SpawnActor(PickablesToWeapons[Actor->GetClass()]);
+		TScriptInterface<IWeapon> Weapon;
+		Weapon.SetInterface(Cast<IWeapon>(WeaponActor));
+		Weapon.SetObject(WeaponActor);
+		
+		Character->GetWeaponHoldingComponent()->Hold(Weapon);
+		GetWorld()->DestroyActor(Actor);
 	}
 }
 

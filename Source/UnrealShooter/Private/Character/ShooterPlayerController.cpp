@@ -27,6 +27,7 @@ void AShooterPlayerController::OnPossess(APawn *PossessingPawn)
 	EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopCrouch);
 	EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartAim);
 	EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopAim);
+	EnhancedInputComponent->BindAction(ThrowWeaponAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallThrowWeapon);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -52,3 +53,6 @@ void AShooterPlayerController::CallStartAim(const FInputActionValue& Value) { Po
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void AShooterPlayerController::CallStopAim(const FInputActionValue& Value) { PossessedCharacter->GetAimingComponent()->StopAim(); }
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void AShooterPlayerController::CallThrowWeapon(const FInputActionValue& Value) { PossessedCharacter->GetWeaponThrowingComponent()->Throw(); }

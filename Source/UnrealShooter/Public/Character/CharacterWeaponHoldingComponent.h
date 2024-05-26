@@ -18,7 +18,7 @@ private:
 	class AShooterCharacter *Character = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
-	TMap<UClass*, FName> ClassToSocket;
+	TMap<UClass*, FName> WeaponsToSockets;
 	
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
 	bool IsHoldingWeapon = false;

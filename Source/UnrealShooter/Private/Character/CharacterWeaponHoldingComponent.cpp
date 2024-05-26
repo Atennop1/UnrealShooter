@@ -2,7 +2,6 @@
 
 #include "Character/CharacterWeaponHoldingComponent.h"
 #include "Character/ShooterCharacter.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "Weapon/Interfaces/IWeapon.h"
 
 UCharacterWeaponHoldingComponent::UCharacterWeaponHoldingComponent()
@@ -19,19 +18,20 @@ void UCharacterWeaponHoldingComponent::BeginPlay()
 
 void UCharacterWeaponHoldingComponent::Hold(const TScriptInterface<IWeapon> Weapon)
 {
-	if (Weapon == nullptr)
+	if (Weapon == nullptr || !WeaponsToSockets.Contains(Weapon.GetObject()->GetClass()))
 		return;
 	
 	IsHoldingWeapon = true;
 	HoldingWeapon = Weapon;
 
 	const FAttachmentTransformRules Rules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true);
-	Cast<AActor>(Weapon.GetObject())->AttachToComponent(Character->GetCharacterMesh(), Rules, ClassToSocket[Weapon.GetObject()->GetClass()]);
+	Cast<AActor>(Weapon.GetObject())->AttachToComponent(Character->GetCharacterMesh(), Rules, WeaponsToSockets[Weapon.GetObject()->GetClass()]);
 }
 
 void UCharacterWeaponHoldingComponent::Unhold()
 {
 	Character->GetAimingComponent()->StopAim();
+	GetWorld()->DestroyActor(Cast<AActor>(HoldingWeapon.GetObject()));
 	IsHoldingWeapon = false;
 	HoldingWeapon = nullptr;
 }

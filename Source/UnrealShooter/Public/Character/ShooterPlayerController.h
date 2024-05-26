@@ -36,6 +36,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction *AimAction;
 
+	UPROPERTY(EditDefaultsOnly)
+	UInputAction *ThrowWeaponAction;
+
 	void CallMove(const FInputActionValue &Value);
 	void CallRotate(const FInputActionValue &Value);
 
@@ -47,6 +50,8 @@ private:
 
 	void CallStartAim(const FInputActionValue &Value);
 	void CallStopAim(const FInputActionValue &Value);
+	
+	void CallThrowWeapon(const FInputActionValue &Value);
 
 protected:
 	virtual void OnPossess(APawn *PossessingPawn) override;
