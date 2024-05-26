@@ -16,7 +16,7 @@ private:
 	class AShooterCharacter *Character = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
-	bool IsAiming = true;
+	bool IsAiming = false;
 	
 protected:
 	virtual void BeginPlay() override;

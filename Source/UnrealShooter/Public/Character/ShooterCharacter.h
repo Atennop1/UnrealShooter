@@ -8,6 +8,7 @@
 #include "CharacterMovingComponent.h"
 #include "CharacterRotatingComponent.h"
 #include "CharacterWeaponHoldingComponent.h"
+#include "CharacterWeaponThrowingComponent.h"
 #include "GameFramework/Character.h"
 #include "ShooterCharacter.generated.h"
 
@@ -18,6 +19,9 @@ class UNREALSHOOTER_API AShooterCharacter : public ACharacter
 
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
+	USkeletalMeshComponent *CharacterMesh = nullptr;
+	
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterMovingComponent *MovingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
@@ -27,20 +31,25 @@ private:
 	UCharacterCrouchingComponent *CrouchingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
+	UCharacterAimingComponent *AimingComponent = nullptr;
+	
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterWeaponHoldingComponent *WeaponHoldingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	UCharacterAimingComponent *AimingComponent = nullptr;
+	UCharacterWeaponThrowingComponent *WeaponThrowingComponent = nullptr;
 
 protected:
 	virtual void BeginPlay() override;
 	
 public:
 	AShooterCharacter();
+	USkeletalMeshComponent *GetCharacterMesh() const { return CharacterMesh; }
 
 	UCharacterMovingComponent *GetMovingComponent() const { return MovingComponent; }
 	UCharacterRotatingComponent *GetRotatingComponent() const { return RotatingComponent; }
 	UCharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent; }
-	UCharacterWeaponHoldingComponent *GetWeaponHoldingComponent() const { return WeaponHoldingComponent; }
 	UCharacterAimingComponent *GetAimingComponent() const { return AimingComponent; }
+	UCharacterWeaponHoldingComponent *GetWeaponHoldingComponent() const { return WeaponHoldingComponent; }
+	UCharacterWeaponThrowingComponent *GetWeaponThrowingComponent() const { return WeaponThrowingComponent; }
 };

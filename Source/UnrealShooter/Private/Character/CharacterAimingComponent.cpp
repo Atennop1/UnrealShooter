@@ -17,22 +17,12 @@ void UCharacterAimingComponent::BeginPlay()
 
 void UCharacterAimingComponent::StartAim()
 {
-	if (Character->GetWeaponHoldingComponent()->GetHoldingWeapon() == nullptr)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "Cant start aim when have no weapon!");
-		return;
-	}
-	
-	IsAiming = true;
+	if (Character->GetWeaponHoldingComponent()->GetHoldingWeapon() != nullptr)
+		IsAiming = true;
 }
 
 void UCharacterAimingComponent::StopAim()
 {
-	if (Character->GetWeaponHoldingComponent()->GetHoldingWeapon() == nullptr)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 999, FColor::Red, "Cant end aim when have no weapon!");
-		return;
-	}
-	
-	IsAiming = false;
+	if (Character->GetWeaponHoldingComponent()->GetHoldingWeapon() != nullptr)
+		IsAiming = false;
 }
