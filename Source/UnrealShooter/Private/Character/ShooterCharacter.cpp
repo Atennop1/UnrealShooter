@@ -15,4 +15,6 @@ void AShooterCharacter::BeginPlay()
 	check(RotatingComponent != nullptr)
 	check(CrouchingComponent != nullptr)
 	check(WeaponHoldingComponent != nullptr)
+	check(AimingComponent != nullptr)
+	check(CharacterMesh != nullptr)
 }

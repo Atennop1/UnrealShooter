@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Weapon/IWeapon.h"
+#include "Weapon/Interfaces/IFirearm.h"
+#include "Weapon/Interfaces/IWeapon.h"
 #include "CharacterWeaponHoldingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -15,6 +16,9 @@ class UNREALSHOOTER_API UCharacterWeaponHoldingComponent : public UActorComponen
 private:
 	UPROPERTY()
 	class AShooterCharacter *Character = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	TMap<UClass*, FName> ClassToSocket;
 	
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
 	bool IsHoldingWeapon = false;
@@ -22,13 +26,15 @@ private:
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
 	TScriptInterface<IWeapon> HoldingWeapon = nullptr;
 
-public: 
-	UCharacterWeaponHoldingComponent();
+protected:
 	virtual void BeginPlay() override;
 	
-	IWeapon *GetHoldingWeapon() const { return Cast<IWeapon>(HoldingWeapon.GetObject()); }
+public: 
+	UCharacterWeaponHoldingComponent();
+	
+	TScriptInterface<IWeapon> GetHoldingWeapon() const { return HoldingWeapon; }
 	bool GetIsHoldingWeapon() const { return IsHoldingWeapon; }
 	
-	void Hold(const TScriptInterface<IWeapon> Weapon);
+	void Hold(TScriptInterface<IWeapon> Weapon);
 	void Unhold();
 };
