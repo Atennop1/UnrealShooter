@@ -23,7 +23,7 @@ void UCharacterWeaponPickingComponent::TickComponent(float DeltaTime, ELevelTick
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (Character->GetWeaponHoldingComponent()->GetIsHoldingWeapon())
+	if (Character->GetWeaponHoldingComponent()->GetIsHolding())
 		return;
 
 	TArray<AActor*> Actors;

@@ -33,7 +33,7 @@ public:
 	UCharacterWeaponHoldingComponent();
 	
 	TScriptInterface<IWeapon> GetHoldingWeapon() const { return HoldingWeapon; }
-	bool GetIsHoldingWeapon() const { return IsHoldingWeapon; }
+	bool GetIsHolding() const { return IsHoldingWeapon; }
 	
 	void Hold(TScriptInterface<IWeapon> Weapon);
 	void Unhold();

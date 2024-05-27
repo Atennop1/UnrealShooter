@@ -19,7 +19,7 @@ void UCharacterWeaponThrowingComponent::BeginPlay()
 
 void UCharacterWeaponThrowingComponent::Throw()
 {
-	if (!Character->GetWeaponHoldingComponent()->GetIsHoldingWeapon() || !WeaponsToPickables.Contains(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()))
+	if (!Character->GetWeaponHoldingComponent()->GetIsHolding() || !WeaponsToPickables.Contains(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()))
 		return;
 
 	const FRotator SpawnRotation = FRotator(0, Character->GetControlRotation().Yaw, 0);

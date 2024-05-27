@@ -15,12 +15,17 @@ class UNREALSHOOTER_API AShootingWeapon : public AActor, public IFirearm
 
 private:
 	UPROPERTY(EditDefaultsOnly)
-	EWeaponType WeaponType;
+	EWeaponType WeaponType = EWeaponType::Pistol;
+
+	UPROPERTY(EditDefaultsOnly)
+	EWeaponFiringType WeaponFiringType = EWeaponFiringType::Tapping;
 
 public:	
 	AShootingWeapon();
-	EWeaponType GetWeaponType() override { return WeaponType; }
+	virtual EWeaponType GetWeaponType() override { return WeaponType; }
+	virtual EWeaponFiringType GetWeaponFiringType() override { return WeaponFiringType; }
+	virtual bool CanShoot() override { return true; }
 
-	virtual void Shoot(FVector Direction) override { }
+	virtual void Shoot(FVector Direction) override {GEngine->AddOnScreenDebugMessage(-1, 9, FColor::Cyan, "Shoot"); }
 	virtual void Reload() override { }
 };
