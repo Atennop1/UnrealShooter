@@ -1,10 +1,8 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "Character/Weapon/CharacterWeaponPickingComponent.h"
-
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponHoldingComponent.h"
-#include "Weapon/Interfaces/IFirearm.h"
 #include "Weapon/Interfaces/IWeaponPickable.h"
 
 UCharacterWeaponPickingComponent::UCharacterWeaponPickingComponent()
@@ -43,4 +41,3 @@ void UCharacterWeaponPickingComponent::TickComponent(float DeltaTime, ELevelTick
 		GetWorld()->DestroyActor(Actor);
 	}
 }
-

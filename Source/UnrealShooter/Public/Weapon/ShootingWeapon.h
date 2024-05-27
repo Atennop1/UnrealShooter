@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FirearmData.h"
 #include "WeaponType.h"
 #include "Interfaces/IFirearm.h"
 #include "GameFramework/Actor.h"
@@ -17,15 +18,24 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	EWeaponType WeaponType = EWeaponType::Pistol;
 
-	UPROPERTY(EditDefaultsOnly)
-	EWeaponFiringType WeaponFiringType = EWeaponFiringType::Tapping;
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
+	USceneComponent *ShootingPoint = nullptr;
 
+	UPROPERTY(EditDefaultsOnly)
+	FFirearmData Data;
+	FTimerHandle FiringDelayHandle;
+
+	bool IsLockedByTime = false;
+	bool IsEnoughAmmo = true;
+
+protected:
+	virtual void BeginPlay() override;
+	
 public:	
 	AShootingWeapon();
 	virtual EWeaponType GetWeaponType() override { return WeaponType; }
-	virtual EWeaponFiringType GetWeaponFiringType() override { return WeaponFiringType; }
-	virtual bool CanShoot() override { return true; }
+	virtual FFirearmData GetData() override { return Data; }
 
-	virtual void Shoot(FVector Direction) override {GEngine->AddOnScreenDebugMessage(-1, 9, FColor::Cyan, "Shoot"); }
-	virtual void Reload() override { }
+	virtual void Shoot(FVector Point) override;
+	virtual void Reload() override;
 };

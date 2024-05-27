@@ -3,7 +3,7 @@
 #pragma once
 
 #include "IWeapon.h"
-#include "Weapon/WeaponFiringType.h"
+#include "Weapon/FirearmData.h"
 #include "IFirearm.generated.h"
 
 UINTERFACE(MinimalAPI, BlueprintType, meta=(CannotImplementInterfaceInBlueprint))
@@ -17,9 +17,8 @@ class UNREALSHOOTER_API IFirearm : public IWeapon
 	GENERATED_BODY()
 
 public:
-	virtual EWeaponFiringType GetWeaponFiringType() = 0;
-	virtual bool CanShoot() = 0;
+	virtual FFirearmData GetData() = 0;
 	
-	virtual void Shoot(FVector Direction) = 0;
+	virtual void Shoot(FVector Point) = 0;
 	virtual void Reload() = 0;
 };

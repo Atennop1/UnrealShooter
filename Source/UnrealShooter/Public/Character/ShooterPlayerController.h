@@ -40,6 +40,9 @@ private:
 	UInputAction *ShootAction;
 
 	UPROPERTY(EditDefaultsOnly)
+	UInputAction *ReloadAction;
+
+	UPROPERTY(EditDefaultsOnly)
 	UInputAction *ThrowWeaponAction;
 
 	void CallMove(const FInputActionValue &Value);
@@ -53,6 +56,7 @@ private:
 	void CallStopAim(const FInputActionValue &Value);
 	void CallStartShoot(const FInputActionValue &Value);
 	void CallStopShoot(const FInputActionValue &Value);
+	void CallReload(const FInputActionValue &Value);
 	void CallThrowWeapon(const FInputActionValue &Value);
 
 protected:

@@ -2,8 +2,6 @@
 
 #include "Character/Weapon/CharacterShootingComponent.h"
 #include "Character/ShooterCharacter.h"
-#include "Kismet/KismetStringLibrary.h"
-#include "Kismet/KismetSystemLibrary.h"
 
 UCharacterShootingComponent::UCharacterShootingComponent()
 {
@@ -23,14 +21,31 @@ void UCharacterShootingComponent::StartShooting()
 		return;
 
 	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
-	if (Weapon->GetWeaponFiringType() == EWeaponFiringType::Tapping && IsShooting || !Weapon->CanShoot())
+	if (Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping && IsShooting || !Weapon->GetData().CanShoot)
 		return;
 
-	Weapon->Shoot(FVector(0, 0, 0));
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParameters;
+	CollisionParameters.AddIgnoredActor(GetOwner());
+	
+	const FVector StartPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation();
+	const FVector EndPosition = StartPosition + Character->GetControlRotation().Quaternion().GetForwardVector() * 99999;
+	const bool WasHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, ECC_Visibility, CollisionParameters);
+	
+	Weapon->Shoot(WasHit ? HitResult.Location : HitResult.TraceEnd);
 	IsShooting = true;
 }
 
 void UCharacterShootingComponent::StopShooting()
 {
 	IsShooting = false;
+}
+
+void UCharacterShootingComponent::Reload() const
+{
+	if (!Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
+		return;
+
+	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
+	Weapon->Reload();
 }
