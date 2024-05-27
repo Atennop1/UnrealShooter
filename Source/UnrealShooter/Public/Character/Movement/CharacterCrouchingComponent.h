@@ -27,12 +27,8 @@ private:
 	float CrouchedHalfHeight = 50;
 	float NormalHalfHeight = 100;
 
-	UPROPERTY(EditDefaultsOnly)
-	float CrouchedSpeed = 300;
-	float NormalSpeed = 600;
-
 	UFUNCTION()
-	void CrouchUpdate(float Alpha);
+	void CrouchUpdate(float Alpha) const;
 
 protected:
 	virtual void BeginPlay() override;

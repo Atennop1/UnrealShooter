@@ -15,11 +15,11 @@ class UNREALSHOOTER_API AShootingWeapon : public AActor, public IFirearm
 
 private:
 	UPROPERTY(EditDefaultsOnly)
-	EWeaponType Type;
+	EWeaponType WeaponType;
 
 public:	
 	AShootingWeapon();
-	EWeaponType GetWeaponType() override { return Type; }
+	EWeaponType GetWeaponType() override { return WeaponType; }
 
 	virtual void Shoot(FVector Direction) override { }
 	virtual void Reload() override { }

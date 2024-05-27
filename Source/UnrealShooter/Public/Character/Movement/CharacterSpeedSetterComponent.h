@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "CharacterWeaponThrowingComponent.generated.h"
+#include "CharacterSpeedSetterComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UCharacterWeaponThrowingComponent : public UActorComponent
+class UNREALSHOOTER_API UCharacterSpeedSetterComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -16,18 +16,18 @@ private:
 	class AShooterCharacter *Character = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
-	float DefaultThrowingForce = 50000;
+	float WalkSpeed = 600;
 
 	UPROPERTY(EditDefaultsOnly)
-	float StartDistance = 50;
+	float CrouchSpeed = 300;
+
+	UPROPERTY(EditDefaultsOnly)
+	float AimSpeed = 350;
 	
-	UPROPERTY(EditDefaultsOnly)
-	TMap<UClass*, UClass*> WeaponsToPickables;
-
 protected:
 	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,  FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	UCharacterWeaponThrowingComponent();
-	void Throw();
+	UCharacterSpeedSetterComponent();
 };

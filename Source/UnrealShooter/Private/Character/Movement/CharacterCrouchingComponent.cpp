@@ -3,7 +3,7 @@
 #include "Character/Movement/CharacterCrouchingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetStringLibrary.h"
 
 UCharacterCrouchingComponent::UCharacterCrouchingComponent()
 {
@@ -17,29 +17,24 @@ void UCharacterCrouchingComponent::BeginPlay()
 	check(Character != nullptr)
 	
 	FOnTimelineFloat OnTimelineUpdate;
-	NormalHalfHeight = Character->GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
-	NormalSpeed = Character->GetCharacterMovement()->MaxWalkSpeed;
-	
 	OnTimelineUpdate.BindUFunction(this, "CrouchUpdate");
 	CrouchingTimeline.AddInterpFloat(CrouchingCurve, OnTimelineUpdate);
+	NormalHalfHeight = Character->GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
 }
 
 void UCharacterCrouchingComponent::StartCrouching()
 {
 	IsCrouching = true;
 	CrouchingTimeline.Play();
-	Character->GetCharacterMovement()->MaxWalkSpeed = CrouchedSpeed;
 }
 
 void UCharacterCrouchingComponent::StopCrouching()
 {
 	IsCrouching = false;
 	CrouchingTimeline.Reverse();
-	Character->GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
 }
 
-// ReSharper disable once CppMemberFunctionMayBeConst
-void UCharacterCrouchingComponent::CrouchUpdate(const float Alpha)
+void UCharacterCrouchingComponent::CrouchUpdate(float Alpha) const
 {
 	const float HalfHeight = FMath::Lerp(NormalHalfHeight, CrouchedHalfHeight, Alpha);
 	Character->GetCapsuleComponent()->SetCapsuleHalfHeight(HalfHeight);

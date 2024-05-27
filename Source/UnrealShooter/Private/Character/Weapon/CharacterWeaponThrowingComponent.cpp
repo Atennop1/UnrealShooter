@@ -23,7 +23,7 @@ void UCharacterWeaponThrowingComponent::Throw()
 		return;
 
 	const FRotator SpawnRotation = FRotator(0, Character->GetControlRotation().Yaw, 0);
-	const FVector SpawnPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation() + Character->GetControlRotation().Quaternion().GetForwardVector() * 100;
+	const FVector SpawnPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation() + Character->GetControlRotation().Quaternion().GetForwardVector() * StartDistance;
 	const AActor *SpawnedPickable = GetWorld()->SpawnActor(WeaponsToPickables[Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()], &SpawnPosition, &SpawnRotation);
 	Character->GetWeaponHoldingComponent()->Unhold();
 
