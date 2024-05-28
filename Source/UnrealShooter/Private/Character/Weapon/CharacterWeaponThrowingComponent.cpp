@@ -23,7 +23,7 @@ void UCharacterWeaponThrowingComponent::Throw()
 	if (!Character->GetWeaponHoldingComponent()->GetIsHolding() || !WeaponsToPickables.Contains(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()))
 		return;
 
-	const FRotator SpawnRotation = FRotator(0, Character->GetControlRotation().Yaw, 0);
+	const FRotator SpawnRotation = FRotator(FMath::RandRange(-20.f, 20.f), Character->GetControlRotation().Yaw + FMath::RandRange(-20.f, 20.f), FMath::RandRange(-20.f, 20.f));
 	const FVector SpawnPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation() + Character->GetControlRotation().Quaternion().GetForwardVector() * StartDistance;
 	AActor *SpawnedPickable = GetWorld()->SpawnActor(WeaponsToPickables[Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()], &SpawnPosition, &SpawnRotation);
 

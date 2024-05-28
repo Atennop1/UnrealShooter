@@ -23,8 +23,16 @@ void UCharacterShootingComponent::StartShooting()
 	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
 	if (Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping && IsShooting || !Weapon->GetCanShoot())
 		return;
+
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParameters;
+	CollisionParameters.AddIgnoredActor(GetOwner());
+
+	const FVector StartPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation();
+	const FVector EndPosition = StartPosition + Character->GetControlRotation().Quaternion().GetForwardVector() * 99999;
+	const bool WasHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, ECC_Visibility, CollisionParameters);
 	
-	Weapon->Shoot(Character->GetControlRotation().Quaternion().GetForwardVector());
+	Weapon->Shoot(WasHit ? HitResult.Location : HitResult.TraceEnd);
 	IsShooting = true;
 }
 

@@ -2,7 +2,7 @@
 
 #include "Weapon/ShootingWeaponPickable.h"
 
-AShootingWeaponPickable::AShootingWeaponPickable() : State(0, 0)
+AShootingWeaponPickable::AShootingWeaponPickable()
 {
 	PrimaryActorTick.bCanEverTick = false;
 }

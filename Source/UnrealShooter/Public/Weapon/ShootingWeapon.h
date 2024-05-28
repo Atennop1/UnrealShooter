@@ -16,6 +16,12 @@ class UNREALSHOOTER_API AShootingWeapon : public AActor, public IFirearm
 
 private:
 	UPROPERTY(EditDefaultsOnly)
+	UAnimSequence *ShootingAnimation = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AActor> Bullet;
+	
+	UPROPERTY(EditDefaultsOnly)
 	EWeaponType WeaponType = EWeaponType::Pistol;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
@@ -24,9 +30,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	FFirearmData Data;
 	FTimerHandle FiringDelayHandle;
-
-	UPROPERTY(EditDefaultsOnly)
-	UAnimSequence *ShootingAnimation = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	USkeletalMeshComponent *WeaponMesh = nullptr;
@@ -47,7 +50,7 @@ public:
 	virtual FFirearmData GetData() override { return Data; }
 	virtual bool GetCanShoot() override { return CanShoot; }
 
-	virtual void Shoot(FVector Direction) override;
+	virtual void Shoot(FVector Point) override;
 	virtual void Reload() override;
 
 	virtual FFirearmState GetState() override;

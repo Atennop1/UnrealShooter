@@ -14,7 +14,7 @@ void AShootingWeapon::BeginPlay()
 	check(WeaponMesh);
 }
 
-void AShootingWeapon::Shoot(FVector Direction)
+void AShootingWeapon::Shoot(FVector Point)
 {
 	if (!CanShoot)
 		return;
@@ -24,22 +24,16 @@ void AShootingWeapon::Shoot(FVector Direction)
 	IsLockedByTime = true;
 	IsEnoughAmmo = AmmoInMagazine > 0;
 
+	const FVector SpawnLocation = ShootingPoint->GetComponentLocation();
+	const FRotator SpawnRotation = (Point - ShootingPoint->GetComponentLocation()).Rotation();
+	GetWorld()->SpawnActor(Bullet, &SpawnLocation, &SpawnRotation);
+	
+	WeaponMesh->PlayAnimation(ShootingAnimation, false);
 	GetWorld()->GetTimerManager().SetTimer(FiringDelayHandle, [&]
 	{
 		IsLockedByTime = false;
 		CanShoot = IsEnoughAmmo;
 	}, Data.FiringDelayInSeconds, false);
-	
-	FHitResult HitResult;
-	FCollisionQueryParams CollisionParameters;
-	CollisionParameters.AddIgnoredActor(GetOwner());
-	const bool WasHit = GetWorld()->LineTraceSingleByChannel(HitResult, ShootingPoint->GetComponentLocation(), ShootingPoint->GetComponentLocation() + Direction * 99999, ECC_Visibility, CollisionParameters);
-	WeaponMesh->PlayAnimation(ShootingAnimation, false);
-
-	if (WasHit)
-	{
-		// collision logic
-	}
 }
 
 void AShootingWeapon::Reload()
