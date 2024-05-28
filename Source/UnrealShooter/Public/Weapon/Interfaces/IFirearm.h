@@ -3,7 +3,8 @@
 #pragma once
 
 #include "IWeapon.h"
-#include "Weapon/FirearmData.h"
+#include "Weapon/Data/FirearmData.h"
+#include "Weapon/Data/FirearmState.h"
 #include "IFirearm.generated.h"
 
 UINTERFACE(MinimalAPI, BlueprintType, meta=(CannotImplementInterfaceInBlueprint))
@@ -18,7 +19,11 @@ class UNREALSHOOTER_API IFirearm : public IWeapon
 
 public:
 	virtual FFirearmData GetData() = 0;
+	virtual bool GetCanShoot() = 0;
 	
-	virtual void Shoot(FVector Point) = 0;
+	virtual void Shoot(FVector Direction) = 0;
 	virtual void Reload() = 0;
+
+	virtual FFirearmState GetState() = 0;
+	virtual void SetState(FFirearmState State) = 0;
 };

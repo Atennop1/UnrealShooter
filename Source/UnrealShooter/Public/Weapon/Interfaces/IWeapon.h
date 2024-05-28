@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Weapon/WeaponType.h"
+#include "Weapon/Data/WeaponType.h"
 #include "UObject/Interface.h"
 #include "IWeapon.generated.h"
 

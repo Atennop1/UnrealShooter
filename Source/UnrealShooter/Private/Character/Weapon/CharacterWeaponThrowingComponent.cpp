@@ -4,6 +4,7 @@
 #include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponHoldingComponent.h"
+#include "Weapon/Interfaces/IFirearmPickable.h"
 
 UCharacterWeaponThrowingComponent::UCharacterWeaponThrowingComponent()
 {
@@ -24,9 +25,13 @@ void UCharacterWeaponThrowingComponent::Throw()
 
 	const FRotator SpawnRotation = FRotator(0, Character->GetControlRotation().Yaw, 0);
 	const FVector SpawnPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation() + Character->GetControlRotation().Quaternion().GetForwardVector() * StartDistance;
-	const AActor *SpawnedPickable = GetWorld()->SpawnActor(WeaponsToPickables[Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()], &SpawnPosition, &SpawnRotation);
-	Character->GetWeaponHoldingComponent()->Unhold();
+	AActor *SpawnedPickable = GetWorld()->SpawnActor(WeaponsToPickables[Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()], &SpawnPosition, &SpawnRotation);
 
 	if (const auto PrimitiveComponent = SpawnedPickable->GetComponentByClass<UPrimitiveComponent>(); PrimitiveComponent != nullptr)
 		PrimitiveComponent->AddForce(Character->GetControlRotation().Quaternion().GetForwardVector() * DefaultThrowingForce * PrimitiveComponent->GetMass());
+
+	if (const auto FirearmPickable = Cast<IFirearmPickable>(SpawnedPickable); FirearmPickable != nullptr)
+		FirearmPickable->SetState(Cast<IFirearm>(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject())->GetState());
+	
+	Character->GetWeaponHoldingComponent()->Unhold();
 }

@@ -16,10 +16,8 @@ public:
 	EWeaponFiringType WeaponFiringType;
 
 	UPROPERTY(EditDefaultsOnly)
-	int MaxAmmo;
-	int CurrentAmmo;
+	int MaxAmmoInMagazine;
 
 	UPROPERTY(EditDefaultsOnly)
 	float FiringDelayInSeconds;
-	bool CanShoot = true;
 };

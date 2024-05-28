@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FirearmData.h"
-#include "WeaponType.h"
+#include "Data/FirearmData.h"
+#include "Data/WeaponType.h"
 #include "Interfaces/IFirearm.h"
 #include "GameFramework/Actor.h"
 #include "ShootingWeapon.generated.h"
@@ -25,6 +25,16 @@ private:
 	FFirearmData Data;
 	FTimerHandle FiringDelayHandle;
 
+	UPROPERTY(EditDefaultsOnly)
+	UAnimSequence *ShootingAnimation = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
+	USkeletalMeshComponent *WeaponMesh = nullptr;
+
+	int AmmoInStock;
+	int AmmoInMagazine;
+	
+	bool CanShoot = true;
 	bool IsLockedByTime = false;
 	bool IsEnoughAmmo = true;
 
@@ -35,7 +45,11 @@ public:
 	AShootingWeapon();
 	virtual EWeaponType GetWeaponType() override { return WeaponType; }
 	virtual FFirearmData GetData() override { return Data; }
+	virtual bool GetCanShoot() override { return CanShoot; }
 
-	virtual void Shoot(FVector Point) override;
+	virtual void Shoot(FVector Direction) override;
 	virtual void Reload() override;
+
+	virtual FFirearmState GetState() override;
+	virtual void SetState(const FFirearmState NewState) override;
 };

@@ -3,6 +3,7 @@
 #include "Character/Weapon/CharacterWeaponPickingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponHoldingComponent.h"
+#include "Weapon/Interfaces/IFirearmPickable.h"
 #include "Weapon/Interfaces/IWeaponPickable.h"
 
 UCharacterWeaponPickingComponent::UCharacterWeaponPickingComponent()
@@ -36,6 +37,9 @@ void UCharacterWeaponPickingComponent::TickComponent(float DeltaTime, ELevelTick
 		TScriptInterface<IWeapon> Weapon;
 		Weapon.SetInterface(Cast<IWeapon>(WeaponActor));
 		Weapon.SetObject(WeaponActor);
+
+		if (const auto FirearmPickable = Cast<IFirearmPickable>(Actor); FirearmPickable != nullptr)
+			Cast<IFirearm>(WeaponActor)->SetState(FirearmPickable->GetState());
 		
 		Character->GetWeaponHoldingComponent()->Hold(Weapon);
 		GetWorld()->DestroyActor(Actor);
