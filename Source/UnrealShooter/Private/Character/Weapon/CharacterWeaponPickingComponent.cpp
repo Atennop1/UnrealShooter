@@ -1,10 +1,9 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "Character/Weapon/CharacterWeaponPickingComponent.h"
-
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponHoldingComponent.h"
-#include "Weapon/Interfaces/IFirearm.h"
+#include "Weapon/Interfaces/IFirearmPickable.h"
 #include "Weapon/Interfaces/IWeaponPickable.h"
 
 UCharacterWeaponPickingComponent::UCharacterWeaponPickingComponent()
@@ -23,7 +22,7 @@ void UCharacterWeaponPickingComponent::TickComponent(float DeltaTime, ELevelTick
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (Character->GetWeaponHoldingComponent()->GetIsHoldingWeapon())
+	if (Character->GetWeaponHoldingComponent()->GetIsHolding())
 		return;
 
 	TArray<AActor*> Actors;
@@ -38,9 +37,11 @@ void UCharacterWeaponPickingComponent::TickComponent(float DeltaTime, ELevelTick
 		TScriptInterface<IWeapon> Weapon;
 		Weapon.SetInterface(Cast<IWeapon>(WeaponActor));
 		Weapon.SetObject(WeaponActor);
+
+		if (const auto FirearmPickable = Cast<IFirearmPickable>(Actor); FirearmPickable != nullptr)
+			Cast<IFirearm>(WeaponActor)->SetState(FirearmPickable->GetState());
 		
 		Character->GetWeaponHoldingComponent()->Hold(Weapon);
 		GetWorld()->DestroyActor(Actor);
 	}
 }
-

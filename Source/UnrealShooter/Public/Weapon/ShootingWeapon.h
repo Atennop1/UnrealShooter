@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WeaponType.h"
+#include "Data/FirearmData.h"
+#include "Data/WeaponType.h"
 #include "Interfaces/IFirearm.h"
 #include "GameFramework/Actor.h"
 #include "ShootingWeapon.generated.h"
@@ -15,12 +16,43 @@ class UNREALSHOOTER_API AShootingWeapon : public AActor, public IFirearm
 
 private:
 	UPROPERTY(EditDefaultsOnly)
-	EWeaponType Type;
+	UAnimSequence *ShootingAnimation = nullptr;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AActor> Bullet;
+	
+	UPROPERTY(EditDefaultsOnly)
+	EWeaponType WeaponType = EWeaponType::Pistol;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
+	USceneComponent *ShootingPoint = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	FFirearmData Data;
+	FTimerHandle FiringDelayHandle;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
+	USkeletalMeshComponent *WeaponMesh = nullptr;
+
+	int AmmoInStock;
+	int AmmoInMagazine;
+	
+	bool CanShoot = true;
+	bool IsLockedByTime = false;
+	bool IsEnoughAmmo = true;
+
+protected:
+	virtual void BeginPlay() override;
+	
 public:	
 	AShootingWeapon();
-	EWeaponType GetWeaponType() override { return Type; }
+	virtual EWeaponType GetWeaponType() override { return WeaponType; }
+	virtual FFirearmData GetData() override { return Data; }
+	virtual bool GetCanShoot() override { return CanShoot; }
 
-	virtual void Shoot(FVector Direction) override { }
-	virtual void Reload() override { }
+	virtual void Shoot(FVector Point) override;
+	virtual void Reload() override;
+
+	virtual FFirearmState GetState() override;
+	virtual void SetState(const FFirearmState NewState) override;
 };

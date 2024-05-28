@@ -10,6 +10,7 @@
 #include "Weapon/CharacterWeaponThrowingComponent.h"
 #include "Weapon/CharacterAimingComponent.h"
 #include "GameFramework/Character.h"
+#include "Weapon/CharacterShootingComponent.h"
 #include "ShooterCharacter.generated.h"
 
 UCLASS()
@@ -32,6 +33,9 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterAimingComponent *AimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
+	UCharacterShootingComponent *ShootingComponent = nullptr;
 	
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterWeaponHoldingComponent *WeaponHoldingComponent = nullptr;
@@ -50,6 +54,7 @@ public:
 	UCharacterRotatingComponent *GetRotatingComponent() const { return RotatingComponent; }
 	UCharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent; }
 	UCharacterAimingComponent *GetAimingComponent() const { return AimingComponent; }
+	UCharacterShootingComponent *GetShootingComponent() const { return ShootingComponent; }
 	UCharacterWeaponHoldingComponent *GetWeaponHoldingComponent() const { return WeaponHoldingComponent; }
 	UCharacterWeaponThrowingComponent *GetWeaponThrowingComponent() const { return WeaponThrowingComponent; }
 };

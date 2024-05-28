@@ -17,6 +17,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float DefaultThrowingForce = 50000;
+
+	UPROPERTY(EditDefaultsOnly)
+	float StartDistance = 50;
 	
 	UPROPERTY(EditDefaultsOnly)
 	TMap<UClass*, UClass*> WeaponsToPickables;
