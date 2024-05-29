@@ -14,6 +14,19 @@ class UNREALSHOOTER_API ABullet : public AActor
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	UMeshComponent *Mesh = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	float BulletLifeTime;
+	FTimerHandle DyingTimerHandle;
+
+	UPROPERTY(EditDefaultsOnly)
+	float DecalLifeTime;
+	
+	UPROPERTY(EditDefaultsOnly)
+	FVector DecalSize;
+	
+	UPROPERTY(EditDefaultsOnly)
+	UMaterialInterface *DecalMaterial = nullptr;
 	
 protected:
 	virtual void BeginPlay() override;
