@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NiagaraSystem.h"
+#include "Chaos/ChaosEngineInterface.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "Bullet.generated.h"
 
@@ -13,7 +16,7 @@ class UNREALSHOOTER_API ABullet : public AActor
 
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
-	UMeshComponent *Mesh = nullptr;
+	UBoxComponent *Collision = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	float BulletLifeTime;
@@ -27,6 +30,9 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	UMaterialInterface *DecalMaterial = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	UNiagaraSystem *BulletImpactEffect;
 	
 protected:
 	virtual void BeginPlay() override;
