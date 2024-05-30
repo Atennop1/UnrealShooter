@@ -14,14 +14,18 @@ class UNREALSHOOTER_API UCharacterShootingComponent : public UActorComponent
 private:
 	UPROPERTY()
 	class AShooterCharacter *Character = nullptr;
-	bool IsShooting = false;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
+	class UCharacterWeaponRecoilingComponent *RecoilingComponent = nullptr;
+	
+	bool CanShootNow = true;
 	
 protected:
 	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
 	UCharacterShootingComponent();
-	bool GetIsShooting() const { return IsShooting; }
 	
 	void StartShooting();
 	void StopShooting();

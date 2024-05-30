@@ -44,6 +44,7 @@ private:
 	bool CanShoot = true;
 	bool IsLockedByTime = false;
 	bool IsEnoughAmmo = true;
+	bool IsReloading = false;
 
 protected:
 	virtual void BeginPlay() override;
@@ -54,6 +55,7 @@ public:
 	virtual EWeaponType GetWeaponType() override { return WeaponType; }
 	virtual FFirearmData GetData() override { return Data; }
 	virtual bool GetCanShoot() override { return CanShoot; }
+	virtual bool GetIsReloading() override { return IsReloading; }
 
 	virtual void Shoot(FVector Point) override;
 	virtual void Reload() override;

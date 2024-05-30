@@ -3,6 +3,7 @@
 #include "Character/Movement/CharacterRotatingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetStringLibrary.h"
 
 UCharacterRotatingComponent::UCharacterRotatingComponent()
 {
