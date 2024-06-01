@@ -18,26 +18,16 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	UCurveFloat *RevertingCurve = nullptr;
-	
-	UPROPERTY(EditDefaultsOnly)
-	UCurveFloat *RecoilYawCurve = nullptr;
-
-	UPROPERTY(EditDefaultsOnly)
-	UCurveFloat *RecoilPitchCurve = nullptr;
 
 	bool IsRecoiling = false;
 	FTimeline RecoilingTimeline;
 	FTimeline RevertingTimeline;
 
-	FRotator RecoiledRotation;
+	FRotator InputRotationWhileRecoiling;
 	FRotator OriginRecoilRotation;
-	FRotator PostRecoilRotation;
 
 	UFUNCTION()
-	void OnYawUpdated(float Alpha);
-
-	UFUNCTION()
-	void OnPitchUpdated(float Alpha);
+	void OnRecoilingUpdated(const FVector& Alpha);
 
 	UFUNCTION()
 	void OnReverting(float Alpha) const;
@@ -50,5 +40,7 @@ public:
 	UCharacterWeaponRecoilingComponent();
 	
 	void StartRecoil();
+
+	UFUNCTION()
 	void StopRecoil();
 };

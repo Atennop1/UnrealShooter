@@ -18,7 +18,7 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	class UCharacterWeaponRecoilingComponent *RecoilingComponent = nullptr;
 	
-	bool CanShootNow = true;
+	bool CanShoot = true;
 	
 protected:
 	virtual void BeginPlay() override;

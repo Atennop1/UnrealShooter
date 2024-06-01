@@ -3,7 +3,6 @@
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Kismet/KismetStringLibrary.h"
 
 UCharacterWeaponRecoilingComponent::UCharacterWeaponRecoilingComponent()
 {
@@ -15,6 +14,9 @@ void UCharacterWeaponRecoilingComponent::TickComponent(float DeltaTime, ELevelTi
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	RecoilingTimeline.TickTimeline(DeltaTime);
 	RevertingTimeline.TickTimeline(DeltaTime);
+
+	const FVector InputRotation = Character->GetRotatingComponent()->GetInputOfThisFrame();
+	InputRotationWhileRecoiling += FRotator(InputRotation.Y, InputRotation.X, 0);
 }
 
 void UCharacterWeaponRecoilingComponent::BeginPlay()
@@ -22,17 +24,6 @@ void UCharacterWeaponRecoilingComponent::BeginPlay()
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check(Character != nullptr)
-	
-	FOnTimelineFloat YawTrack;
-	FOnTimelineFloat PitchTrack;
-	FOnTimelineFloat RevertingTrack;
-	YawTrack.BindUFunction(this, "OnYawUpdated");
-	PitchTrack.BindUFunction(this, "OnPitchUpdated");
-	RevertingTrack.BindUFunction(this, "OnReverting");
-	
-	RecoilingTimeline.AddInterpFloat(RecoilYawCurve, YawTrack);
-	RecoilingTimeline.AddInterpFloat(RecoilPitchCurve, PitchTrack);
-	RevertingTimeline.AddInterpFloat(RevertingCurve, RevertingTrack);
 }
 
 void UCharacterWeaponRecoilingComponent::StartRecoil()
@@ -42,44 +33,48 @@ void UCharacterWeaponRecoilingComponent::StartRecoil()
 		RecoilingTimeline.Play();
 		return;
 	}
+
+	FOnTimelineVector RecoilingTrack;
+	FOnTimelineFloat RevertingTrack;
+	FOnTimelineEvent FinishedEvent;
+	RecoilingTrack.BindUFunction(this, "OnRecoilingUpdated");
+	RevertingTrack.BindUFunction(this, "OnReverting");
+	FinishedEvent.BindUFunction(this, "StopRecoil");
+
+	RecoilingTimeline = FTimeline();
+	RecoilingTimeline.AddInterpVector(Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon())->GetData().RecoilingCurve, RecoilingTrack);
+	RevertingTimeline.AddInterpFloat(RevertingCurve, RevertingTrack);
+	RevertingTimeline.SetTimelineFinishedFunc(FinishedEvent);
 	
 	IsRecoiling = true;
 	RecoilingTimeline.PlayFromStart();
-	RecoiledRotation = FRotator(0, 0, 0);
+	InputRotationWhileRecoiling = FRotator(0, 0, 0);
 	OriginRecoilRotation = Character->GetControlRotation();
 }
 
 void UCharacterWeaponRecoilingComponent::StopRecoil()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 9, FColor::Cyan, "AAA");
+	
 	if (!IsRecoiling)
 		return;
 	
 	IsRecoiling = false;
 	RecoilingTimeline.Stop();
 	RevertingTimeline.PlayFromStart();
-	PostRecoilRotation = Character->GetControlRotation();
-}
+} 
 
-void UCharacterWeaponRecoilingComponent::OnYawUpdated(float Alpha)
+void UCharacterWeaponRecoilingComponent::OnRecoilingUpdated(const FVector& Alpha)
 {
-	Character->AddControllerYawInput(Alpha);
-	RecoiledRotation.Yaw += Alpha;
-}
-
-void UCharacterWeaponRecoilingComponent::OnPitchUpdated(float Alpha)
-{
-	Character->AddControllerPitchInput(Alpha);
-	RecoiledRotation.Pitch += Alpha;
+	Character->AddControllerYawInput(Alpha.X);
+	InputRotationWhileRecoiling.Yaw += Alpha.X * FMath::Sign(Character->GetRotatingComponent()->GetInputOfThisFrame().X) * (FMath::Sign(Character->GetRotatingComponent()->GetInputOfThisFrame().X) != FMath::Sign(Alpha.X) ? -1 : 1);
+	
+	Character->AddControllerPitchInput(Alpha.Y);
+	InputRotationWhileRecoiling.Pitch += Alpha.Y * FMath::Sign(Character->GetRotatingComponent()->GetInputOfThisFrame().Y) * (FMath::Sign(Character->GetRotatingComponent()->GetInputOfThisFrame().Y) != FMath::Sign(Alpha.Y) ? -1 : 1);
 }
 
 void UCharacterWeaponRecoilingComponent::OnReverting(float Alpha) const
 {
-	const FRotator RotationToAdd = FRotator(UKismetMathLibrary::Lerp(PostRecoilRotation.Pitch, (PostRecoilRotation - RecoiledRotation).Pitch, Alpha),
-		UKismetMathLibrary::Lerp(PostRecoilRotation.Yaw, (PostRecoilRotation - RecoiledRotation).Yaw, Alpha),
-		UKismetMathLibrary::Lerp(PostRecoilRotation.Roll, (PostRecoilRotation - RecoiledRotation).Roll, Alpha)) - PostRecoilRotation;
-	GEngine->AddOnScreenDebugMessage(-1, 9, FColor::Cyan, UKismetStringLibrary::Conv_RotatorToString(RotationToAdd));
-
-	Character->AddControllerYawInput(RotationToAdd.Yaw / 8);
-	Character->AddControllerPitchInput(RotationToAdd.Pitch / 8);
+	const FRotator NewRotation = UKismetMathLibrary::RLerp(Character->GetControlRotation(), OriginRecoilRotation + InputRotationWhileRecoiling, Alpha, true);
+	Character->GetController()->SetControlRotation(NewRotation);
 }
-

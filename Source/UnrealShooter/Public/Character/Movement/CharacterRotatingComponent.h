@@ -24,6 +24,7 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	FVector LocationCameraPointingAt;
+	FVector InputOfThisFrame;
 
 protected:
 	virtual void BeginPlay() override;
@@ -31,6 +32,8 @@ protected:
 
 public:
 	UCharacterRotatingComponent();
+	void Rotate(const FVector2D Input);
+	
 	FVector GetLocationCameraPointingAt() const { return LocationCameraPointingAt; }
-	void Rotate(const FVector2D Input) const;
+	FVector GetInputOfThisFrame() const { return InputOfThisFrame; }
 };

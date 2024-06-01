@@ -38,7 +38,7 @@ void UCharacterShootingComponent::StartShooting()
 		return;
 
 	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
-	if (!CanShootNow || !Weapon->GetCanShoot())
+	if (!CanShoot || !Weapon->GetCanShoot())
 		return;
 
 	FHitResult HitResult;
@@ -53,14 +53,11 @@ void UCharacterShootingComponent::StartShooting()
 	Weapon->Shoot(WasHit ? HitResult.Location : HitResult.TraceEnd);
 
 	if (Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping)
-	{
-		CanShootNow = false;
-		RecoilingComponent->StopRecoil();
-	}
+		CanShoot = false;
 }
 
 void UCharacterShootingComponent::StopShooting()
 {
-	CanShootNow = true;
+	CanShoot = true;
 	RecoilingComponent->StopRecoil();
 }

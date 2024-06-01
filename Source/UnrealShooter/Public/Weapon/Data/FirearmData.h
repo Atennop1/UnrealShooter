@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "WeaponFiringType.h"
+#include "Curves/CurveVector.h"
 #include "FirearmData.generated.h"
 
 USTRUCT()
@@ -20,4 +21,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	float FiringDelayInSeconds;
+
+	UPROPERTY(EditDefaultsOnly)
+	UCurveVector *RecoilingCurve;
 };

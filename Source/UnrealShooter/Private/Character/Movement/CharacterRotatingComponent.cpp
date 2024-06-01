@@ -3,7 +3,6 @@
 #include "Character/Movement/CharacterRotatingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Kismet/KismetStringLibrary.h"
 
 UCharacterRotatingComponent::UCharacterRotatingComponent()
 {
@@ -24,12 +23,14 @@ void UCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTick Tick
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	LocationCameraPointingAt = CharacterCamera->GetComponentLocation() + CharacterCamera->GetForwardVector() * 500;
 	Character->GetCharacterMovement()->bUseControllerDesiredRotation = Character->GetVelocity() != FVector::Zero();
+	InputOfThisFrame = FVector::Zero();
 }
 
-void UCharacterRotatingComponent::Rotate(const FVector2D Input) const
+void UCharacterRotatingComponent::Rotate(const FVector2D Input)
 {
 	Character->AddControllerYawInput(Input.X);
 	Character->AddControllerPitchInput(Input.Y);
+	InputOfThisFrame = FVector(Input.X, Input.Y, 0);
 
 	FVector CharacterForwardVector = Character->GetActorRotation().Vector();
 	FVector CameraForwardVector = CharacterCamera->GetComponentRotation().Vector();
