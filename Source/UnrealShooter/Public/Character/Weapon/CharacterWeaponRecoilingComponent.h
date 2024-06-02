@@ -22,6 +22,7 @@ private:
 	bool IsRecoiling = false;
 	FTimeline RecoilingTimeline;
 	FTimeline RevertingTimeline;
+	FTimerHandle StopRecoilingTimerHandle;
 
 	FRotator InputRotationWhileRecoiling;
 	FRotator OriginRecoilRotation;
@@ -40,7 +41,5 @@ public:
 	UCharacterWeaponRecoilingComponent();
 	
 	void StartRecoil();
-
-	UFUNCTION()
 	void StopRecoil();
 };

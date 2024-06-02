@@ -38,7 +38,7 @@ void UCharacterShootingComponent::StartShooting()
 		return;
 
 	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
-	if (!CanShoot || !Weapon->GetCanShoot())
+	if (IsShooting && Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping || !Weapon->GetCanShoot())
 		return;
 
 	FHitResult HitResult;
@@ -49,15 +49,16 @@ void UCharacterShootingComponent::StartShooting()
 	const FVector EndPosition = StartPosition + Character->GetControlRotation().Quaternion().GetForwardVector() * 99999;
 	const bool WasHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, ECC_Visibility, CollisionParameters);
 
+	IsShooting = true;
 	RecoilingComponent->StartRecoil();
-	Weapon->Shoot(WasHit ? HitResult.Location : HitResult.TraceEnd);
-
-	if (Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping)
-		CanShoot = false;
+	FVector Spread = FVector(FMath::RandRange(-Weapon->GetData().BulletSpread, Weapon->GetData().BulletSpread), 0, FMath::RandRange(-Weapon->GetData().BulletSpread, Weapon->GetData().BulletSpread));
+	Weapon->Shoot((WasHit ? HitResult.Location : HitResult.TraceEnd) + Spread);
 }
 
 void UCharacterShootingComponent::StopShooting()
 {
-	CanShoot = true;
-	RecoilingComponent->StopRecoil();
+	IsShooting = false;
+
+	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); Weapon != nullptr && Weapon->GetData().WeaponFiringType != EWeaponFiringType::Tapping)
+		RecoilingComponent->StopRecoil();
 }

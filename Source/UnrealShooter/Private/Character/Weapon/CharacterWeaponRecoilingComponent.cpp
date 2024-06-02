@@ -2,6 +2,7 @@
 
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "Curves/CurveVector.h"
 #include "Kismet/KismetMathLibrary.h"
 
 UCharacterWeaponRecoilingComponent::UCharacterWeaponRecoilingComponent()
@@ -36,32 +37,30 @@ void UCharacterWeaponRecoilingComponent::StartRecoil()
 
 	FOnTimelineVector RecoilingTrack;
 	FOnTimelineFloat RevertingTrack;
-	FOnTimelineEvent FinishedEvent;
 	RecoilingTrack.BindUFunction(this, "OnRecoilingUpdated");
 	RevertingTrack.BindUFunction(this, "OnReverting");
-	FinishedEvent.BindUFunction(this, "StopRecoil");
 
 	RecoilingTimeline = FTimeline();
-	RecoilingTimeline.AddInterpVector(Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon())->GetData().RecoilingCurve, RecoilingTrack);
+	UCurveVector *RecoilingCurve = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon())->GetData().RecoilingCurve;
+	RecoilingTimeline.AddInterpVector(RecoilingCurve, RecoilingTrack);
 	RevertingTimeline.AddInterpFloat(RevertingCurve, RevertingTrack);
-	RevertingTimeline.SetTimelineFinishedFunc(FinishedEvent);
 	
 	IsRecoiling = true;
 	RecoilingTimeline.PlayFromStart();
 	InputRotationWhileRecoiling = FRotator(0, 0, 0);
 	OriginRecoilRotation = Character->GetControlRotation();
+	GetWorld()->GetTimerManager().SetTimer(StopRecoilingTimerHandle, [&] { StopRecoil(); }, RecoilingCurve->FloatCurves[0].GetLastKey().Time, false);
 }
 
 void UCharacterWeaponRecoilingComponent::StopRecoil()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 9, FColor::Cyan, "AAA");
-	
 	if (!IsRecoiling)
 		return;
 	
 	IsRecoiling = false;
 	RecoilingTimeline.Stop();
 	RevertingTimeline.PlayFromStart();
+	GetWorld()->GetTimerManager().ClearTimer(StopRecoilingTimerHandle);
 } 
 
 void UCharacterWeaponRecoilingComponent::OnRecoilingUpdated(const FVector& Alpha)

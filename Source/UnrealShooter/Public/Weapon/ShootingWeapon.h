@@ -41,7 +41,6 @@ private:
 	int AmmoInStock;
 	int AmmoInMagazine;
 	
-	bool CanShoot = true;
 	bool IsLockedByTime = false;
 	bool IsEnoughAmmo = true;
 	bool IsReloading = false;
@@ -54,7 +53,7 @@ public:
 	AShootingWeapon();
 	virtual EWeaponType GetWeaponType() override { return WeaponType; }
 	virtual FFirearmData GetData() override { return Data; }
-	virtual bool GetCanShoot() override { return CanShoot; }
+	virtual bool GetCanShoot() override { return !IsLockedByTime && IsEnoughAmmo && !IsReloading; }
 	virtual bool GetIsReloading() override { return IsReloading; }
 
 	virtual void Shoot(FVector Point) override;

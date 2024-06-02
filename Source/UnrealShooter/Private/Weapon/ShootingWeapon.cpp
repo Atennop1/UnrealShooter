@@ -23,12 +23,12 @@ void AShootingWeapon::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AShootingWeapon::Shoot(FVector Point)
 {
-	if (!CanShoot || IsLockedByTime)
+	if (!GetCanShoot())
 		return;
 	
 	--AmmoInMagazine;
 	IsLockedByTime = true;
-	CanShoot = IsEnoughAmmo = AmmoInMagazine > 0;
+	IsEnoughAmmo = AmmoInMagazine > 0;
 
 	const FVector SpawnLocation = ShootingPoint->GetComponentLocation();
 	const FRotator SpawnRotation = (Point - ShootingPoint->GetComponentLocation()).Rotation();
@@ -43,7 +43,6 @@ void AShootingWeapon::Reload()
 	if (AmmoInMagazine == 0 && AmmoInStock == 0 || AmmoInMagazine == Data.MaxAmmoInMagazine)
 		return;
 
-	CanShoot = false;
 	IsReloading = true;
 	WeaponMesh->PlayAnimation(ReloadingAnimation, false);
 	
@@ -61,7 +60,6 @@ void AShootingWeapon::Reload()
 		}
 	
 		IsEnoughAmmo = AmmoInMagazine > 0;
-		CanShoot = IsEnoughAmmo;
 		IsReloading = false;
 	}, ReloadingAnimation->GetPlayLength(), false);
 }
@@ -81,5 +79,5 @@ void AShootingWeapon::SetState(const FFirearmState NewState)
 	if (AmmoInMagazine > Data.MaxAmmoInMagazine)
 		AmmoInStock += AmmoInMagazine - Data.MaxAmmoInMagazine;
 
-	CanShoot = IsEnoughAmmo = AmmoInMagazine > 0;
+	IsEnoughAmmo = AmmoInMagazine > 0;
 }
