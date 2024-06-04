@@ -6,7 +6,7 @@
 
 UCharacterShootingComponent::UCharacterShootingComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UCharacterShootingComponent::BeginPlay()
@@ -16,18 +16,11 @@ void UCharacterShootingComponent::BeginPlay()
 	check(Character != nullptr);
 }
 
-void UCharacterShootingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); Weapon != nullptr && !Weapon->GetCanShoot())
-		StopShooting();
-}
-
 void UCharacterShootingComponent::StartShooting()
 {
 	if (!Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()) || !Character->GetAimingComponent()->GetIsAiming())
 		return;
-
+	
 	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
 	if (IsShooting && Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping || !Weapon->GetCanShoot())
 		return;
@@ -49,7 +42,7 @@ void UCharacterShootingComponent::StartShooting()
 void UCharacterShootingComponent::StopShooting()
 {
 	IsShooting = false;
-
+	
 	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); Weapon != nullptr && Weapon->GetData().WeaponFiringType != EWeaponFiringType::Tapping)
 		RecoilingComponent->StopRecoil();
 }

@@ -62,7 +62,7 @@ void UCharacterReloadingComponent::RemoveMagazine()
 void UCharacterReloadingComponent::DropMagazine() const
 {
 	FTimerHandle MagazineDestroyingHandle;
-	GetWorld()->GetTimerManager().SetTimer(MagazineDestroyingHandle, [&] { GetWorld()->DestroyActor(OldMagazine); }, 5, false);
+	GetWorld()->GetTimerManager().SetTimer(MagazineDestroyingHandle, [&] { if (OldMagazine) GetWorld()->DestroyActor(OldMagazine); }, 5, false);
 	Cast<UStaticMeshComponent>(OldMagazine->GetComponentByClass(UStaticMeshComponent::StaticClass()))->SetSimulatePhysics(true);
 }
 
@@ -75,7 +75,9 @@ void UCharacterReloadingComponent::TakeMagazine()
 
 void UCharacterReloadingComponent::PlaceMagazine()
 {
-	GetWorld()->DestroyActor(NewMagazine);
+	if (NewMagazine)
+		GetWorld()->DestroyActor(NewMagazine);
+	
 	WeaponMesh->UnHideBoneByName(WeaponsToHidingBones[Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()]);
 }
 

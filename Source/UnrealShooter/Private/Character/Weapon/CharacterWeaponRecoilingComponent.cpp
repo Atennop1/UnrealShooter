@@ -56,7 +56,7 @@ void UCharacterWeaponRecoilingComponent::StopRecoil()
 {
 	if (!IsRecoiling)
 		return;
-	
+
 	IsRecoiling = false;
 	RecoilingTimeline.Stop();
 	RevertingTimeline.PlayFromStart();
