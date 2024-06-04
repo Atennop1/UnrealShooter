@@ -10,6 +10,7 @@
 #include "Weapon/CharacterWeaponThrowingComponent.h"
 #include "Weapon/CharacterAimingComponent.h"
 #include "GameFramework/Character.h"
+#include "Weapon/CharacterReloadingComponent.h"
 #include "Weapon/CharacterShootingComponent.h"
 #include "ShooterCharacter.generated.h"
 
@@ -36,6 +37,9 @@ private:
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterShootingComponent *ShootingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
+	UCharacterReloadingComponent *ReloadingComponent = nullptr;
 	
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterWeaponHoldingComponent *WeaponHoldingComponent = nullptr;
@@ -55,6 +59,7 @@ public:
 	UCharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent; }
 	UCharacterAimingComponent *GetAimingComponent() const { return AimingComponent; }
 	UCharacterShootingComponent *GetShootingComponent() const { return ShootingComponent; }
+	UCharacterReloadingComponent *GetReloadingComponent() const { return ReloadingComponent; }
 	UCharacterWeaponHoldingComponent *GetWeaponHoldingComponent() const { return WeaponHoldingComponent; }
 	UCharacterWeaponThrowingComponent *GetWeaponThrowingComponent() const { return WeaponThrowingComponent; }
 };

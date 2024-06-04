@@ -1,8 +1,11 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "Weapon/Bullet.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "NiagaraFunctionLibrary.h"
 
-ABullet::ABullet()
+ABullet::ABullet() : BulletLifeTime(), DecalLifeTime()
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
@@ -10,15 +13,18 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
-	check(Mesh != nullptr)
+	check(Collision != nullptr)
 	
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&] { GetWorld()->DestroyActor(this); }, 3, false);
-	Mesh->OnComponentHit.AddDynamic(this, &ABullet::OnBulletHit);
+	GetWorld()->GetTimerManager().SetTimer(DyingTimerHandle, [&] { GetWorld()->DestroyActor(this); }, BulletLifeTime, false);
+	Collision->OnComponentHit.AddDynamic(this, &ABullet::OnBulletHit);
 }
 
 void ABullet::OnBulletHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	Mesh->OnComponentHit.Clear();
+	UGameplayStatics::SpawnDecalAttached(DecalMaterial, DecalSize, OtherComp, NAME_None, Hit.Location, UKismetMathLibrary::MakeRotFromX(Hit.Normal), EAttachLocation::KeepWorldPosition, DecalLifeTime);
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), BulletImpactEffect, Hit.Location, UKismetMathLibrary::MakeRotFromX(Hit.Normal));
+	
+	Collision->OnComponentHit.Clear();
+	GetWorld()->GetTimerManager().ClearTimer(DyingTimerHandle);
 	GetWorld()->DestroyActor(this);
 }

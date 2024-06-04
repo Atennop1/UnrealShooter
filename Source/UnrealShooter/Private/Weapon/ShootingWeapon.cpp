@@ -14,13 +14,19 @@ void AShootingWeapon::BeginPlay()
 	check(WeaponMesh);
 }
 
+void AShootingWeapon::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorld()->GetTimerManager().ClearTimer(FiringDelayHandle);
+	GetWorld()->GetTimerManager().ClearTimer(ReloadingHandle);
+}
+
 void AShootingWeapon::Shoot(FVector Point)
 {
-	if (!CanShoot)
+	if (!GetCanShoot())
 		return;
 	
 	--AmmoInMagazine;
-	CanShoot = false;
 	IsLockedByTime = true;
 	IsEnoughAmmo = AmmoInMagazine > 0;
 
@@ -29,28 +35,33 @@ void AShootingWeapon::Shoot(FVector Point)
 	GetWorld()->SpawnActor(Bullet, &SpawnLocation, &SpawnRotation);
 	
 	WeaponMesh->PlayAnimation(ShootingAnimation, false);
-	GetWorld()->GetTimerManager().SetTimer(FiringDelayHandle, [&]
-	{
-		IsLockedByTime = false;
-		CanShoot = IsEnoughAmmo;
-	}, Data.FiringDelayInSeconds, false);
+	GetWorld()->GetTimerManager().SetTimer(FiringDelayHandle, [&] { IsLockedByTime = false; }, Data.FiringDelayInSeconds, false);
 }
 
 void AShootingWeapon::Reload()
 {
-	if (AmmoInStock - (Data.MaxAmmoInMagazine - AmmoInMagazine) >= 0)
-	{
-		AmmoInStock -= Data.MaxAmmoInMagazine - AmmoInMagazine;
-		AmmoInMagazine = Data.MaxAmmoInMagazine;
-	}
-	else
-	{
-		AmmoInMagazine += AmmoInStock;
-		AmmoInStock = 0;
-	}
+	if (AmmoInMagazine == 0 && AmmoInStock == 0 || AmmoInMagazine == Data.MaxAmmoInMagazine)
+		return;
+
+	IsReloading = true;
+	WeaponMesh->PlayAnimation(ReloadingAnimation, false);
 	
-	IsEnoughAmmo = AmmoInMagazine > 0;
-	CanShoot = !IsLockedByTime && IsEnoughAmmo;
+	GetWorld()->GetTimerManager().SetTimer(ReloadingHandle, [&]
+	{
+		if (AmmoInStock - (Data.MaxAmmoInMagazine - AmmoInMagazine) >= 0)
+		{
+			AmmoInStock -= Data.MaxAmmoInMagazine - AmmoInMagazine;
+			AmmoInMagazine = Data.MaxAmmoInMagazine;
+		}
+		else
+		{
+			AmmoInMagazine += AmmoInStock;
+			AmmoInStock = 0;
+		}
+	
+		IsEnoughAmmo = AmmoInMagazine > 0;
+		IsReloading = false;
+	}, ReloadingAnimation->GetPlayLength(), false);
 }
 
 FFirearmState AShootingWeapon::GetState()
@@ -68,5 +79,5 @@ void AShootingWeapon::SetState(const FFirearmState NewState)
 	if (AmmoInMagazine > Data.MaxAmmoInMagazine)
 		AmmoInStock += AmmoInMagazine - Data.MaxAmmoInMagazine;
 
-	CanShoot = AmmoInMagazine > 0;
+	IsEnoughAmmo = AmmoInMagazine > 0;
 }

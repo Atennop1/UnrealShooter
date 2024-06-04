@@ -31,13 +31,22 @@ private:
 	UInputAction *JumpAction;
 	
 	UPROPERTY(EditDefaultsOnly)
-	UInputAction *CrouchAction;
+	UInputAction *StartCrouchAction;
 
 	UPROPERTY(EditDefaultsOnly)
-	UInputAction *AimAction;
+	UInputAction *StopCrouchAction;
 
 	UPROPERTY(EditDefaultsOnly)
-	UInputAction *ShootAction;
+	UInputAction *StartAimAction;
+
+	UPROPERTY(EditDefaultsOnly)
+	UInputAction *StopAimAction;
+
+	UPROPERTY(EditDefaultsOnly)
+	UInputAction *StartShootAction;
+
+	UPROPERTY(EditDefaultsOnly)
+	UInputAction *StopShootAction;
 
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction *ReloadAction;

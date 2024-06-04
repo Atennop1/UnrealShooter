@@ -23,12 +23,12 @@ void AShooterPlayerController::OnPossess(APawn *PossessingPawn)
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallRotate);
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallJump);
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopJumping);
-	EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartCrouch);
-	EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopCrouch);
-	EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartAim);
-	EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopAim);
-	EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartShoot);
-	EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopShoot);
+	EnhancedInputComponent->BindAction(StartCrouchAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartCrouch);
+	EnhancedInputComponent->BindAction(StopCrouchAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStopCrouch);
+	EnhancedInputComponent->BindAction(StartAimAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartAim);
+	EnhancedInputComponent->BindAction(StopAimAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStopAim);
+	EnhancedInputComponent->BindAction(StartShootAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartShoot);
+	EnhancedInputComponent->BindAction(StopShootAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStopShoot);
 	EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallReload);
 	EnhancedInputComponent->BindAction(ThrowWeaponAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallThrowWeapon);
 }
@@ -64,7 +64,7 @@ void AShooterPlayerController::CallStartShoot(const FInputActionValue& Value) { 
 void AShooterPlayerController::CallStopShoot(const FInputActionValue& Value) { PossessedCharacter->GetShootingComponent()->StopShooting(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallReload(const FInputActionValue& Value) { PossessedCharacter->GetShootingComponent()->Reload(); }
+void AShooterPlayerController::CallReload(const FInputActionValue& Value) { PossessedCharacter->GetReloadingComponent()->Reload(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void AShooterPlayerController::CallThrowWeapon(const FInputActionValue& Value) { PossessedCharacter->GetWeaponThrowingComponent()->Throw(); }

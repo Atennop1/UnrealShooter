@@ -17,6 +17,9 @@ class UNREALSHOOTER_API AShootingWeapon : public AActor, public IFirearm
 private:
 	UPROPERTY(EditDefaultsOnly)
 	UAnimSequence *ShootingAnimation = nullptr;
+	
+	UPROPERTY(EditDefaultsOnly)
+	UAnimSequence *ReloadingAnimation = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AActor> Bullet;
@@ -30,6 +33,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	FFirearmData Data;
 	FTimerHandle FiringDelayHandle;
+	FTimerHandle ReloadingHandle;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	USkeletalMeshComponent *WeaponMesh = nullptr;
@@ -37,18 +41,20 @@ private:
 	int AmmoInStock;
 	int AmmoInMagazine;
 	
-	bool CanShoot = true;
 	bool IsLockedByTime = false;
 	bool IsEnoughAmmo = true;
+	bool IsReloading = false;
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 public:	
 	AShootingWeapon();
 	virtual EWeaponType GetWeaponType() override { return WeaponType; }
 	virtual FFirearmData GetData() override { return Data; }
-	virtual bool GetCanShoot() override { return CanShoot; }
+	virtual bool GetCanShoot() override { return !IsLockedByTime && IsEnoughAmmo && !IsReloading; }
+	virtual bool GetIsReloading() override { return IsReloading; }
 
 	virtual void Shoot(FVector Point) override;
 	virtual void Reload() override;

@@ -14,6 +14,9 @@ class UNREALSHOOTER_API UCharacterShootingComponent : public UActorComponent
 private:
 	UPROPERTY()
 	class AShooterCharacter *Character = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
+	class UCharacterWeaponRecoilingComponent *RecoilingComponent = nullptr;
 	bool IsShooting = false;
 	
 protected:
@@ -21,9 +24,7 @@ protected:
 
 public:
 	UCharacterShootingComponent();
-	bool GetIsShooting() const { return IsShooting; }
 	
 	void StartShooting();
 	void StopShooting();
-	void Reload() const;
 };

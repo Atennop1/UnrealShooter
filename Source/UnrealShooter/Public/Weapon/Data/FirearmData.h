@@ -20,4 +20,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	float FiringDelayInSeconds;
+
+	UPROPERTY(EditDefaultsOnly)
+	float BulletSpread;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UCurveVector *RecoilingCurve;
 };
