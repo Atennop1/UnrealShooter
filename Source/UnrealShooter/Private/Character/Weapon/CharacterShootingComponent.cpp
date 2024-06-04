@@ -23,15 +23,6 @@ void UCharacterShootingComponent::TickComponent(float DeltaTime, ELevelTick Tick
 		StopShooting();
 }
 
-void UCharacterShootingComponent::Reload() const
-{
-	if (!Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
-		return;
-
-	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); !Weapon->GetIsReloading())
-		Weapon->Reload();
-}
-
 void UCharacterShootingComponent::StartShooting()
 {
 	if (!Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()) || !Character->GetAimingComponent()->GetIsAiming())

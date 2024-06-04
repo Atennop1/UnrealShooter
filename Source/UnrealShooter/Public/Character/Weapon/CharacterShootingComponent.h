@@ -29,5 +29,4 @@ public:
 	
 	void StartShooting();
 	void StopShooting();
-	void Reload() const;
 };

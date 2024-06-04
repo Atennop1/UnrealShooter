@@ -24,9 +24,7 @@ void UCharacterWeaponHoldingComponent::Hold(const TScriptInterface<IWeapon> Weap
 	
 	IsHoldingWeapon = true;
 	HoldingWeapon = Weapon;
-
-	const FAttachmentTransformRules Rules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true);
-	Cast<AActor>(Weapon.GetObject())->AttachToComponent(Character->GetCharacterMesh(), Rules, WeaponsToSockets[Weapon.GetObject()->GetClass()]);
+	Cast<AActor>(Weapon.GetObject())->AttachToComponent(Character->GetCharacterMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), WeaponsToSockets[Weapon.GetObject()->GetClass()]);
 }
 
 void UCharacterWeaponHoldingComponent::Unhold()

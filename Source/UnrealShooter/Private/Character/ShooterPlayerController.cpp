@@ -64,7 +64,7 @@ void AShooterPlayerController::CallStartShoot(const FInputActionValue& Value) { 
 void AShooterPlayerController::CallStopShoot(const FInputActionValue& Value) { PossessedCharacter->GetShootingComponent()->StopShooting(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallReload(const FInputActionValue& Value) { PossessedCharacter->GetShootingComponent()->Reload(); }
+void AShooterPlayerController::CallReload(const FInputActionValue& Value) { PossessedCharacter->GetReloadingComponent()->Reload(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void AShooterPlayerController::CallThrowWeapon(const FInputActionValue& Value) { PossessedCharacter->GetWeaponThrowingComponent()->Throw(); }
