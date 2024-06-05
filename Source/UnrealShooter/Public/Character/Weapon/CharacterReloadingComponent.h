@@ -13,6 +13,9 @@ class UNREALSHOOTER_API UCharacterReloadingComponent : public UActorComponent
 
 private:
 	UPROPERTY(EditDefaultsOnly)
+	float MagazineDroppingForce = 1000;
+	
+	UPROPERTY(EditDefaultsOnly)
 	TMap<UClass*, UClass*> WeaponsToMagazines;
 
 	UPROPERTY(EditDefaultsOnly)

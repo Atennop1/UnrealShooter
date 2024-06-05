@@ -15,7 +15,7 @@ void ABullet::BeginPlay()
 	Super::BeginPlay();
 	check(Collision != nullptr)
 	
-	GetWorld()->GetTimerManager().SetTimer(DyingTimerHandle, [&] { GetWorld()->DestroyActor(this); }, BulletLifeTime, false);
+	SetLifeSpan(BulletLifeTime);
 	Collision->OnComponentHit.AddDynamic(this, &ABullet::OnBulletHit);
 }
 
@@ -25,6 +25,5 @@ void ABullet::OnBulletHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), BulletImpactEffect, Hit.Location, UKismetMathLibrary::MakeRotFromX(Hit.Normal));
 	
 	Collision->OnComponentHit.Clear();
-	GetWorld()->GetTimerManager().ClearTimer(DyingTimerHandle);
 	GetWorld()->DestroyActor(this);
 }

@@ -38,7 +38,7 @@ void UCharacterReloadingComponent::Reload()
 	{
 		const AActor *WeaponActor = Cast<AActor>(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject());
 		WeaponMesh = Cast<USkeletalMeshComponent>(WeaponActor->GetComponentByClass(USkeletalMeshComponent::StaticClass()));
-		
+
 		OldMagazine = NewMagazine = nullptr;
 		Weapon->Reload();
 	}
@@ -61,9 +61,11 @@ void UCharacterReloadingComponent::RemoveMagazine()
 
 void UCharacterReloadingComponent::DropMagazine() const
 {
-	FTimerHandle MagazineDestroyingHandle;
-	GetWorld()->GetTimerManager().SetTimer(MagazineDestroyingHandle, [&] { if (OldMagazine) GetWorld()->DestroyActor(OldMagazine); }, 5, false);
-	Cast<UStaticMeshComponent>(OldMagazine->GetComponentByClass(UStaticMeshComponent::StaticClass()))->SetSimulatePhysics(true);
+	OldMagazine->SetLifeSpan(5);
+	UStaticMeshComponent *OldMagazineMesh = Cast<UStaticMeshComponent>(OldMagazine->GetComponentByClass(UStaticMeshComponent::StaticClass()));
+	
+	OldMagazineMesh->SetSimulatePhysics(true);
+	OldMagazineMesh->AddForce(MagazineDroppingForce * -Character->GetActorRightVector() / OldMagazineMesh->GetMass());
 }
 
 void UCharacterReloadingComponent::TakeMagazine()

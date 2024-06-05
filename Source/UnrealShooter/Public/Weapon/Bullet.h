@@ -20,8 +20,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float BulletLifeTime;
-	FTimerHandle DyingTimerHandle;
-
+	
 	UPROPERTY(EditDefaultsOnly)
 	float DecalLifeTime;
 	

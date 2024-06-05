@@ -40,7 +40,7 @@ void AShootingWeapon::Shoot(FVector Point)
 
 void AShootingWeapon::Reload()
 {
-	if (AmmoInMagazine == 0 && AmmoInStock == 0 || AmmoInMagazine == Data.MaxAmmoInMagazine)
+	if (AmmoInStock == 0 || AmmoInMagazine == Data.MaxAmmoInMagazine)
 		return;
 
 	IsReloading = true;
