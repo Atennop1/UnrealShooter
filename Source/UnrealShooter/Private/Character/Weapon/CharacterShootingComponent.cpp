@@ -18,10 +18,16 @@ void UCharacterShootingComponent::BeginPlay()
 
 void UCharacterShootingComponent::StartShooting()
 {
-	if (!Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()) || !Character->GetAimingComponent()->GetIsAiming())
+	if (!Character->GetAimingComponent()->GetIsAiming())
+		StopShooting();
+	
+	if (Character->IsDead() || !Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()) || !Character->GetAimingComponent()->GetIsAiming())
 		return;
 	
 	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
+	if (!Weapon->GetIsEnoughAmmo())
+		StopShooting();
+	
 	if (IsShooting && Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping || !Weapon->GetCanShoot())
 		return;
 

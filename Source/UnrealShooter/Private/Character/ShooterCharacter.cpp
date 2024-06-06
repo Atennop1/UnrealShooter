@@ -10,14 +10,17 @@ AShooterCharacter::AShooterCharacter()
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	check(CharacterMesh != nullptr)
+	check(HealthComponent != nullptr)
 	check(MovingComponent != nullptr)
 	check(RotatingComponent != nullptr)
 	check(CrouchingComponent != nullptr)
+	check(JumpingComponent != nullptr)
+	
 	check(AimingComponent != nullptr)
 	check(ShootingComponent != nullptr)
 	check(ReloadingComponent != nullptr)
 	check(WeaponHoldingComponent != nullptr)
 	check(WeaponThrowingComponent != nullptr)
-	check(CharacterMesh != nullptr)
 }

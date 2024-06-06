@@ -24,12 +24,18 @@ void UCharacterCrouchingComponent::BeginPlay()
 
 void UCharacterCrouchingComponent::StartCrouching()
 {
+	if (Character->IsDead())
+		return;
+	
 	IsCrouching = true;
 	CrouchingTimeline.Play();
 }
 
 void UCharacterCrouchingComponent::StopCrouching()
 {
+	if (Character->IsDead())
+		return;
+	
 	IsCrouching = false;
 	CrouchingTimeline.Reverse();
 }

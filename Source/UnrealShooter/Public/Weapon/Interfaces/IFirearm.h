@@ -21,6 +21,7 @@ public:
 	virtual FFirearmData GetData() = 0;
 	virtual bool GetCanShoot() = 0;
 	virtual bool GetIsReloading() = 0;
+	virtual bool GetIsEnoughAmmo() = 0;
 	
 	virtual void Shoot(FVector Point) = 0;
 	virtual void Reload() = 0;

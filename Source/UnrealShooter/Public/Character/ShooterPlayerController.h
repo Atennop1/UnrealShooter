@@ -56,7 +56,7 @@ private:
 
 	void CallMove(const FInputActionValue &Value);
 	void CallRotate(const FInputActionValue &Value);
-	void CallJump(const FInputActionValue &Value);
+	void CallStartJumping(const FInputActionValue &Value);
 	void CallStopJumping(const FInputActionValue &Value);
 	void CallStartCrouch(const FInputActionValue &Value);
 	void CallStopCrouch(const FInputActionValue &Value);

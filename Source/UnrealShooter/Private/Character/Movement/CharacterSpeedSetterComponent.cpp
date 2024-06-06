@@ -11,6 +11,7 @@ UCharacterSpeedSetterComponent::UCharacterSpeedSetterComponent()
 
 void UCharacterSpeedSetterComponent::BeginPlay()
 {
+	
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check(Character != nullptr);
