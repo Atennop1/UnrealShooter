@@ -21,8 +21,7 @@ void UCharacterWeaponPickingComponent::BeginPlay()
 void UCharacterWeaponPickingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	if (Character->GetWeaponHoldingComponent()->GetIsHolding())
+	if (Character->IsDead() || Character->GetWeaponHoldingComponent()->GetIsHolding())
 		return;
 
 	TArray<AActor*> Actors;

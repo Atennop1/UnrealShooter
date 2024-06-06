@@ -21,7 +21,7 @@ void AShooterPlayerController::OnPossess(APawn *PossessingPawn)
 	const auto EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallMove);
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallRotate);
-	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallJump);
+	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartJumping);
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopJumping);
 	EnhancedInputComponent->BindAction(StartCrouchAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartCrouch);
 	EnhancedInputComponent->BindAction(StopCrouchAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStopCrouch);
@@ -40,10 +40,10 @@ void AShooterPlayerController::CallMove(const FInputActionValue& Value) { Posses
 void AShooterPlayerController::CallRotate(const FInputActionValue& Value) { PossessedCharacter->GetRotatingComponent()->Rotate(Value.Get<FVector2D>()); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallJump(const FInputActionValue& Value) { PossessedCharacter->Jump(); }
+void AShooterPlayerController::CallStartJumping(const FInputActionValue& Value) { PossessedCharacter->GetJumpingComponent()->StartJumping(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void AShooterPlayerController::CallStopJumping(const FInputActionValue& Value) { PossessedCharacter->StopJumping(); }
+void AShooterPlayerController::CallStopJumping(const FInputActionValue& Value) { PossessedCharacter->GetJumpingComponent()->StopJumping(); }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void AShooterPlayerController::CallStartCrouch(const FInputActionValue& Value) { PossessedCharacter->GetCrouchingComponent()->StartCrouching(); }

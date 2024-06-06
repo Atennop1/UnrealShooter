@@ -10,6 +10,8 @@
 #include "Weapon/CharacterWeaponThrowingComponent.h"
 #include "Weapon/CharacterAimingComponent.h"
 #include "GameFramework/Character.h"
+#include "Health/CharacterHealthComponent.h"
+#include "Movement/CharacterJumpingComponent.h"
 #include "Weapon/CharacterReloadingComponent.h"
 #include "Weapon/CharacterShootingComponent.h"
 #include "ShooterCharacter.generated.h"
@@ -30,6 +32,9 @@ private:
 	UCharacterRotatingComponent *RotatingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
+	UCharacterJumpingComponent *JumpingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterCrouchingComponent *CrouchingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
@@ -47,16 +52,22 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterWeaponThrowingComponent *WeaponThrowingComponent = nullptr;
 
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
+	UCharacterHealthComponent *HealthComponent = nullptr;
+
 protected:
 	virtual void BeginPlay() override;
 	
 public:
 	AShooterCharacter();
 	USkeletalMeshComponent *GetCharacterMesh() const { return CharacterMesh; }
+	bool IsDead() const { return HealthComponent->IsDead(); } 
 
 	UCharacterMovingComponent *GetMovingComponent() const { return MovingComponent; }
 	UCharacterRotatingComponent *GetRotatingComponent() const { return RotatingComponent; }
 	UCharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent; }
+	UCharacterJumpingComponent *GetJumpingComponent() const { return JumpingComponent; }
+	
 	UCharacterAimingComponent *GetAimingComponent() const { return AimingComponent; }
 	UCharacterShootingComponent *GetShootingComponent() const { return ShootingComponent; }
 	UCharacterReloadingComponent *GetReloadingComponent() const { return ReloadingComponent; }

@@ -17,6 +17,9 @@ void UCharacterMovingComponent::BeginPlay()
 
 void UCharacterMovingComponent::Move(const FVector2D Value) const
 {
+	if (Character->IsDead())
+		return;
+	
 	 Character->AddMovementInput(Character->GetActorRightVector(), Value.X);
 	 Character->AddMovementInput(Character->GetActorForwardVector(), Value.Y);
 }

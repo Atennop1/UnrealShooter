@@ -3,7 +3,6 @@
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Curves/CurveVector.h"
-#include "Kismet/KismetMathLibrary.h"
 
 UCharacterWeaponRecoilingComponent::UCharacterWeaponRecoilingComponent()
 {
@@ -74,6 +73,6 @@ void UCharacterWeaponRecoilingComponent::OnRecoilingUpdated(const FVector& Alpha
 
 void UCharacterWeaponRecoilingComponent::OnReverting(float Alpha) const
 {
-	const FRotator NewRotation = UKismetMathLibrary::RLerp(Character->GetControlRotation(), OriginRecoilRotation + InputRotationWhileRecoiling, Alpha, true);
+	const FRotator NewRotation = FMath::Lerp(Character->GetControlRotation(), OriginRecoilRotation + InputRotationWhileRecoiling, Alpha);
 	Character->GetController()->SetControlRotation(NewRotation);
 }

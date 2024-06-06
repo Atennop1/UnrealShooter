@@ -36,6 +36,9 @@ void UCharacterRotatingComponent::Rotate(const FVector2D Input)
 	FVector CameraForwardVector = CharacterCamera->GetComponentRotation().Vector();
 	CharacterForwardVector.Z = CameraForwardVector.Z = 0;
 
+	if (Character->IsDead())
+		return;
+	
 	if (const float Angle = FMath::RadiansToDegrees(FMath::Atan2(CameraForwardVector.Y * CharacterForwardVector.X - CameraForwardVector.X * CharacterForwardVector.Y, CameraForwardVector.X * CharacterForwardVector.X + CameraForwardVector.Y * CharacterForwardVector.Y)); FMath::Abs(Angle) > HalfDeadZoneAngle)
 		Character->SetActorRotation(FRotator(0, Character->GetControlRotation().Yaw + HalfDeadZoneAngle * (Angle > 0 ? -1 : 1), 0));
 }

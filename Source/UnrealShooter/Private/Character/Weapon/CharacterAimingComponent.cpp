@@ -18,7 +18,7 @@ void UCharacterAimingComponent::BeginPlay()
 
 void UCharacterAimingComponent::StartAim()
 {
-	if (Character->GetWeaponHoldingComponent()->GetHoldingWeapon() == nullptr || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
+	if (Character->IsDead() || Character->GetWeaponHoldingComponent()->GetHoldingWeapon() == nullptr || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
 		return;
 	
 	IsAiming = true;
@@ -26,7 +26,7 @@ void UCharacterAimingComponent::StartAim()
 
 void UCharacterAimingComponent::StopAim()
 {
-	if (Character->GetWeaponHoldingComponent()->GetHoldingWeapon() == nullptr || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
+	if (Character->IsDead() || Character->GetWeaponHoldingComponent()->GetHoldingWeapon() == nullptr || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
 		return;
 	
 	IsAiming = false;

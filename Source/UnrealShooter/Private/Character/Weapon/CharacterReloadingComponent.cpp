@@ -31,7 +31,7 @@ void UCharacterReloadingComponent::TickComponent(float DeltaTime, ELevelTick Tic
 
 void UCharacterReloadingComponent::Reload()
 {
-	if (!Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
+	if (Character->IsDead() || !Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
 		return;
 
 	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); !Weapon->GetIsReloading())

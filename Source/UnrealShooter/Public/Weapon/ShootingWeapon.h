@@ -55,6 +55,7 @@ public:
 	virtual FFirearmData GetData() override { return Data; }
 	virtual bool GetCanShoot() override { return !IsLockedByTime && IsEnoughAmmo && !IsReloading; }
 	virtual bool GetIsReloading() override { return IsReloading; }
+	virtual bool GetIsEnoughAmmo() override { return IsEnoughAmmo; }
 
 	virtual void Shoot(FVector Point) override;
 	virtual void Reload() override;

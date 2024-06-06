@@ -19,7 +19,7 @@ void UCharacterWeaponHoldingComponent::BeginPlay()
 
 void UCharacterWeaponHoldingComponent::Hold(const TScriptInterface<IWeapon> Weapon)
 {
-	if (Weapon == nullptr || !WeaponsToSockets.Contains(Weapon.GetObject()->GetClass()))
+	if (Character->IsDead() || Weapon == nullptr || !WeaponsToSockets.Contains(Weapon.GetObject()->GetClass()))
 		return;
 	
 	IsHoldingWeapon = true;
@@ -29,6 +29,9 @@ void UCharacterWeaponHoldingComponent::Hold(const TScriptInterface<IWeapon> Weap
 
 void UCharacterWeaponHoldingComponent::Unhold()
 {
+	if (Character->IsDead())
+		return;
+	
 	Character->GetAimingComponent()->StopAim();
 	GetWorld()->DestroyActor(Cast<AActor>(HoldingWeapon.GetObject()));
 	IsHoldingWeapon = false;
