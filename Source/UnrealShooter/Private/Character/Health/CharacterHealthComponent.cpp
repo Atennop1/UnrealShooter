@@ -2,6 +2,7 @@
 
 #include "Character/Health/CharacterHealthComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "Components/CapsuleComponent.h"
 
 UCharacterHealthComponent::UCharacterHealthComponent()
 {
@@ -16,6 +17,7 @@ void UCharacterHealthComponent::Die() const
 	
 	Camera->SetRelativeTransform(CameraTransformAfterDeath);
 	Character->GetController()->SetControlRotation(CameraTransformAfterDeath.Rotator());
+	Character->GetCapsuleComponent()->DestroyComponent();
 }
 
 void UCharacterHealthComponent::BeginPlay()

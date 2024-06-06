@@ -20,6 +20,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float BulletLifeTime;
+
+	UPROPERTY(EditDefaultsOnly)
+	float Damage;
 	
 	UPROPERTY(EditDefaultsOnly)
 	float DecalLifeTime;
@@ -31,7 +34,10 @@ private:
 	UMaterialInterface *DecalMaterial = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
-	UNiagaraSystem *BulletImpactEffect;
+	UNiagaraSystem *BulletImpactEffect = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	UNiagaraSystem *BloodEffect = nullptr;
 	
 protected:
 	virtual void BeginPlay() override;

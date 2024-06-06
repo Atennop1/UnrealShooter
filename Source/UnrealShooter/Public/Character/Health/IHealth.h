@@ -22,5 +22,5 @@ public:
 	virtual bool IsDead() = 0;
 	
 	virtual void Heal(int HealingHealth) = 0;
-	virtual void Damage(int Health) = 0;
+	virtual void Damage(int DamagingHealth) = 0;
 };

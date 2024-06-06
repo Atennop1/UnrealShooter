@@ -39,5 +39,5 @@ public:
 	virtual bool IsDead() override { return CurrentHealth <= 0; }
 	
 	virtual void Heal(int HealingHealth) override;
-	virtual void Damage(int Health) override;
+	virtual void Damage(int DamagingHealth) override;
 };
