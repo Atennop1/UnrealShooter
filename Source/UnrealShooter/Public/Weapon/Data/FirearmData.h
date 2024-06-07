@@ -22,8 +22,8 @@ public:
 	float FiringDelayInSeconds;
 
 	UPROPERTY(EditDefaultsOnly)
-	float BulletSpread;
+	float MaxBulletSpread;
 
 	UPROPERTY(EditDefaultsOnly)
-	class UCurveVector *RecoilingCurve;
+	UCurveVector *RecoilingCurve;
 };

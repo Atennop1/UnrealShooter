@@ -6,7 +6,7 @@
 
 UCharacterShootingComponent::UCharacterShootingComponent()
 {
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UCharacterShootingComponent::BeginPlay()
@@ -14,6 +14,21 @@ void UCharacterShootingComponent::BeginPlay()
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check(Character != nullptr);
+
+	FOnTimelineFloat OnUpdated;
+	OnUpdated.BindUFunction(this, "OnSpreadUpdated");
+	SpreadingTimeline.AddInterpFloat(SpreadCurve, OnUpdated);
+}
+
+void UCharacterShootingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	SpreadingTimeline.TickTimeline(DeltaTime);
+}
+
+void UCharacterShootingComponent::OnSpreadUpdated(float Alpha)
+{
+	SpreadingCoefficient = Alpha;
 }
 
 void UCharacterShootingComponent::StartShooting()
@@ -41,13 +56,16 @@ void UCharacterShootingComponent::StartShooting()
 
 	IsShooting = true;
 	RecoilingComponent->StartRecoil();
-	FVector Spread = FVector(FMath::RandRange(-Weapon->GetData().BulletSpread, Weapon->GetData().BulletSpread), 0, FMath::RandRange(-Weapon->GetData().BulletSpread, Weapon->GetData().BulletSpread));
-	Weapon->Shoot((WasHit ? HitResult.Location : HitResult.TraceEnd) + Spread);
+	SpreadingTimeline.Play();
+	FVector Spread = FVector(FMath::RandRange(-Weapon->GetData().MaxBulletSpread, Weapon->GetData().MaxBulletSpread), 0, FMath::RandRange(-Weapon->GetData().MaxBulletSpread, Weapon->GetData().MaxBulletSpread));
+	Weapon->Shoot((WasHit ? HitResult.Location : HitResult.TraceEnd) + Spread * SpreadingCoefficient);
 }
 
 void UCharacterShootingComponent::StopShooting()
 {
 	IsShooting = false;
+	SpreadingTimeline.Stop();
+	SpreadingTimeline.SetNewTime(0);
 	
 	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); Weapon != nullptr && Weapon->GetData().WeaponFiringType != EWeaponFiringType::Tapping)
 		RecoilingComponent->StopRecoil();
