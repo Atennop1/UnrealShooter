@@ -3,6 +3,7 @@
 #include "Character/Movement/CharacterRotatingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetStringLibrary.h"
 
 UCharacterRotatingComponent::UCharacterRotatingComponent()
 {
@@ -28,8 +29,8 @@ void UCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTick Tick
 
 void UCharacterRotatingComponent::Rotate(const FVector2D Input)
 {
-	Character->AddControllerYawInput(Input.X);
-	Character->AddControllerPitchInput(Input.Y);
+	Cast<APlayerController>(Character->GetController())->AddYawInput(Input.X);
+	Cast<APlayerController>(Character->GetController())->AddPitchInput(Input.Y);
 	InputOfThisFrame = FVector(Input.X, Input.Y, 0);
 
 	FVector CharacterForwardVector = Character->GetActorRotation().Vector();

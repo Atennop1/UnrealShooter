@@ -3,7 +3,7 @@
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Curves/CurveVector.h"
-#include "Kismet/KismetStringLibrary.h"
+#include "Weapon/Interfaces/IFirearm.h"
 
 UCharacterWeaponRecoilingComponent::UCharacterWeaponRecoilingComponent()
 {
@@ -40,6 +40,7 @@ void UCharacterWeaponRecoilingComponent::StartRecoil()
 	RecoilingTrack.BindUFunction(this, "OnRecoilingUpdated");
 	RevertingTrack.BindUFunction(this, "OnReverting");
 
+	RecoilingTimeline = RevertingTimeline = FTimeline();
 	UCurveVector *RecoilingCurve = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon())->GetData().RecoilingCurve;
 	RecoilingTimeline.AddInterpVector(RecoilingCurve, RecoilingTrack);
 	RevertingTimeline.AddInterpFloat(RevertingCurve, RevertingTrack);

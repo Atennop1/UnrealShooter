@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Weapon/Interfaces/IFirearm.h"
 #include "Weapon/Interfaces/IWeapon.h"
 #include "CharacterWeaponHoldingComponent.generated.h"
 

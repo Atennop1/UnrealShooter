@@ -11,19 +11,21 @@ UCharacterHealthComponent::UCharacterHealthComponent()
 
 void UCharacterHealthComponent::Die() const
 {
+	if (UCameraComponent *Camera = Cast<UCameraComponent>(GetOwner()->GetComponentByClass(UCameraComponent::StaticClass())); IsValid(Camera))
+	{
+		Camera->AttachToComponent(ComponentToAttachCamera, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
+		Camera->SetRelativeTransform(CameraTransformAfterDeath);
+	}
+
 	Character->GetMesh()->SetAllBodiesSimulatePhysics(true);
-	UCameraComponent *Camera = Cast<UCameraComponent>(GetOwner()->GetComponentByClass(UCameraComponent::StaticClass()));
-	Camera->AttachToComponent(ComponentToAttachCamera, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
-	
-	Camera->SetRelativeTransform(CameraTransformAfterDeath);
-	Character->GetController()->SetControlRotation(CameraTransformAfterDeath.Rotator());
 	Character->GetCapsuleComponent()->DestroyComponent();
+	Character->GetController()->SetControlRotation(CameraTransformAfterDeath.Rotator());
 }
 
 void UCharacterHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	Character = Cast<AShooterCharacter>(GetOwner());
+	Character = Cast<ACharacter>(GetOwner());
 	check(Character != nullptr);
 	CurrentHealth = MaxHealth;
 }
