@@ -55,7 +55,7 @@ void UCharacterReloadingComponent::RemoveMagazine()
 {
 	const UClass *WeaponClass = Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass();
 	OldMagazine = GetWorld()->SpawnActor(WeaponsToMagazines[WeaponClass]);
-	OldMagazine->AttachToComponent(Character->GetCharacterMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), WeaponsToMagazineSockets[WeaponClass]);
+	OldMagazine->AttachToComponent(Character->GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), WeaponsToMagazineSockets[WeaponClass]);
 	WeaponMesh->HideBoneByName(WeaponsToHidingBones[WeaponClass], PBO_None);
 }
 
@@ -72,7 +72,7 @@ void UCharacterReloadingComponent::TakeMagazine()
 {
 	const UClass *WeaponClass = Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass();
 	NewMagazine = GetWorld()->SpawnActor(WeaponsToMagazines[WeaponClass]);
-	NewMagazine->AttachToComponent(Character->GetCharacterMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), WeaponsToMagazineSockets[WeaponClass]);
+	NewMagazine->AttachToComponent(Character->GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), WeaponsToMagazineSockets[WeaponClass]);
 }
 
 void UCharacterReloadingComponent::PlaceMagazine()

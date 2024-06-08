@@ -23,9 +23,6 @@ class UNREALSHOOTER_API AShooterCharacter : public ACharacter
 
 private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	USkeletalMeshComponent *CharacterMesh = nullptr;
-	
-	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
 	UCharacterMovingComponent *MovingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
@@ -60,7 +57,6 @@ protected:
 	
 public:
 	AShooterCharacter();
-	USkeletalMeshComponent *GetCharacterMesh() const { return CharacterMesh; }
 	bool IsDead() const { return HealthComponent->IsDead(); } 
 
 	UCharacterMovingComponent *GetMovingComponent() const { return MovingComponent; }

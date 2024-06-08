@@ -25,5 +25,5 @@ public:
 	float MaxBulletSpread;
 
 	UPROPERTY(EditDefaultsOnly)
-	UCurveVector *RecoilingCurve;
+	class UCurveVector *RecoilingCurve;
 };

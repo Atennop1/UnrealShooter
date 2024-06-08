@@ -11,7 +11,7 @@ UCharacterHealthComponent::UCharacterHealthComponent()
 
 void UCharacterHealthComponent::Die() const
 {
-	Character->GetCharacterMesh()->SetAllBodiesSimulatePhysics(true);
+	Character->GetMesh()->SetAllBodiesSimulatePhysics(true);
 	UCameraComponent *Camera = Cast<UCameraComponent>(GetOwner()->GetComponentByClass(UCameraComponent::StaticClass()));
 	Camera->AttachToComponent(ComponentToAttachCamera, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
 	
