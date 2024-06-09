@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Character/Movement/ICharacterJumpingComponent.h"
 #include "Components/ActorComponent.h"
-#include "CharacterJumpingComponent.generated.h"
-
+#include "PlayerCharacterJumpingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UCharacterJumpingComponent : public UActorComponent
+class UNREALSHOOTER_API UPlayerCharacterJumpingComponent : public UActorComponent, public ICharacterJumpingComponent
 {
 	GENERATED_BODY()
 
@@ -20,7 +20,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	UCharacterJumpingComponent();
-	void StartJumping() const;
-	void StopJumping() const;
+	UPlayerCharacterJumpingComponent();
+
+	virtual void StartJumping() override;
+	virtual void StopJumping() override;
 };

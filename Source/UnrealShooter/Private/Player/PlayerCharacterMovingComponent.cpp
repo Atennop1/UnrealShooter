@@ -1,21 +1,21 @@
 ﻿// Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/Movement/CharacterMovingComponent.h"
+#include "Player/PlayerCharacterMovingComponent.h"
 #include "Character/ShooterCharacter.h"
 
-UCharacterMovingComponent::UCharacterMovingComponent()
+UPlayerCharacterMovingComponent::UPlayerCharacterMovingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UCharacterMovingComponent::BeginPlay()
+void UPlayerCharacterMovingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check (Character != nullptr)
 }
 
-void UCharacterMovingComponent::Move(const FVector2D Value) const
+void UPlayerCharacterMovingComponent::Move(const FVector2D Value)
 {
 	if (Character->IsDead())
 		return;

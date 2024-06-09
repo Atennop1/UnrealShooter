@@ -4,6 +4,7 @@
 #include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponHoldingComponent.h"
+#include "Weapon/Interfaces/IFirearm.h"
 #include "Weapon/Interfaces/IFirearmPickable.h"
 
 UCharacterWeaponThrowingComponent::UCharacterWeaponThrowingComponent()

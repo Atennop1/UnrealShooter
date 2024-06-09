@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Character/Movement/ICharacterCrouchingComponent.h"
 #include "Components/ActorComponent.h"
 #include "Components/TimelineComponent.h"
-#include "CharacterCrouchingComponent.generated.h"
+#include "PlayerCharacterCrouchingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UCharacterCrouchingComponent : public UActorComponent
+class UNREALSHOOTER_API UPlayerCharacterCrouchingComponent : public UActorComponent, public ICharacterCrouchingComponent
 {
 	GENERATED_BODY()
 
@@ -19,8 +20,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UCurveFloat *CrouchingCurve = nullptr;
 	FTimeline CrouchingTimeline;
-
-	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
 	bool IsCrouching = false;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -35,9 +34,9 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	UCharacterCrouchingComponent();
-	bool GetIsCrouching() const { return IsCrouching; }
+	UPlayerCharacterCrouchingComponent();
 	
-	void StartCrouching();
-	void StopCrouching();
+	virtual bool GetIsCrouching() override { return IsCrouching; }
+	virtual void StartCrouching() override;
+	virtual void StopCrouching() override;
 };

@@ -1,16 +1,15 @@
 ﻿// Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Character/Movement/CharacterRotatingComponent.h"
+#include "Player/PlayerCharacterRotatingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Kismet/KismetStringLibrary.h"
 
-UCharacterRotatingComponent::UCharacterRotatingComponent()
+UPlayerCharacterRotatingComponent::UPlayerCharacterRotatingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UCharacterRotatingComponent::BeginPlay()
+void UPlayerCharacterRotatingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
@@ -19,7 +18,7 @@ void UCharacterRotatingComponent::BeginPlay()
 	check(CharacterCamera != nullptr)
 }
 
-void UCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UPlayerCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	LocationCameraPointingAt = CharacterCamera->GetComponentLocation() + CharacterCamera->GetForwardVector() * 500;
@@ -27,7 +26,7 @@ void UCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTick Tick
 	InputOfThisFrame = FVector::Zero();
 }
 
-void UCharacterRotatingComponent::Rotate(const FVector2D Input)
+void UPlayerCharacterRotatingComponent::Rotate(const FVector2D Input)
 {
 	Cast<APlayerController>(Character->GetController())->AddYawInput(Input.X);
 	Cast<APlayerController>(Character->GetController())->AddPitchInput(Input.Y);

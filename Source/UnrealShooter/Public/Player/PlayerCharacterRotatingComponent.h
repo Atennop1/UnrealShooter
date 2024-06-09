@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
+#include "Character/Movement/ICharacterRotatingComponent.h"
 #include "Components/ActorComponent.h"
-#include "CharacterRotatingComponent.generated.h"
+#include "PlayerCharacterRotatingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UCharacterRotatingComponent : public UActorComponent
+class UNREALSHOOTER_API UPlayerCharacterRotatingComponent : public UActorComponent, public ICharacterRotatingComponent
 {
 	GENERATED_BODY()
 
@@ -22,7 +23,6 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	UCameraComponent *CharacterCamera = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	FVector LocationCameraPointingAt;
 	FVector InputOfThisFrame;
 
@@ -31,9 +31,9 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	UCharacterRotatingComponent();
-	void Rotate(const FVector2D Input);
-	
-	FVector GetLocationCameraPointingAt() const { return LocationCameraPointingAt; }
-	FVector GetInputOfThisFrame() const { return InputOfThisFrame; }
+	UPlayerCharacterRotatingComponent();
+
+	virtual void Rotate(const FVector2D Input) override;
+	virtual FVector GetLocationCameraPointingAt() override { return LocationCameraPointingAt; }
+	virtual FVector GetInputOfThisFrame() override { return InputOfThisFrame; }
 };

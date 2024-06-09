@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Character/Movement/ICharacterMovingComponent.h"
 #include "Components/ActorComponent.h"
-#include "CharacterMovingComponent.generated.h"
+#include "PlayerCharacterMovingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UCharacterMovingComponent : public UActorComponent
+class UNREALSHOOTER_API UPlayerCharacterMovingComponent : public UActorComponent, public ICharacterMovingComponent
 {
 	GENERATED_BODY()
 
@@ -19,6 +20,6 @@ protected:
 	virtual void BeginPlay() override;
 	
 public:
-	UCharacterMovingComponent();
-	void Move(const FVector2D Input) const;
+	UPlayerCharacterMovingComponent();
+	virtual void Move(const FVector2D Input) override;
 };

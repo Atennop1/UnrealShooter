@@ -4,19 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
-#include "LookAtPlayerTask.generated.h"
+#include "UnfocusTask.generated.h"
 
 UCLASS()
-class UNREALSHOOTER_API ULookAtPlayerTask : public UBTTask_BlackboardBase
+class UNREALSHOOTER_API UUnfocusTask : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(EditInstanceOnly, meta=(AllowPrivateAccess))
-	float SearchRadius = 200;
-	
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 public:
-	ULookAtPlayerTask();
+	UUnfocusTask();
 };
