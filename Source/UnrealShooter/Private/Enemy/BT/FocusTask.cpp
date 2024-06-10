@@ -1,7 +1,7 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "AIController.h"
-#include "Enemy/Tasks/FocusTask.h"
+#include "Enemy/BT/FocusTask.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 UFocusTask::UFocusTask()

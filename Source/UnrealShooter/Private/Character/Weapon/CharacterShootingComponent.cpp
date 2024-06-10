@@ -1,8 +1,10 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "Character/Weapon/CharacterShootingComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
+#include "Weapon/Interfaces/IFirearm.h"
 
 UCharacterShootingComponent::UCharacterShootingComponent()
 {

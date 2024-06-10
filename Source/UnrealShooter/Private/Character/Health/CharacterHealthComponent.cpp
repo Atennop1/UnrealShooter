@@ -1,6 +1,8 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "Character/Health/CharacterHealthComponent.h"
+
+#include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
 
@@ -17,15 +19,28 @@ void UCharacterHealthComponent::Die() const
 		Camera->SetRelativeTransform(CameraTransformAfterDeath);
 	}
 
+	Character->GetWeaponThrowingComponent()->Throw();
 	Character->GetMesh()->SetAllBodiesSimulatePhysics(true);
 	Character->GetCapsuleComponent()->DestroyComponent();
 	Character->GetController()->SetControlRotation(CameraTransformAfterDeath.Rotator());
+
+	FTimerHandle MeshDestroyingHandle;
+	GetWorld()->GetTimerManager().SetTimer(MeshDestroyingHandle, [&]
+	{
+		TArray<USceneComponent*> MeshChildren;
+		Character->GetMesh()->GetChildrenComponents(true, MeshChildren);
+			
+		for (const auto Child : MeshChildren)
+			Child->DestroyComponent();
+			
+		Character->GetMesh()->DestroyComponent();
+	}, 3, false);
 }
 
 void UCharacterHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	Character = Cast<ACharacter>(GetOwner());
+	Character = Cast<AShooterCharacter>(GetOwner());
 	check(Character != nullptr);
 	CurrentHealth = MaxHealth;
 }

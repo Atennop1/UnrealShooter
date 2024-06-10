@@ -14,7 +14,7 @@ class UNREALSHOOTER_API UCharacterHealthComponent : public UActorComponent, publ
 
 private:
 	UPROPERTY()
-	ACharacter *Character = nullptr;
+	class AShooterCharacter *Character = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	USceneComponent *ComponentToAttachCamera = nullptr;

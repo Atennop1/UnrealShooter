@@ -13,8 +13,10 @@ class UNREALSHOOTER_API UEnemyCharacterRotatingComponent : public UActorComponen
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(EditDefaultsOnly)
 	FVector LocationCameraPointingAt;
+
+protected:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
 	UEnemyCharacterRotatingComponent();
