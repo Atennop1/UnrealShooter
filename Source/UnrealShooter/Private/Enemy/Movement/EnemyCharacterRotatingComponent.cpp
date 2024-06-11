@@ -3,7 +3,6 @@
 #include "Enemy/Movement/EnemyCharacterRotatingComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetStringLibrary.h"
 
 UEnemyCharacterRotatingComponent::UEnemyCharacterRotatingComponent()
 {

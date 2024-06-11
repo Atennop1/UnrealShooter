@@ -35,17 +35,10 @@ void UShootingService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMe
 	
 	if (Enemy->GetWeaponHoldingComponent()->GetIsHolding() && Enemy->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
 	{
-		IFirearm* Weapon = Cast<IFirearm>(&*Enemy->GetWeaponHoldingComponent()->GetHoldingWeapon());
-		if (!Weapon->GetIsEnoughAmmo())
-		{
-			Enemy->GetReloadingComponent()->Reload();
-			return;
-		}
-		
 		Enemy->GetAimingComponent()->StartAim();
 		Enemy->GetShootingComponent()->StartShooting();
-		
-		if (Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping)
+
+		if (IFirearm* Weapon = Cast<IFirearm>(&*Enemy->GetWeaponHoldingComponent()->GetHoldingWeapon()); Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping)
 			Enemy->GetShootingComponent()->StopShooting();
 	}
 }

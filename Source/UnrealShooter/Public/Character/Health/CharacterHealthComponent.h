@@ -24,6 +24,9 @@ private:
 	int CurrentHealth = 100;
 
 	UPROPERTY(EditDefaultsOnly)
+	float TimeForMeshToDisappear = 5;
+
+	UPROPERTY(EditDefaultsOnly)
 	FTransform CameraTransformAfterDeath;
 
 	void Die() const;

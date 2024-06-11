@@ -34,7 +34,7 @@ void UCharacterHealthComponent::Die() const
 			Child->DestroyComponent();
 			
 		Character->GetMesh()->DestroyComponent();
-	}, 3, false);
+	}, TimeForMeshToDisappear, false);
 }
 
 void UCharacterHealthComponent::BeginPlay()
@@ -45,7 +45,7 @@ void UCharacterHealthComponent::BeginPlay()
 	CurrentHealth = MaxHealth;
 }
 
-void UCharacterHealthComponent::Heal(const int HealingHealth)
+void UCharacterHealthComponent::Heal(int HealingHealth)
 {
 	if (CurrentHealth == MaxHealth)
 		return;
