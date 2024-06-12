@@ -64,6 +64,7 @@ public:
 	ICharacterRotatingComponent *GetRotatingComponent() const { return RotatingComponent.GetInterface(); }
 	ICharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent.GetInterface(); }
 	ICharacterJumpingComponent *GetJumpingComponent() const { return JumpingComponent.GetInterface(); }
+	IHealth *GetHealthComponent() const { return Health.GetInterface(); }
 	
 	UCharacterAimingComponent *GetAimingComponent() const { return AimingComponent; }
 	UCharacterShootingComponent *GetShootingComponent() const { return ShootingComponent; }
