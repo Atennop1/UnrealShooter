@@ -4,6 +4,7 @@
 #include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
+#include "Perception/AISense_Hearing.h"
 #include "Weapon/Interfaces/IFirearm.h"
 
 UCharacterShootingComponent::UCharacterShootingComponent()
@@ -57,8 +58,9 @@ void UCharacterShootingComponent::StartShooting()
 	const bool WasHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, ECC_Visibility, CollisionParameters);
 
 	IsShooting = true;
-	RecoilingComponent->StartRecoil();
 	SpreadingTimeline.Play();
+	RecoilingComponent->StartRecoil();
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(), StartPosition, 1, Character);
 	FVector Spread = FVector(FMath::RandRange(-Weapon->GetData().MaxBulletSpread, Weapon->GetData().MaxBulletSpread), 0, FMath::RandRange(-Weapon->GetData().MaxBulletSpread, Weapon->GetData().MaxBulletSpread));
 	Weapon->Shoot((WasHit ? HitResult.Location : HitResult.TraceEnd) + Spread * SpreadingCoefficient);
 }

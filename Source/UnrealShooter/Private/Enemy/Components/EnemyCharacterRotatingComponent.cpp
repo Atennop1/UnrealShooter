@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/Movement/EnemyCharacterRotatingComponent.h"
+#include "Enemy/Components/EnemyCharacterRotatingComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 

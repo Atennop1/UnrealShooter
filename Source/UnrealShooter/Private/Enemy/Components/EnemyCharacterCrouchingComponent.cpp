@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/Movement/EnemyCharacterCrouchingComponent.h"
+#include "Enemy/Components/EnemyCharacterCrouchingComponent.h"
 
 UEnemyCharacterCrouchingComponent::UEnemyCharacterCrouchingComponent()
 {

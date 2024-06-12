@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/Movement/EnemyCharacterJumpingComponent.h"
+#include "Enemy/Components/EnemyCharacterJumpingComponent.h"
 
 UEnemyCharacterJumpingComponent::UEnemyCharacterJumpingComponent()
 {

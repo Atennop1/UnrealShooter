@@ -13,15 +13,27 @@ class UNREALSHOOTER_API UEnemyPerception : public UAIPerceptionComponent
 	GENERATED_BODY()
 
 private:
+	UPROPERTY(EditDefaultsOnly)
+	float LoosingTargetTime = 3.0f;
+
+	UPROPERTY(EditDefaultsOnly)
+	FName IsHearingPlayerVariableName = "IsHearingPlayer";
+	
+	UPROPERTY(EditDefaultsOnly)
+	FName CanSeePlayerVariableName = "CanSeePlayer";
+	
+	UPROPERTY(EditDefaultsOnly)
+	FName TargetVariableName = "TargetActor";
+
+	UPROPERTY(EditDefaultsOnly)
+	FName TargetLocationVariableName = "TargetLocation";
+
+	UPROPERTY()
+	AActor *SensedActor = nullptr;
+	
 	UPROPERTY()
 	AEnemyController *Controller = nullptr;
 	FTimerHandle ChasingTimerHandle;
-
-	UPROPERTY(EditDefaultsOnly)
-	FName TargetVariableName = "";
-
-	UPROPERTY(EditDefaultsOnly)
-	float LoosingTargetTime = 3.0f;
 
 	UFUNCTION()
 	void OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);

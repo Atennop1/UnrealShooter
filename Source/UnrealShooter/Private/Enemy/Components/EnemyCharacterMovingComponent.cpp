@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/Movement/EnemyCharacterMovingComponent.h"
+#include "Enemy/Components/EnemyCharacterMovingComponent.h"
 
 UEnemyCharacterMovingComponent::UEnemyCharacterMovingComponent()
 {
