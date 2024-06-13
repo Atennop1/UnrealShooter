@@ -3,12 +3,19 @@
 #include "Enemy/EnemyPerception.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Character/ShooterCharacter.h"
-#include "Kismet/KismetStringLibrary.h"
 #include "Perception/AISense_Prediction.h"
 
 UEnemyPerception::UEnemyPerception()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+}
+
+void UEnemyPerception::BeginPlay()
+{
+	Super::BeginPlay();
+	Controller = Cast<AEnemyController>(GetOwner());
+	check(IsValid(Controller));
+	OnTargetPerceptionUpdated.AddDynamic(this, &UEnemyPerception::OnPerceptionUpdated);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -20,17 +27,14 @@ void UEnemyPerception::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 		return;
 
 	if (Stimulus.Type.Name == "Default__AISense_Prediction")
-	{
-		Controller->GetBlackboardComponent()->SetValueAsVector(TargetLocationVariableName, Stimulus.StimulusLocation);
-		GEngine->AddOnScreenDebugMessage(-1, 9, FColor::Cyan, UKismetStringLibrary::Conv_VectorToString(Controller->GetBlackboardComponent()->GetValueAsVector(TargetLocationVariableName)));
-	}
+		Controller->GetBlackboardComponent()->SetValueAsVector(PredictionLocationVariableName, Stimulus.StimulusLocation);
 	
 	if (Stimulus.Type.Name == "Default__AISense_Hearing")
 	{
 		Controller->GetBlackboardComponent()->SetValueAsBool(IsHearingPlayerVariableName, Stimulus.WasSuccessfullySensed());
-
+		
 		if (Stimulus.WasSuccessfullySensed())
-			Controller->GetBlackboardComponent()->SetValueAsVector(TargetLocationVariableName, Stimulus.StimulusLocation);
+			Controller->GetBlackboardComponent()->SetValueAsVector(NoiseLocationVariableName, Stimulus.StimulusLocation);
 	}
 	
 	if (Stimulus.Type.Name == "Default__AISense_Sight" || Stimulus.Type.Name == "Default__AISense_Damage")
@@ -47,12 +51,4 @@ void UEnemyPerception::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 		GetWorld()->GetTimerManager().SetTimer(ChasingTimerHandle, [&] { Controller->GetBlackboardComponent()->SetValueAsObject(TargetVariableName, nullptr); }, LoosingTargetTime, false);
 		UAISense_Prediction::RequestControllerPredictionEvent(Controller, SensedActor, 1);
 	}
-}
-
-void UEnemyPerception::BeginPlay()
-{
-	Super::BeginPlay();
-	Controller = Cast<AEnemyController>(GetOwner());
-	check(IsValid(Controller));
-	OnTargetPerceptionUpdated.AddDynamic(this, &UEnemyPerception::OnPerceptionUpdated);
 }

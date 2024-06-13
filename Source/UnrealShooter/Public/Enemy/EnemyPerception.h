@@ -26,7 +26,10 @@ private:
 	FName TargetVariableName = "TargetActor";
 
 	UPROPERTY(EditDefaultsOnly)
-	FName TargetLocationVariableName = "TargetLocation";
+	FName NoiseLocationVariableName = "NoiseLocation";
+
+	UPROPERTY(EditDefaultsOnly)
+	FName PredictionLocationVariableName = "PredictionLocation";
 
 	UPROPERTY()
 	AActor *SensedActor = nullptr;
