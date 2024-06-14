@@ -2,7 +2,7 @@
 
 #include "Enemy/BT/ReloadingService.h"
 #include "AIController.h"
-#include "Character/ShooterCharacter.h"
+#include "Enemy/EnemyCharacter.h"
 #include "Weapon/Interfaces/IFirearm.h"
 
 UReloadingService::UReloadingService()
@@ -12,7 +12,7 @@ UReloadingService::UReloadingService()
 
 void UReloadingService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
-	const AShooterCharacter *Enemy = Cast<AShooterCharacter>(OwnerComp.GetAIOwner()->GetPawn());
+	const AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(OwnerComp.GetAIOwner()->GetPawn());
 	
 	if (Enemy->GetWeaponHoldingComponent()->GetIsHolding() && Enemy->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
 	{

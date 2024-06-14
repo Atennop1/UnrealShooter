@@ -1,15 +1,15 @@
 ﻿// Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Player/PlayerCharacterCrouchingComponent.h"
+#include "Character/Movement/CharacterCrouchingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
 
-UPlayerCharacterCrouchingComponent::UPlayerCharacterCrouchingComponent()
+UCharacterCrouchingComponent::UCharacterCrouchingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UPlayerCharacterCrouchingComponent::BeginPlay()
+void UCharacterCrouchingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
@@ -21,7 +21,7 @@ void UPlayerCharacterCrouchingComponent::BeginPlay()
 	NormalHalfHeight = Character->GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
 }
 
-void UPlayerCharacterCrouchingComponent::StartCrouching()
+void UCharacterCrouchingComponent::StartCrouching()
 {
 	if (Character->IsDead())
 		return;
@@ -30,7 +30,7 @@ void UPlayerCharacterCrouchingComponent::StartCrouching()
 	CrouchingTimeline.Play();
 }
 
-void UPlayerCharacterCrouchingComponent::StopCrouching()
+void UCharacterCrouchingComponent::StopCrouching()
 {
 	if (Character->IsDead())
 		return;
@@ -39,14 +39,14 @@ void UPlayerCharacterCrouchingComponent::StopCrouching()
 	CrouchingTimeline.Reverse();
 }
 
-void UPlayerCharacterCrouchingComponent::CrouchUpdate(float Alpha) const
+void UCharacterCrouchingComponent::CrouchUpdate(float Alpha) const
 {
 	const float HalfHeight = FMath::Lerp(NormalHalfHeight, CrouchedHalfHeight, Alpha);
 	Character->GetCapsuleComponent()->SetCapsuleHalfHeight(HalfHeight);
 	Character->GetMesh()->SetRelativeLocation(FVector(0, 0, HalfHeight * -1));
 }
 
-void UPlayerCharacterCrouchingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UCharacterCrouchingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	CrouchingTimeline.TickTimeline(DeltaTime);

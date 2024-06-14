@@ -1,7 +1,7 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "AIController.h"
 #include "Enemy/BT/FocusTask.h"
+#include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 UFocusTask::UFocusTask()
@@ -14,6 +14,7 @@ EBTNodeResult::Type UFocusTask::ExecuteTask(UBehaviorTreeComponent& OwnerComp, u
 {
 	AAIController *AIController = OwnerComp.GetAIOwner();
 	AIController->SetFocus(Cast<AActor>(AIController->GetBlackboardComponent()->GetValueAsObject(BlackboardKey.SelectedKeyName)));
+	AIController->GetPawn()->bUseControllerRotationYaw = true;
 	
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 	return EBTNodeResult::Succeeded;

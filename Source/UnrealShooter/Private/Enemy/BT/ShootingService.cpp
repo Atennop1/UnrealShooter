@@ -2,7 +2,7 @@
 
 #include "Enemy/BT/ShootingService.h"
 #include "AIController.h"
-#include "Character/ShooterCharacter.h"
+#include "Enemy/EnemyCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Weapon/Interfaces/IFirearm.h"
 
@@ -14,7 +14,7 @@ UShootingService::UShootingService()
 void UShootingService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	const AAIController *Controller = OwnerComp.GetAIOwner();
-	AShooterCharacter *Enemy = Cast<AShooterCharacter>(Controller->GetPawn());
+	AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(Controller->GetPawn());
 
 	if (!IsValid(Controller->GetFocusActor()))
 		return;

@@ -3,7 +3,7 @@
 #include "Enemy/BT/HealthUpdatingService.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Character/ShooterCharacter.h"
+#include "Enemy/EnemyCharacter.h"
 
 UHealthUpdatingService::UHealthUpdatingService()
 {
@@ -13,6 +13,6 @@ UHealthUpdatingService::UHealthUpdatingService()
 
 void UHealthUpdatingService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
-	const AShooterCharacter *Enemy = Cast<AShooterCharacter>(OwnerComp.GetAIOwner()->GetPawn());
+	const AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(OwnerComp.GetAIOwner()->GetPawn());
 	OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsFloat(HealthKey.SelectedKeyName, (float)Enemy->GetHealthComponent()->GetCurrentHealth() / (float)Enemy->GetHealthComponent()->GetMaxHealth());
 }

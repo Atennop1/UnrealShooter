@@ -1,27 +1,27 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Player/PlayerCharacterJumpingComponent.h"
+#include "Character/Movement/CharacterJumpingComponent.h"
 #include "Character/ShooterCharacter.h"
 
-UPlayerCharacterJumpingComponent::UPlayerCharacterJumpingComponent()
+UCharacterJumpingComponent::UCharacterJumpingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UPlayerCharacterJumpingComponent::BeginPlay()
+void UCharacterJumpingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Character = Cast<AShooterCharacter>(GetOwner());
 	check(Character != nullptr);
 }
 
-void UPlayerCharacterJumpingComponent::StartJumping()
+void UCharacterJumpingComponent::StartJumping()
 {
 	if (!Character->IsDead())
 		Character->Jump();
 }
 
-void UPlayerCharacterJumpingComponent::StopJumping()
+void UCharacterJumpingComponent::StopJumping()
 {
 	if (!Character->IsDead())
 		Character->StopJumping();

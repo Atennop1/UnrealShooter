@@ -8,10 +8,10 @@
 #include "Weapon/CharacterAimingComponent.h"
 #include "GameFramework/Character.h"
 #include "Health/CharacterHealthComponent.h"
-#include "Movement/ICharacterCrouchingComponent.h"
-#include "Movement/ICharacterJumpingComponent.h"
-#include "Movement/ICharacterMovingComponent.h"
-#include "Movement/ICharacterRotatingComponent.h"
+#include "Movement/CharacterCrouchingComponent.h"
+#include "Movement/CharacterJumpingComponent.h"
+#include "Movement/CharacterMovingComponent.h"
+#include "Movement/CharacterRotatingComponent.h"
 #include "Weapon/CharacterReloadingComponent.h"
 #include "Weapon/CharacterShootingComponent.h"
 #include "ShooterCharacter.generated.h"
@@ -26,16 +26,16 @@ private:
 	TScriptInterface<IHealth> Health = nullptr;
 	
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	TScriptInterface<ICharacterMovingComponent> MovingComponent = nullptr;
+	UCharacterMovingComponent *MovingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	TScriptInterface<ICharacterRotatingComponent> RotatingComponent = nullptr;
+	UCharacterRotatingComponent *RotatingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	TScriptInterface<ICharacterCrouchingComponent> CrouchingComponent = nullptr;
+	UCharacterCrouchingComponent *CrouchingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
-	TScriptInterface<ICharacterJumpingComponent> JumpingComponent = nullptr;
+	UCharacterJumpingComponent *JumpingComponent = nullptr;
 	
 	
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess=true))
@@ -60,10 +60,10 @@ public:
 	AShooterCharacter();
 	bool IsDead() const { return Health->IsDead(); } 
 
-	ICharacterMovingComponent *GetMovingComponent() const { return MovingComponent.GetInterface(); }
-	ICharacterRotatingComponent *GetRotatingComponent() const { return RotatingComponent.GetInterface(); }
-	ICharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent.GetInterface(); }
-	ICharacterJumpingComponent *GetJumpingComponent() const { return JumpingComponent.GetInterface(); }
+	UCharacterMovingComponent *GetMovingComponent() const { return MovingComponent; }
+	UCharacterRotatingComponent *GetRotatingComponent() const { return RotatingComponent; }
+	UCharacterCrouchingComponent *GetCrouchingComponent() const { return CrouchingComponent; }
+	UCharacterJumpingComponent *GetJumpingComponent() const { return JumpingComponent; }
 	IHealth *GetHealthComponent() const { return Health.GetInterface(); }
 	
 	UCharacterAimingComponent *GetAimingComponent() const { return AimingComponent; }

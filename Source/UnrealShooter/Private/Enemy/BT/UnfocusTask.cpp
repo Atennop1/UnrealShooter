@@ -10,7 +10,10 @@ UUnfocusTask::UUnfocusTask()
 
 EBTNodeResult::Type UUnfocusTask::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	OwnerComp.GetAIOwner()->ClearFocus(EAIFocusPriority::Gameplay);
+	AAIController *AIController = OwnerComp.GetAIOwner();
+	AIController->ClearFocus(EAIFocusPriority::Gameplay);
+	AIController->GetPawn()->bUseControllerRotationYaw = false;
+	
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 	return EBTNodeResult::Succeeded;
 }
