@@ -26,7 +26,8 @@ private:
 	float SpreadingCoefficient = 0;
 
 	UFUNCTION()
-	void OnSpreadUpdated(float Alpha);
+	void OnSpreadUpdated(float Alpha) { SpreadingCoefficient = Alpha; }
+	void Shoot();
 	
 protected:
 	virtual void BeginPlay() override;

@@ -34,6 +34,7 @@ void UCharacterHealthComponent::Die() const
 			Child->DestroyComponent();
 			
 		Character->GetMesh()->DestroyComponent();
+		Character->Destroy();
 	}, TimeForMeshToDisappear, false);
 }
 

@@ -13,6 +13,6 @@ class UNREALSHOOTER_API UEnemyCharacterHealthComponent : public UCharacterHealth
 
 public:
 	UEnemyCharacterHealthComponent();
-
+	
 	virtual void Damage(int DamagingHealth) override;
 };

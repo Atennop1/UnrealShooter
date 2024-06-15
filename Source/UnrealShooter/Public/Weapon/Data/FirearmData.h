@@ -13,9 +13,6 @@ struct UNREALSHOOTER_API FFirearmData
 	
 public:
 	UPROPERTY(EditDefaultsOnly)
-	EWeaponFiringType WeaponFiringType;
-
-	UPROPERTY(EditDefaultsOnly)
 	int MaxAmmoInMagazine;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -23,6 +20,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	float MaxBulletSpread;
+
+	UPROPERTY(EditDefaultsOnly)
+	int Priority;
+
+	UPROPERTY(EditDefaultsOnly)
+	EWeaponFiringType WeaponFiringType;
 
 	UPROPERTY(EditDefaultsOnly)
 	class UCurveVector *RecoilingCurve;

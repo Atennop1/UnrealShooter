@@ -6,13 +6,3 @@ AShootingWeaponPickable::AShootingWeaponPickable()
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
-
-FFirearmState AShootingWeaponPickable::GetState()
-{
-	return State;
-}
-
-void AShootingWeaponPickable::SetState(const FFirearmState NewState)
-{
-	State = NewState;
-}

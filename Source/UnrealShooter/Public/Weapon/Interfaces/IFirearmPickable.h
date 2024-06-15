@@ -19,6 +19,8 @@ class UNREALSHOOTER_API IFirearmPickable : public IWeaponPickable
 	GENERATED_BODY()
 
 public:
+	virtual int GetPriority() = 0;
+	
 	virtual FFirearmState GetState() = 0;
 	virtual void SetState(FFirearmState State) = 0;
 };

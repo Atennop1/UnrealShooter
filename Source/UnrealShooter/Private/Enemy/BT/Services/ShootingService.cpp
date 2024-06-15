@@ -25,7 +25,7 @@ void UShootingService::ReceiveTick(UBehaviorTreeComponent& OwnerComp)
 	if (Enemy->GetWeaponHoldingComponent()->GetIsHolding())
 		ActorsToIgnore.Add(Cast<AActor>(Enemy->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()));
 	
-	const bool WasHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Enemy->GetActorLocation(), Controller->GetFocusActor()->GetActorLocation(), CheckSphereRadius, TraceTypeQuery2, false, ActorsToIgnore, EDrawDebugTrace::None, HitResult, true);
+	const bool WasHit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Enemy->GetActorLocation(), Controller->GetFocusActor()->GetActorLocation(), TraceTypeQuery2, false, ActorsToIgnore, EDrawDebugTrace::None, HitResult, true);
 	if (!WasHit || Controller->GetFocusActor() != HitResult.GetActor())
 	{
 		Enemy->GetShootingComponent()->StopShooting();

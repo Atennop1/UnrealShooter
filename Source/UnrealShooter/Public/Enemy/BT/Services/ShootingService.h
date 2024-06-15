@@ -13,9 +13,6 @@ class UNREALSHOOTER_API UShootingService : public UBTServiceWithTick
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(EditInstanceOnly)
-	int CheckSphereRadius = 40;
-
 	virtual void ReceiveTick(UBehaviorTreeComponent& OwnerComp) override;
 
 public:

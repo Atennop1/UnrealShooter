@@ -29,7 +29,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	FTransform CameraTransformAfterDeath;
 
-	void Die() const;
+	virtual void Die() const;
 
 protected:
 	virtual void BeginPlay() override;
