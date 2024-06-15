@@ -21,6 +21,6 @@ protected:
 public:
 	UCharacterJumpingComponent();
 
-	void StartJumping();
-	void StopJumping();
+	void StartJumping() const;
+	void StopJumping() const;
 };

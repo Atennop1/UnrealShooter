@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/BT/ReloadingService.h"
+#include "Enemy/BT/Services/ReloadingService.h"
 #include "AIController.h"
 #include "Enemy/EnemyCharacter.h"
 #include "Weapon/Interfaces/IFirearm.h"
@@ -10,7 +10,7 @@ UReloadingService::UReloadingService()
 	NodeName = TEXT("Reloading Service");
 }
 
-void UReloadingService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+void UReloadingService::ReceiveTick(UBehaviorTreeComponent& OwnerComp)
 {
 	const AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(OwnerComp.GetAIOwner()->GetPawn());
 	

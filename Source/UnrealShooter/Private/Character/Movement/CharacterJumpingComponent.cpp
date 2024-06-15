@@ -15,13 +15,13 @@ void UCharacterJumpingComponent::BeginPlay()
 	check(Character != nullptr);
 }
 
-void UCharacterJumpingComponent::StartJumping()
+void UCharacterJumpingComponent::StartJumping() const
 {
 	if (!Character->IsDead())
 		Character->Jump();
 }
 
-void UCharacterJumpingComponent::StopJumping()
+void UCharacterJumpingComponent::StopJumping() const
 {
 	if (!Character->IsDead())
 		Character->StopJumping();

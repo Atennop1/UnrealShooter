@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/BT/UnfocusTask.h"
+#include "Enemy/BT/Tasks/UnfocusTask.h"
 #include "AIController.h"
 
 UUnfocusTask::UUnfocusTask()

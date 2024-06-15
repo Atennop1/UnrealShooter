@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/BT/WeaponThrowingService.h"
+#include "Enemy/BT/Services/WeaponThrowingService.h"
 #include "AIController.h"
 #include "Enemy/EnemyCharacter.h"
 #include "Weapon/Interfaces/IFirearm.h"
@@ -10,7 +10,7 @@ UWeaponThrowingService::UWeaponThrowingService()
 	NodeName = TEXT("Weapon Throwing Service");
 }
 
-void UWeaponThrowingService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+void UWeaponThrowingService::ReceiveTick(UBehaviorTreeComponent& OwnerComp)
 {
 	const AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(OwnerComp.GetAIOwner()->GetPawn());
 	

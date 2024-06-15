@@ -11,7 +11,7 @@ UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class UNREALSHOOTER_API UEnemyCharacterRotatingComponent : public UCharacterRotatingComponent
 {
 	GENERATED_BODY()
-
+	
 protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

@@ -1,7 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/BT/UpdatePatrollingPointTask.h"
-
+#include "Enemy/BT/Tasks/UpdatePatrollingPointTask.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Enemy/EnemyCharacter.h"

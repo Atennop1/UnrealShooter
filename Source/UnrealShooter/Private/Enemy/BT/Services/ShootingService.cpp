@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Enemy/BT/ShootingService.h"
+#include "Enemy/BT/Services/ShootingService.h"
 #include "AIController.h"
 #include "Enemy/EnemyCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -11,7 +11,7 @@ UShootingService::UShootingService()
 	NodeName = TEXT("Shooting Service");
 }
 
-void UShootingService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+void UShootingService::ReceiveTick(UBehaviorTreeComponent& OwnerComp)
 {
 	const AAIController *Controller = OwnerComp.GetAIOwner();
 	AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(Controller->GetPawn());

@@ -3,16 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BTServiceWithTick.h"
 #include "BehaviorTree/BTService.h"
 #include "JumpingService.generated.h"
 
 UCLASS()
-class UNREALSHOOTER_API UJumpingService : public UBTService
+class UNREALSHOOTER_API UJumpingService : public UBTServiceWithTick
 {
 	GENERATED_BODY()
 
 private:
-	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+	FTimerHandle StopJumpingTimerHandle;
+
+	virtual void ReceiveTick(UBehaviorTreeComponent& OwnerComp) override;
 
 public:
 	UJumpingService();

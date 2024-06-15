@@ -3,16 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BTServiceWithTick.h"
 #include "BehaviorTree/BTService.h"
 #include "ReloadingService.generated.h"
 
 UCLASS()
-class UNREALSHOOTER_API UReloadingService : public UBTService
+class UNREALSHOOTER_API UReloadingService : public UBTServiceWithTick
 {
 	GENERATED_BODY()
 
 private:
-	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+	virtual void ReceiveTick(UBehaviorTreeComponent& OwnerComp) override;
 
 public:
 	UReloadingService();
