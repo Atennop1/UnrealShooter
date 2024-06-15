@@ -3,6 +3,7 @@
 #include "Character/Weapon/CharacterAimingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponHoldingComponent.h"
+#include "Weapon/Interfaces/IFirearm.h"
 
 UCharacterAimingComponent::UCharacterAimingComponent()
 {

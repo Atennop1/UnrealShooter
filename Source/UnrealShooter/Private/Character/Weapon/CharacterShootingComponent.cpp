@@ -1,8 +1,11 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "Character/Weapon/CharacterShootingComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
+#include "Perception/AISense_Hearing.h"
+#include "Weapon/Interfaces/IFirearm.h"
 
 UCharacterShootingComponent::UCharacterShootingComponent()
 {
@@ -24,41 +27,25 @@ void UCharacterShootingComponent::TickComponent(float DeltaTime, ELevelTick Tick
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	SpreadingTimeline.TickTimeline(DeltaTime);
-}
 
-void UCharacterShootingComponent::OnSpreadUpdated(float Alpha)
-{
-	SpreadingCoefficient = Alpha;
+	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
+	if (!Character->GetAimingComponent()->GetIsAiming() || !Weapon->GetIsEnoughAmmo() || Weapon->GetIsReloading())
+	{
+		StopShooting();
+		return;
+	}
+
+	if (Weapon->GetData().WeaponFiringType != EWeaponFiringType::Tapping && Weapon->GetCanShoot() && IsShooting)
+		Shoot();
 }
 
 void UCharacterShootingComponent::StartShooting()
 {
-	if (!Character->GetAimingComponent()->GetIsAiming())
-		StopShooting();
-	
-	if (Character->IsDead() || !Character->GetWeaponHoldingComponent()->GetIsHolding() || !Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()) || !Character->GetAimingComponent()->GetIsAiming())
-		return;
-	
-	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
-	if (!Weapon->GetIsEnoughAmmo())
-		StopShooting();
-	
-	if (IsShooting && Weapon->GetData().WeaponFiringType == EWeaponFiringType::Tapping || !Weapon->GetCanShoot())
-		return;
-
-	FHitResult HitResult;
-	FCollisionQueryParams CollisionParameters;
-	CollisionParameters.AddIgnoredActor(GetOwner());
-
-	const FVector StartPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation();
-	const FVector EndPosition = StartPosition + Character->GetControlRotation().Quaternion().GetForwardVector() * 99999;
-	const bool WasHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, ECC_Visibility, CollisionParameters);
-
-	IsShooting = true;
-	RecoilingComponent->StartRecoil();
-	SpreadingTimeline.Play();
-	FVector Spread = FVector(FMath::RandRange(-Weapon->GetData().MaxBulletSpread, Weapon->GetData().MaxBulletSpread), 0, FMath::RandRange(-Weapon->GetData().MaxBulletSpread, Weapon->GetData().MaxBulletSpread));
-	Weapon->Shoot((WasHit ? HitResult.Location : HitResult.TraceEnd) + Spread * SpreadingCoefficient);
+	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); !Character->IsDead() && Character->GetWeaponHoldingComponent()->GetIsHolding() &&  Weapon != nullptr && Weapon->GetCanShoot() && Character->GetAimingComponent()->GetIsAiming())
+	{
+		IsShooting = true;
+		Shoot();
+	}
 }
 
 void UCharacterShootingComponent::StopShooting()
@@ -69,4 +56,22 @@ void UCharacterShootingComponent::StopShooting()
 	
 	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); Weapon != nullptr && Weapon->GetData().WeaponFiringType != EWeaponFiringType::Tapping)
 		RecoilingComponent->StopRecoil();
+}
+
+void UCharacterShootingComponent::Shoot()
+{
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParameters;
+	CollisionParameters.AddIgnoredActor(GetOwner());
+
+	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
+	const FVector StartPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation();
+	const FVector EndPosition = StartPosition + Character->GetControlRotation().Quaternion().GetForwardVector() * 99999;
+	const bool WasHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, ECC_Visibility, CollisionParameters);
+	
+	SpreadingTimeline.Play();
+	RecoilingComponent->StartRecoil();
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(), StartPosition, 1, Character);
+	FVector Spread = FVector(FMath::RandRange(-Weapon->GetData().MaxBulletSpread, Weapon->GetData().MaxBulletSpread), 0, FMath::RandRange(-Weapon->GetData().MaxBulletSpread, Weapon->GetData().MaxBulletSpread));
+	Weapon->Shoot((WasHit ? HitResult.Location : HitResult.TraceEnd) + Spread * SpreadingCoefficient);
 }

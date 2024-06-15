@@ -11,8 +11,7 @@ void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	check(CharacterMesh != nullptr)
-	check(HealthComponent != nullptr)
+	check(Health != nullptr)
 	check(MovingComponent != nullptr)
 	check(RotatingComponent != nullptr)
 	check(CrouchingComponent != nullptr)

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/FirearmData.h"
 #include "Data/FirearmState.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/IFirearmPickable.h"
@@ -15,10 +16,17 @@ class UNREALSHOOTER_API AShootingWeaponPickable : public AActor, public IFirearm
 
 private:
 	UPROPERTY(EditDefaultsOnly)
+	int Priority = 0;
+	
+	UPROPERTY(EditDefaultsOnly)
 	FFirearmState State;
+
 	
 public:
 	AShootingWeaponPickable();
-	virtual FFirearmState GetState() override;
-	virtual void SetState(const FFirearmState NewState) override;
+	
+	virtual FFirearmState GetState() override { return State; }
+	virtual void SetState(const FFirearmState NewState) override { State = NewState; }
+
+	virtual int GetPriority() override { return Priority; }
 };

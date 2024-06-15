@@ -6,7 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "CharacterJumpingComponent.generated.h"
 
-
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class UNREALSHOOTER_API UCharacterJumpingComponent : public UActorComponent
 {
@@ -21,6 +20,7 @@ protected:
 
 public:
 	UCharacterJumpingComponent();
+
 	void StartJumping() const;
 	void StopJumping() const;
 };

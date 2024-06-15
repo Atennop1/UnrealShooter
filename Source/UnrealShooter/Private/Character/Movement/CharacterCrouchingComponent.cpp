@@ -3,7 +3,6 @@
 #include "Character/Movement/CharacterCrouchingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
-#include "Kismet/KismetStringLibrary.h"
 
 UCharacterCrouchingComponent::UCharacterCrouchingComponent()
 {

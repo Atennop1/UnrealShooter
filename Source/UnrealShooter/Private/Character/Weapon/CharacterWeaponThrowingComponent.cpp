@@ -4,6 +4,7 @@
 #include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponHoldingComponent.h"
+#include "Weapon/Interfaces/IFirearm.h"
 #include "Weapon/Interfaces/IFirearmPickable.h"
 
 UCharacterWeaponThrowingComponent::UCharacterWeaponThrowingComponent()
@@ -23,6 +24,12 @@ void UCharacterWeaponThrowingComponent::Throw()
 	if (Character->IsDead() || !Character->GetWeaponHoldingComponent()->GetIsHolding() || !WeaponsToPickables.Contains(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()))
 		return;
 
+	const FFirearmState HoldingWeaponState = Cast<IFirearm>(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject())->GetState();
+	Character->GetWeaponHoldingComponent()->Unhold();
+
+	if (HoldingWeaponState.AmmoInMagazine == 0 && HoldingWeaponState.AmmoInStock == 0)
+		return;
+	
 	const FRotator SpawnRotation = FRotator(FMath::RandRange(-20.f, 20.f), Character->GetControlRotation().Yaw + FMath::RandRange(-20.f, 20.f), FMath::RandRange(-20.f, 20.f));
 	const FVector SpawnPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation() + Character->GetControlRotation().Quaternion().GetForwardVector() * StartDistance;
 	AActor *SpawnedPickable = GetWorld()->SpawnActor(WeaponsToPickables[Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()], &SpawnPosition, &SpawnRotation);
@@ -32,6 +39,4 @@ void UCharacterWeaponThrowingComponent::Throw()
 
 	if (const auto FirearmPickable = Cast<IFirearmPickable>(SpawnedPickable); FirearmPickable != nullptr)
 		FirearmPickable->SetState(Cast<IFirearm>(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject())->GetState());
-	
-	Character->GetWeaponHoldingComponent()->Unhold();
 }

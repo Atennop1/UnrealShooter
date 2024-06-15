@@ -19,8 +19,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UCurveFloat *CrouchingCurve = nullptr;
 	FTimeline CrouchingTimeline;
-
-	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess))
 	bool IsCrouching = false;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -36,8 +34,10 @@ protected:
 
 public:
 	UCharacterCrouchingComponent();
-	bool GetIsCrouching() const { return IsCrouching; }
-	
+
 	void StartCrouching();
 	void StopCrouching();
+
+	UFUNCTION(BlueprintCallable)
+	bool GetIsCrouching() const { return IsCrouching; }
 };

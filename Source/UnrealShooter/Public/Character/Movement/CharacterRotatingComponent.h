@@ -22,18 +22,19 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	UCameraComponent *CharacterCamera = nullptr;
 
-	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
+protected:
 	FVector LocationCameraPointingAt;
 	FVector InputOfThisFrame;
-
-protected:
+	
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
 	UCharacterRotatingComponent();
+
 	void Rotate(const FVector2D Input);
-	
-	FVector GetLocationCameraPointingAt() const { return LocationCameraPointingAt; }
 	FVector GetInputOfThisFrame() const { return InputOfThisFrame; }
+
+	UFUNCTION(BlueprintCallable)
+	FVector GetLocationCameraPointingAt() const { return LocationCameraPointingAt; }
 };

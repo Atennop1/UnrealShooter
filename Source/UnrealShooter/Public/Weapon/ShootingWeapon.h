@@ -16,16 +16,16 @@ class UNREALSHOOTER_API AShootingWeapon : public AActor, public IFirearm
 
 private:
 	UPROPERTY(EditDefaultsOnly)
-	UAnimSequence *ShootingAnimation = nullptr;
-	
-	UPROPERTY(EditDefaultsOnly)
-	UAnimSequence *ReloadingAnimation = nullptr;
-
-	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AActor> Bullet;
 	
 	UPROPERTY(EditDefaultsOnly)
 	EWeaponType WeaponType = EWeaponType::Pistol;
+	
+	UPROPERTY(EditDefaultsOnly)
+	UAnimSequence *ShootingAnimation = nullptr;
+	
+	UPROPERTY(EditDefaultsOnly)
+	UAnimSequence *ReloadingAnimation = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
 	USceneComponent *ShootingPoint = nullptr;

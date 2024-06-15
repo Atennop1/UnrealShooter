@@ -20,5 +20,5 @@ protected:
 	
 public:
 	UCharacterMovingComponent();
-	void Move(const FVector2D Input) const;
+	void Move(const FVector2D Input);
 };

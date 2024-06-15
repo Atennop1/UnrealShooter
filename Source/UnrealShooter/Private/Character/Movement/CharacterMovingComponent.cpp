@@ -15,7 +15,7 @@ void UCharacterMovingComponent::BeginPlay()
 	check (Character != nullptr)
 }
 
-void UCharacterMovingComponent::Move(const FVector2D Value) const
+void UCharacterMovingComponent::Move(const FVector2D Value)
 {
 	if (Character->IsDead())
 		return;

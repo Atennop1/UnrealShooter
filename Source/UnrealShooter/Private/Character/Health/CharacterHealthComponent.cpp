@@ -1,6 +1,8 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
 #include "Character/Health/CharacterHealthComponent.h"
+
+#include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
 
@@ -11,13 +13,29 @@ UCharacterHealthComponent::UCharacterHealthComponent()
 
 void UCharacterHealthComponent::Die() const
 {
-	Character->GetCharacterMesh()->SetAllBodiesSimulatePhysics(true);
-	UCameraComponent *Camera = Cast<UCameraComponent>(GetOwner()->GetComponentByClass(UCameraComponent::StaticClass()));
-	Camera->AttachToComponent(ComponentToAttachCamera, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
-	
-	Camera->SetRelativeTransform(CameraTransformAfterDeath);
-	Character->GetController()->SetControlRotation(CameraTransformAfterDeath.Rotator());
+	if (UCameraComponent *Camera = Cast<UCameraComponent>(GetOwner()->GetComponentByClass(UCameraComponent::StaticClass())); IsValid(Camera))
+	{
+		Camera->AttachToComponent(ComponentToAttachCamera, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
+		Camera->SetRelativeTransform(CameraTransformAfterDeath);
+	}
+
+	Character->GetWeaponThrowingComponent()->Throw();
+	Character->GetMesh()->SetAllBodiesSimulatePhysics(true);
 	Character->GetCapsuleComponent()->DestroyComponent();
+	Character->GetController()->SetControlRotation(CameraTransformAfterDeath.Rotator());
+
+	FTimerHandle MeshDestroyingHandle;
+	GetWorld()->GetTimerManager().SetTimer(MeshDestroyingHandle, [&]
+	{
+		TArray<USceneComponent*> MeshChildren;
+		Character->GetMesh()->GetChildrenComponents(true, MeshChildren);
+			
+		for (const auto Child : MeshChildren)
+			Child->DestroyComponent();
+			
+		Character->GetMesh()->DestroyComponent();
+		Character->Destroy();
+	}, TimeForMeshToDisappear, false);
 }
 
 void UCharacterHealthComponent::BeginPlay()
@@ -28,7 +46,7 @@ void UCharacterHealthComponent::BeginPlay()
 	CurrentHealth = MaxHealth;
 }
 
-void UCharacterHealthComponent::Heal(const int HealingHealth)
+void UCharacterHealthComponent::Heal(int HealingHealth)
 {
 	if (CurrentHealth == MaxHealth)
 		return;
