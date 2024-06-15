@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "CharacterHealthComponent.h"
 #include "IHealth.h"
-#include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SceneComponent.h"
 #include "CharacterLimbHealthComponent.generated.h"

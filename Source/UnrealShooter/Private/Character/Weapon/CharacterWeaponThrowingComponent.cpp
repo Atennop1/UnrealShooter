@@ -24,11 +24,11 @@ void UCharacterWeaponThrowingComponent::Throw()
 	if (Character->IsDead() || !Character->GetWeaponHoldingComponent()->GetIsHolding() || !WeaponsToPickables.Contains(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()))
 		return;
 
-	const FFirearmState HoldingWeaponState = Cast<IFirearm>(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject())->GetState();
-	Character->GetWeaponHoldingComponent()->Unhold();
-
-	if (HoldingWeaponState.AmmoInMagazine == 0 && HoldingWeaponState.AmmoInStock == 0)
+	if (const FFirearmState HoldingWeaponState = Cast<IFirearm>(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject())->GetState(); HoldingWeaponState.AmmoInMagazine == 0 && HoldingWeaponState.AmmoInStock == 0)
+	{
+		Character->GetWeaponHoldingComponent()->Unhold();
 		return;
+	}
 	
 	const FRotator SpawnRotation = FRotator(FMath::RandRange(-20.f, 20.f), Character->GetControlRotation().Yaw + FMath::RandRange(-20.f, 20.f), FMath::RandRange(-20.f, 20.f));
 	const FVector SpawnPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation() + Character->GetControlRotation().Quaternion().GetForwardVector() * StartDistance;
@@ -39,4 +39,6 @@ void UCharacterWeaponThrowingComponent::Throw()
 
 	if (const auto FirearmPickable = Cast<IFirearmPickable>(SpawnedPickable); FirearmPickable != nullptr)
 		FirearmPickable->SetState(Cast<IFirearm>(Character->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject())->GetState());
+
+	Character->GetWeaponHoldingComponent()->Unhold();
 }

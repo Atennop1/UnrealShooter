@@ -17,7 +17,7 @@ UFindBetterWeaponTask::UFindBetterWeaponTask()
 EBTNodeResult::Type UFindBetterWeaponTask::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsObject(BlackboardKey.SelectedKeyName, nullptr);
-	FEnvQueryRequest QueryRequest = FEnvQueryRequest(FindingQuery, OwnerComp.GetAIOwner());
+	FEnvQueryRequest QueryRequest = FEnvQueryRequest(FindingQuery, OwnerComp.GetAIOwner()->GetPawn());
 	
 	QueryRequest.Execute(EEnvQueryRunMode::AllMatching, this, &UFindBetterWeaponTask::OnFindingQueryFinished);
 	return EBTNodeResult::Succeeded;
@@ -26,20 +26,21 @@ EBTNodeResult::Type UFindBetterWeaponTask::ExecuteTask(UBehaviorTreeComponent& O
 // ReSharper disable once CppPassValueParameterByConstReference
 void UFindBetterWeaponTask::OnFindingQueryFinished(TSharedPtr<FEnvQueryResult> Result) const
 {
-	if (!Result->IsSuccsessful())
+	if (!Result->IsSuccessful())
 		return;
 
-	const AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(Cast<AAIController>(Result->Owner)->GetPawn());
+	const AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(Result->Owner);
 	IFirearm *CurrentFirearm = Cast<IFirearm>(&*Enemy->GetWeaponHoldingComponent()->GetHoldingWeapon());
 
 	TArray<AActor*> Pickables;
 	Result->GetAllAsActors(Pickables);
-	int BestPriority = Enemy->GetWeaponHoldingComponent()->GetIsHolding() ? CurrentFirearm->GetData().Priority : -1;
 	IFirearmPickable* BestPickable = nullptr;
-
-	for (const auto PickableActor : Pickables)
+	const int CountOfItems = Pickables.GetAllocatedSize() / Pickables.GetTypeSize();
+	int BestPriority = Enemy->GetWeaponHoldingComponent()->GetIsHolding() ? CurrentFirearm->GetData().Priority : -1;
+	
+	for (int i = 0; i < CountOfItems; i++)
 	{
-		if (IFirearmPickable *Pickable = Cast<IFirearmPickable>(PickableActor); PickableActor != nullptr && BestPriority < Pickable->GetPriority())
+		if (IFirearmPickable *Pickable = Cast<IFirearmPickable>(Pickables[i]); Result->GetItemScore(i) != 0 && Pickable != nullptr && BestPriority < Pickable->GetPriority())
 		{
 			BestPickable = Pickable;
 			BestPriority = BestPickable->GetPriority();
@@ -47,6 +48,6 @@ void UFindBetterWeaponTask::OnFindingQueryFinished(TSharedPtr<FEnvQueryResult> R
 	}
 
 	if (BestPriority > (Enemy->GetWeaponHoldingComponent()->GetIsHolding() ? CurrentFirearm->GetData().Priority : -1))
-		Cast<AAIController>(Result->Owner)->GetBlackboardComponent()->SetValueAsObject(BlackboardKey.SelectedKeyName, Cast<AActor>(BestPickable));
+		Cast<AAIController>(Cast<AEnemyCharacter>(Result->Owner)->GetController())->GetBlackboardComponent()->SetValueAsObject(BlackboardKey.SelectedKeyName, Cast<AActor>(BestPickable));
 }
 

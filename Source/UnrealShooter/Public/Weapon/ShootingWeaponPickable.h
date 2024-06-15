@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/FirearmData.h"
 #include "Data/FirearmState.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/IFirearmPickable.h"
