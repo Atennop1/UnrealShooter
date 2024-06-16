@@ -6,7 +6,7 @@
 #include "UObject/Interface.h"
 #include "IHealth.generated.h"
 
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, NotBlueprintable)
 class UHealth : public UInterface
 {
 	GENERATED_BODY()
@@ -17,6 +17,7 @@ class UNREALSHOOTER_API IHealth
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable)
 	virtual int GetCurrentHealth() = 0;
 	virtual int GetMaxHealth() = 0;
 	virtual bool IsDead() = 0;
