@@ -1,6 +1,6 @@
 // Copyright Atennop and Krypton. All Rights Reserved.
 
-#include "Weapon/ShootingWeaponPickable.h"
+#include "Weapon/Pickables/ShootingWeaponPickable.h"
 
 AShootingWeaponPickable::AShootingWeaponPickable()
 {

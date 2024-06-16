@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "CharacterWeaponPickingComponent.generated.h"
+#include "CharacterPickingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UNREALSHOOTER_API UCharacterWeaponPickingComponent : public UActorComponent
+class UNREALSHOOTER_API UCharacterPickingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -23,5 +23,5 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	UCharacterWeaponPickingComponent();
+	UCharacterPickingComponent();
 };

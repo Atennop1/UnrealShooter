@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Weapon/Interfaces/IWeapon.h"
+#include "Weapon/IWeapon.h"
 #include "CharacterWeaponHoldingComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))

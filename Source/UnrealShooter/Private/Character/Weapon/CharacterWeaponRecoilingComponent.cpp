@@ -3,7 +3,7 @@
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Curves/CurveVector.h"
-#include "Weapon/Interfaces/IFirearm.h"
+#include "Weapon/IFirearm.h"
 
 UCharacterWeaponRecoilingComponent::UCharacterWeaponRecoilingComponent()
 {

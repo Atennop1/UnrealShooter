@@ -5,7 +5,7 @@
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterWeaponRecoilingComponent.h"
 #include "Perception/AISense_Hearing.h"
-#include "Weapon/Interfaces/IFirearm.h"
+#include "Weapon/IFirearm.h"
 
 UCharacterShootingComponent::UCharacterShootingComponent()
 {

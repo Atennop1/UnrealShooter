@@ -3,9 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/FirearmState.h"
+#include "IFirearmPickable.h"
 #include "GameFramework/Actor.h"
-#include "Interfaces/IFirearmPickable.h"
 #include "ShootingWeaponPickable.generated.h"
 
 UCLASS()
