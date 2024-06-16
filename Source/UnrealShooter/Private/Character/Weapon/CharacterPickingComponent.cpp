@@ -2,6 +2,7 @@
 
 #include "Character/Weapon/CharacterPickingComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "Character/Health/HealthPickable.h"
 #include "Weapon/IFirearm.h"
 #include "Weapon/Pickables/IAmmoPickable.h"
 #include "Weapon/Pickables/IFirearmPickable.h"
@@ -30,6 +31,12 @@ void UCharacterPickingComponent::TickComponent(float DeltaTime, ELevelTick TickT
 
 	for (const auto Actor : Actors)
 	{
+		if (const AHealthPickable *HealthPickable = Cast<AHealthPickable>(Actor); HealthPickable != nullptr)
+		{
+			Character->GetHealthComponent()->Heal(HealthPickable->GetHealthToAdd());
+			GetWorld()->DestroyActor(Actor);
+		}
+		
 		if (IAmmoPickable *AmmoPickable = Cast<IAmmoPickable>(Actor); AmmoPickable != nullptr && Character->GetWeaponHoldingComponent()->GetIsHolding() && AmmoPickable->GetAmmoType() == Character->GetWeaponHoldingComponent()->GetHoldingWeapon()->GetWeaponType())
 		{
 			IFirearm *Firearm = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
