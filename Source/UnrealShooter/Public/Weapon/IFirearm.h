@@ -26,6 +26,7 @@ public:
 	virtual void Shoot(FVector Point) = 0;
 	virtual void Reload() = 0;
 
+	UFUNCTION(BlueprintCallable)
 	virtual FFirearmState GetState() = 0;
 	virtual void SetState(FFirearmState State) = 0;
 };

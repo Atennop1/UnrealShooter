@@ -26,6 +26,6 @@ void APickablesSpawner::Tick(float DeltaTime)
 	StartDelay = TimeForSpawn;
 	const FVector SpawnPosition = GetActorLocation();
 	const FRotator SpawnRotation = GetActorRotation();
-	LastSpawnedPickable = GetWorld()->SpawnActor(PickablesToSpawn[FMath::RandRange(0, PickablesToSpawn.GetAllocatedSize() / PickablesToSpawn.GetTypeSize() - 1)], &SpawnPosition, &SpawnRotation);
+	LastSpawnedPickable = GetWorld()->SpawnActor(PickablesToSpawn[FMath::RandRange(0, PickablesToSpawn.Num() - 1)], &SpawnPosition, &SpawnRotation);
 }
 

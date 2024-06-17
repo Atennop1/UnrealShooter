@@ -35,7 +35,7 @@ void UFindBetterWeaponTask::OnFindingQueryFinished(TSharedPtr<FEnvQueryResult> R
 	TArray<AActor*> Pickables;
 	Result->GetAllAsActors(Pickables);
 	IFirearmPickable* BestPickable = nullptr;
-	const int CountOfItems = Pickables.GetAllocatedSize() / Pickables.GetTypeSize();
+	const int CountOfItems = Pickables.Num();
 	int BestPriority = Enemy->GetWeaponHoldingComponent()->GetIsHolding() ? CurrentFirearm->GetData().Priority : -1;
 	
 	for (int i = 0; i < CountOfItems; i++)

@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "FirearmState.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct UNREALSHOOTER_API FFirearmState
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	int AmmoInMagazine = 0;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	int AmmoInStock = 0;
 
 	void Init(const int NewAmmoInMagazine, const int NewAmmoInStock)

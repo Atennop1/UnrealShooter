@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "NiagaraSystem.h"
-#include "Chaos/ChaosEngineInterface.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "Bullet.generated.h"

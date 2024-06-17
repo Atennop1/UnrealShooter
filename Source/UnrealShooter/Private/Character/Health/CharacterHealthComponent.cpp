@@ -60,6 +60,9 @@ void UCharacterHealthComponent::Damage(int DamagingHealth)
 		return;
 
 	CurrentHealth -= DamagingHealth;
+	if (CurrentHealth < 0)
+		CurrentHealth = 0;
+	
 	if (IsDead())
 		Die();
 }
