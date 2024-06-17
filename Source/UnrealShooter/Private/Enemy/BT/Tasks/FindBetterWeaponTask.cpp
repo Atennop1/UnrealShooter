@@ -5,8 +5,8 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Enemy/EnemyCharacter.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
-#include "Weapon/Interfaces/IFirearm.h"
-#include "Weapon/Interfaces/IFirearmPickable.h"
+#include "Weapon/IFirearm.h"
+#include "Weapon/Pickables/IFirearmPickable.h"
 
 UFindBetterWeaponTask::UFindBetterWeaponTask()
 {
@@ -48,6 +48,9 @@ void UFindBetterWeaponTask::OnFindingQueryFinished(TSharedPtr<FEnvQueryResult> R
 	}
 
 	if (BestPriority > (Enemy->GetWeaponHoldingComponent()->GetIsHolding() ? CurrentFirearm->GetData().Priority : -1))
+	{
+		Enemy->GetWeaponThrowingComponent()->Throw();
 		Cast<AAIController>(Cast<AEnemyCharacter>(Result->Owner)->GetController())->GetBlackboardComponent()->SetValueAsObject(BlackboardKey.SelectedKeyName, Cast<AActor>(BestPickable));
+	}
 }
 

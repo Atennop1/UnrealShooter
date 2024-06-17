@@ -3,6 +3,7 @@
 #include "Enemy/EnemyPerception.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "Character/ShooterPlayerController.h"
 #include "Perception/AISense_Prediction.h"
 
 UEnemyPerception::UEnemyPerception()
@@ -37,7 +38,7 @@ void UEnemyPerception::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 			Controller->GetBlackboardComponent()->SetValueAsVector(NoiseLocationVariableName, Stimulus.StimulusLocation);
 	}
 	
-	if (Stimulus.Type.Name == "Default__AISense_Sight" || Stimulus.Type.Name == "Default__AISense_Damage")
+	if ((Stimulus.Type.Name == "Default__AISense_Sight" || Stimulus.Type.Name == "Default__AISense_Damage") && Cast<AShooterPlayerController>(Cast<AShooterCharacter>(SensedActor)->GetController()) != nullptr)
 	{
 		Controller->GetBlackboardComponent()->SetValueAsBool(CanSeePlayerVariableName, Stimulus.WasSuccessfullySensed());
 		

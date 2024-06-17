@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IFirearm.h"
 #include "Data/FirearmData.h"
 #include "Data/WeaponType.h"
-#include "Interfaces/IFirearm.h"
 #include "GameFramework/Actor.h"
 #include "ShootingWeapon.generated.h"
 

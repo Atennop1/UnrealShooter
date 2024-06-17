@@ -3,7 +3,7 @@
 #include "Enemy/BT/Services/ReloadingService.h"
 #include "AIController.h"
 #include "Enemy/EnemyCharacter.h"
-#include "Weapon/Interfaces/IFirearm.h"
+#include "Weapon/IFirearm.h"
 
 UReloadingService::UReloadingService()
 {

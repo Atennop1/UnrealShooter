@@ -10,8 +10,19 @@ UEnemyCharacterPatrollingComponent::UEnemyCharacterPatrollingComponent()
 void UEnemyCharacterPatrollingComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!IsValid(SplineActor))
+		return;
+	
 	Spline = SplineActor->GetComponentByClass<USplineComponent>();
+	if (IsValid(Spline))
+		PointIndex = FMath::RandRange(0, Spline->GetNumberOfSplinePoints() - 1);
+}
+
+void UEnemyCharacterPatrollingComponent::Init(USplineComponent* NewSpline)
+{
+	Spline = NewSpline;
 	check(IsValid(Spline))
+	PointIndex = FMath::RandRange(0, Spline->GetNumberOfSplinePoints() - 1);
 }
 
 FVector UEnemyCharacterPatrollingComponent::GetNextPatrollingPoint()
@@ -21,5 +32,5 @@ FVector UEnemyCharacterPatrollingComponent::GetNextPatrollingPoint()
 	if (PointIndex == Spline->GetNumberOfSplinePoints())
 		PointIndex = 0;
 
-	return Spline->GetSplinePointAt(PointIndex, ESplineCoordinateSpace::World).Position;
+	return Spline->GetLocationAtSplinePoint(PointIndex, ESplineCoordinateSpace::World);
 }

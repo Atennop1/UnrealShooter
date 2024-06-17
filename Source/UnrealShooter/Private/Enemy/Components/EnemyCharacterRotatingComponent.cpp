@@ -9,5 +9,7 @@ void UEnemyCharacterRotatingComponent::TickComponent(float DeltaTime, ELevelTick
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	const bool IsLookingAtPlayer = Cast<AAIController>(Cast<ACharacter>(GetOwner())->GetController())->GetFocusActor() != nullptr;
-	LocationCameraPointingAt = IsLookingAtPlayer ? UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetMesh()->GetSocketLocation("head") : GetOwner()->GetActorLocation() + GetOwner()->GetActorForwardVector() * 50 + FVector(0, 0, 50);
+
+	if (UGameplayStatics::GetPlayerCharacter(GetWorld(), 0) != nullptr)
+		LocationCameraPointingAt = IsLookingAtPlayer ? UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetMesh()->GetSocketLocation("head") : GetOwner()->GetActorLocation() + GetOwner()->GetActorForwardVector() * 50 + FVector(0, 0, 50);
 }

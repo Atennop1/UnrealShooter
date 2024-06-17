@@ -3,7 +3,7 @@
 #include "Character/Weapon/CharacterWeaponHoldingComponent.h"
 #include "Character/ShooterCharacter.h"
 #include "Character/Weapon/CharacterAimingComponent.h"
-#include "Weapon/Interfaces/IWeapon.h"
+#include "Weapon/IWeapon.h"
 
 UCharacterWeaponHoldingComponent::UCharacterWeaponHoldingComponent()
 {

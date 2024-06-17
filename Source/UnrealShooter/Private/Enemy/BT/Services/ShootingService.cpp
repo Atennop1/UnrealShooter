@@ -4,7 +4,7 @@
 #include "AIController.h"
 #include "Enemy/EnemyCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Weapon/Interfaces/IFirearm.h"
+#include "Weapon/IFirearm.h"
 
 UShootingService::UShootingService()
 {
@@ -24,7 +24,7 @@ void UShootingService::ReceiveTick(UBehaviorTreeComponent& OwnerComp)
 
 	if (Enemy->GetWeaponHoldingComponent()->GetIsHolding())
 		ActorsToIgnore.Add(Cast<AActor>(Enemy->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()));
-	
+
 	const bool WasHit = UKismetSystemLibrary::LineTraceSingle(GetWorld(), Enemy->GetActorLocation(), Controller->GetFocusActor()->GetActorLocation(), TraceTypeQuery2, false, ActorsToIgnore, EDrawDebugTrace::None, HitResult, true);
 	if (!WasHit || Controller->GetFocusActor() != HitResult.GetActor())
 	{
@@ -34,7 +34,7 @@ void UShootingService::ReceiveTick(UBehaviorTreeComponent& OwnerComp)
 	}
 	
 	if (Enemy->GetWeaponHoldingComponent()->GetIsHolding() && Enemy->GetWeaponHoldingComponent()->GetHoldingWeapon().GetObject()->GetClass()->ImplementsInterface(UFirearm::StaticClass()))
-	{
+	{		
 		Enemy->GetAimingComponent()->StartAim();
 		Enemy->GetShootingComponent()->StartShooting();
 

@@ -2,7 +2,7 @@
 
 #include "Character/Weapon/CharacterReloadingComponent.h"
 #include "Character/ShooterCharacter.h"
-#include "Weapon/Interfaces/IFirearm.h"
+#include "Weapon/IFirearm.h"
 
 UCharacterReloadingComponent::UCharacterReloadingComponent()
 {
