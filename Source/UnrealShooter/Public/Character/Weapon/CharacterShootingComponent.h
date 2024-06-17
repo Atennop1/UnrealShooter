@@ -21,6 +21,9 @@ private:
 	bool IsShooting = false;
 
 	UPROPERTY(EditDefaultsOnly)
+	bool IsMakingNoise;
+	
+	UPROPERTY(EditDefaultsOnly)
 	UCurveFloat *SpreadCurve = nullptr;
 	FTimeline SpreadingTimeline;
 	float SpreadingCoefficient = 0;
