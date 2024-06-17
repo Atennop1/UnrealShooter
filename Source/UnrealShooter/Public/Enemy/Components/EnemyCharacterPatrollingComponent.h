@@ -26,5 +26,7 @@ protected:
 
 public:
 	UEnemyCharacterPatrollingComponent();
+
+	void Init(USplineComponent *NewSpline);
 	FVector GetNextPatrollingPoint();
 };

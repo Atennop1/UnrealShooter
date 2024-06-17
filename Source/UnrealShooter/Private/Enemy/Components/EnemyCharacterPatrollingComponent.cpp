@@ -11,6 +11,11 @@ void UEnemyCharacterPatrollingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	Spline = SplineActor->GetComponentByClass<USplineComponent>();
+}
+
+void UEnemyCharacterPatrollingComponent::Init(USplineComponent* NewSpline)
+{
+	Spline = NewSpline;
 	check(IsValid(Spline))
 }
 
@@ -21,5 +26,5 @@ FVector UEnemyCharacterPatrollingComponent::GetNextPatrollingPoint()
 	if (PointIndex == Spline->GetNumberOfSplinePoints())
 		PointIndex = 0;
 
-	return Spline->GetSplinePointAt(PointIndex, ESplineCoordinateSpace::World).Position;
+	return Spline->GetLocationAtSplinePoint(PointIndex, ESplineCoordinateSpace::World);
 }
