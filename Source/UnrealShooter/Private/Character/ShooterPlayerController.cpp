@@ -24,11 +24,11 @@ void AShooterPlayerController::OnPossess(APawn *PossessingPawn)
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartJumping);
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopJumping);
 	EnhancedInputComponent->BindAction(StartCrouchAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartCrouch);
-	EnhancedInputComponent->BindAction(StopCrouchAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStopCrouch);
+	EnhancedInputComponent->BindAction(StopCrouchAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopCrouch);
 	EnhancedInputComponent->BindAction(StartAimAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartAim);
-	EnhancedInputComponent->BindAction(StopAimAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStopAim);
+	EnhancedInputComponent->BindAction(StopAimAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopAim);
 	EnhancedInputComponent->BindAction(StartShootAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStartShoot);
-	EnhancedInputComponent->BindAction(StopShootAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallStopShoot);
+	EnhancedInputComponent->BindAction(StopShootAction, ETriggerEvent::Completed, this, &AShooterPlayerController::CallStopShoot);
 	EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallReload);
 	EnhancedInputComponent->BindAction(ThrowWeaponAction, ETriggerEvent::Triggered, this, &AShooterPlayerController::CallThrowWeapon);
 }
