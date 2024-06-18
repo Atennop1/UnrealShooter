@@ -1,4 +1,4 @@
-// Copyright Atennop and Krypton. All Rights Reserved.
+// Copyright Atennop. All Rights Reserved.
 
 #pragma once
 
@@ -15,21 +15,10 @@ class UNREALSHOOTER_API UCharacterHealthComponent : public UActorComponent, publ
 private:
 	UPROPERTY()
 	class AShooterCharacter *Character = nullptr;
-
-	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess))
-	USceneComponent *ComponentToAttachCamera = nullptr;
 	
 	UPROPERTY(EditDefaultsOnly)
 	int MaxHealth = 100;
 	int CurrentHealth = 100;
-
-	UPROPERTY(EditDefaultsOnly)
-	float TimeForMeshToDisappear = 5;
-
-	UPROPERTY(EditDefaultsOnly)
-	FTransform CameraTransformAfterDeath;
-
-	virtual void Die() const;
 
 protected:
 	virtual void BeginPlay() override;

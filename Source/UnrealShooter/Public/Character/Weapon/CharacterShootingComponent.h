@@ -1,4 +1,4 @@
-// Copyright Atennop and Krypton. All Rights Reserved.
+// Copyright Atennop. All Rights Reserved.
 
 #pragma once
 
@@ -21,7 +21,7 @@ private:
 	bool IsShooting = false;
 
 	UPROPERTY(EditDefaultsOnly)
-	bool IsMakingNoise;
+	bool IsMakingNoise = false;
 	
 	UPROPERTY(EditDefaultsOnly)
 	UCurveFloat *SpreadCurve = nullptr;

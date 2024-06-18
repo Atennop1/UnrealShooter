@@ -1,4 +1,4 @@
-﻿// Copyright Atennop and Krypton. All Rights Reserved.
+﻿// Copyright Atennop. All Rights Reserved.
 
 #pragma once
 

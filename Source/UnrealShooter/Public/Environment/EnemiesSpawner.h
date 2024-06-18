@@ -1,4 +1,4 @@
-﻿// Copyright Atennop and Krypton. All Rights Reserved.
+﻿// Copyright Atennop. All Rights Reserved.
 
 #pragma once
 
@@ -16,6 +16,9 @@ class UNREALSHOOTER_API AEnemiesSpawner : public AActor
 private:
 	UPROPERTY(EditAnywhere)
 	float StartDelay = 5;
+	
+	UPROPERTY(EditAnywhere)
+	float SphereTraceRadius = 20;
 	
 	UPROPERTY(EditAnywhere)
 	AActor *SplineActor = nullptr;

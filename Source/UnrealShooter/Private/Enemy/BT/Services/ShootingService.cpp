@@ -1,4 +1,4 @@
-// Copyright Atennop and Krypton. All Rights Reserved.
+// Copyright Atennop. All Rights Reserved.
 
 #include "Enemy/BT/Services/ShootingService.h"
 #include "AIController.h"
@@ -17,7 +17,11 @@ void UShootingService::ReceiveTick(UBehaviorTreeComponent& OwnerComp)
 	AEnemyCharacter *Enemy = Cast<AEnemyCharacter>(Controller->GetPawn());
 
 	if (!IsValid(Controller->GetFocusActor()))
+	{
+		Enemy->GetShootingComponent()->StopShooting();
+		Enemy->GetAimingComponent()->StopAim();
 		return;
+	}
 	
 	FHitResult HitResult;
 	TArray<AActor*> ActorsToIgnore = TArray<AActor*> { Enemy };

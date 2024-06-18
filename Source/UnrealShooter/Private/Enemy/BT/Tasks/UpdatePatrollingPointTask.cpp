@@ -1,4 +1,4 @@
-// Copyright Atennop and Krypton. All Rights Reserved.
+// Copyright Atennop. All Rights Reserved.
 
 #include "Enemy/BT/Tasks/UpdatePatrollingPointTask.h"
 #include "AIController.h"

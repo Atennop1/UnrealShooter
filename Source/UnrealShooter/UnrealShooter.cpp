@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright Atennop. All Rights Reserved.
 
 #include "UnrealShooter.h"
 #include "Modules/ModuleManager.h"

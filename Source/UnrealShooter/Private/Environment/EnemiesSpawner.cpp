@@ -1,4 +1,4 @@
-﻿// Copyright Atennop and Krypton. All Rights Reserved.
+﻿// Copyright Atennop. All Rights Reserved.
 
 #include "Environment/EnemiesSpawner.h"
 
@@ -19,12 +19,14 @@ void AEnemiesSpawner::BeginPlay()
 void AEnemiesSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (IsValid(SpawnedEnemy) || !CanSpawn)
+	const ACharacter *PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	
+	if (IsValid(SpawnedEnemy) || !CanSpawn || !IsValid(PlayerCharacter))
 		return;
 	
 	FHitResult Hit;
-	GetWorld()->LineTraceSingleByChannel(Hit, GetActorLocation(), UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(), ECC_Visibility);
-	if (Hit.GetActor() == UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))
+	UKismetSystemLibrary::SphereTraceSingle(GetWorld(), GetActorLocation(), PlayerCharacter->GetActorLocation(), SphereTraceRadius, TraceTypeQuery2, false, {}, EDrawDebugTrace::None, Hit, true);
+	if (Hit.GetActor() == PlayerCharacter)
 		return;
 
 	if (IsValid(SpawnedController))
