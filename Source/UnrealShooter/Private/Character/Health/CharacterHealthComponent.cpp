@@ -4,38 +4,12 @@
 
 #include "Camera/CameraComponent.h"
 #include "Character/ShooterCharacter.h"
+#include "Character/Health/CharacterDyingComponent.h"
 #include "Components/CapsuleComponent.h"
 
 UCharacterHealthComponent::UCharacterHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-}
-
-void UCharacterHealthComponent::Die() const
-{
-	if (UCameraComponent *Camera = Cast<UCameraComponent>(GetOwner()->GetComponentByClass(UCameraComponent::StaticClass())); IsValid(Camera))
-	{
-		Camera->AttachToComponent(ComponentToAttachCamera, FAttachmentTransformRules(EAttachmentRule::KeepWorld, false));
-		Camera->SetRelativeTransform(CameraTransformAfterDeath);
-	}
-
-	Character->GetWeaponThrowingComponent()->Throw();
-	Character->GetMesh()->SetAllBodiesSimulatePhysics(true);
-	Character->GetCapsuleComponent()->DestroyComponent();
-	Character->GetController()->SetControlRotation(CameraTransformAfterDeath.Rotator());
-
-	FTimerHandle MeshDestroyingHandle;
-	GetWorld()->GetTimerManager().SetTimer(MeshDestroyingHandle, [&]
-	{
-		TArray<USceneComponent*> MeshChildren;
-		Character->GetMesh()->GetChildrenComponents(true, MeshChildren);
-			
-		for (const auto Child : MeshChildren)
-			Child->DestroyComponent();
-			
-		Character->GetMesh()->DestroyComponent();
-		Character->Destroy();
-	}, TimeForMeshToDisappear, false);
 }
 
 void UCharacterHealthComponent::BeginPlay()
@@ -63,6 +37,6 @@ void UCharacterHealthComponent::Damage(int DamagingHealth)
 	if (CurrentHealth < 0)
 		CurrentHealth = 0;
 	
-	if (IsDead())
-		Die();
+	if (const auto *DyingComponent = Character->GetComponentByClass<UCharacterDyingComponent>(); DyingComponent != nullptr && IsDead())
+		DyingComponent->Die();
 }

@@ -60,6 +60,9 @@ void UCharacterShootingComponent::StopShooting()
 
 void UCharacterShootingComponent::Shoot()
 {
+	if (Character->IsDead())
+		return;
+	
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParameters;
 	CollisionParameters.AddIgnoredActor(GetOwner());

@@ -18,6 +18,9 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 	float StartDelay = 5;
+
+	UPROPERTY(EditAnywhere)
+	float SphereTraceRadius = 20;
 	
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<AActor>> PickablesToSpawn;

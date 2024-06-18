@@ -38,7 +38,7 @@ void UEnemyPerception::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 			Controller->GetBlackboardComponent()->SetValueAsVector(NoiseLocationVariableName, Stimulus.StimulusLocation);
 	}
 	
-	if ((Stimulus.Type.Name == "Default__AISense_Sight" || Stimulus.Type.Name == "Default__AISense_Damage") && Cast<AShooterPlayerController>(Cast<AShooterCharacter>(SensedActor)->GetController()) != nullptr)
+	if ((Stimulus.Type.Name == "Default__AISense_Sight" || Stimulus.Type.Name == "Default__AISense_Damage") && Cast<AShooterCharacter>(SensedActor) != nullptr && Cast<AShooterPlayerController>(Cast<AShooterCharacter>(SensedActor)->GetController()) != nullptr)
 	{
 		Controller->GetBlackboardComponent()->SetValueAsBool(CanSeePlayerVariableName, Stimulus.WasSuccessfullySensed());
 		
@@ -49,7 +49,7 @@ void UEnemyPerception::OnPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 			return;
 		}
 		
-		GetWorld()->GetTimerManager().SetTimer(ChasingTimerHandle, [&] { Controller->GetBlackboardComponent()->SetValueAsObject(TargetVariableName, nullptr); }, LoosingTargetTime, false);
+		GetWorld()->GetTimerManager().SetTimer(ChasingTimerHandle, [&] { if (IsValid(Controller)) Controller->GetBlackboardComponent()->SetValueAsObject(TargetVariableName, nullptr); }, LoosingTargetTime, false);
 		UAISense_Prediction::RequestControllerPredictionEvent(Controller, SensedActor, 1);
 	}
 }

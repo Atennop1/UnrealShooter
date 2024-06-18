@@ -18,6 +18,9 @@ private:
 	float StartDelay = 5;
 	
 	UPROPERTY(EditAnywhere)
+	float SphereTraceRadius = 20;
+	
+	UPROPERTY(EditAnywhere)
 	AActor *SplineActor = nullptr;
 	
 	UPROPERTY(EditAnywhere)

@@ -13,13 +13,14 @@ void APickablesSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	ElapsedTime += DeltaTime;
+	const ACharacter *PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	
-	if (ElapsedTime < StartDelay || IsValid(LastSpawnedPickable))
+	if (ElapsedTime < StartDelay || IsValid(LastSpawnedPickable) || !IsValid(PlayerCharacter))
 		return;
 	
 	FHitResult Hit;
-	GetWorld()->LineTraceSingleByChannel(Hit, GetActorLocation(), UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation(), ECC_Visibility);
-	if (Hit.GetActor() == UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))
+	UKismetSystemLibrary::SphereTraceSingle(GetWorld(), GetActorLocation(), PlayerCharacter->GetActorLocation(), SphereTraceRadius, TraceTypeQuery2, false, {}, EDrawDebugTrace::None, Hit, true);
+	if (Hit.GetActor() == PlayerCharacter)
 		return;
 	
 	ElapsedTime = 0;
