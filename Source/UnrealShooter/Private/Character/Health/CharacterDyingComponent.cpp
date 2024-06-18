@@ -18,7 +18,7 @@ void UCharacterDyingComponent::BeginPlay()
 	check(Character != nullptr);
 }
 
-void UCharacterDyingComponent::Die() const
+void UCharacterDyingComponent::Die()
 {
 	if (UCameraComponent *Camera = Cast<UCameraComponent>(GetOwner()->GetComponentByClass(UCameraComponent::StaticClass())); IsValid(Camera))
 	{
@@ -30,9 +30,8 @@ void UCharacterDyingComponent::Die() const
 	Character->GetMesh()->SetAllBodiesSimulatePhysics(true);
 	Character->GetCapsuleComponent()->DestroyComponent();
 	Character->GetController()->SetControlRotation(CameraTransformAfterDeath.Rotator());
-
-	FTimerHandle MeshDestroyingHandle;
-	GetWorld()->GetTimerManager().SetTimer(MeshDestroyingHandle, [&]
+	
+	GetWorld()->GetTimerManager().SetTimer(DyingTimerHandle, [&]
 	{
 		if (IsValid(Character))
 			Character->Destroy();
@@ -42,5 +41,11 @@ void UCharacterDyingComponent::Die() const
 			UWidgetLayoutLibrary::RemoveAllWidgets(GetWorld());
 			DeathScreen->AddToViewport(0);
 		}
-	}, TimeForMeshToDisappear, false);
+	}, DyingTime, false);
+}
+
+void UCharacterDyingComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	GetWorld()->GetTimerManager().ClearTimer(DyingTimerHandle);
 }

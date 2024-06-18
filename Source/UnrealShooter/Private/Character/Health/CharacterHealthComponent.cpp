@@ -37,6 +37,6 @@ void UCharacterHealthComponent::Damage(int DamagingHealth)
 	if (CurrentHealth < 0)
 		CurrentHealth = 0;
 	
-	if (const auto *DyingComponent = Character->GetComponentByClass<UCharacterDyingComponent>(); DyingComponent != nullptr && IsDead())
+	if (auto *DyingComponent = Character->GetComponentByClass<UCharacterDyingComponent>(); DyingComponent != nullptr && IsDead())
 		DyingComponent->Die();
 }

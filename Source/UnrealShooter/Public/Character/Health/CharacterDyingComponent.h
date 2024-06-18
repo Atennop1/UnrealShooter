@@ -20,7 +20,8 @@ private:
 	USceneComponent *ComponentToAttachCamera = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
-	float TimeForMeshToDisappear = 5;
+	float DyingTime = 5;
+	FTimerHandle DyingTimerHandle;
 
 	UPROPERTY(EditDefaultsOnly)
 	FTransform CameraTransformAfterDeath;
@@ -30,8 +31,9 @@ private:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 	UCharacterDyingComponent();
-	void Die() const;
+	void Die();
 };
