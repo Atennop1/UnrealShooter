@@ -1,4 +1,4 @@
-// Copyright Atennop and Krypton. All Rights Reserved.
+// Copyright Atennop. All Rights Reserved.
 
 #include "Character/Weapon/CharacterShootingComponent.h"
 #include "Camera/CameraComponent.h"
@@ -29,7 +29,7 @@ void UCharacterShootingComponent::TickComponent(float DeltaTime, ELevelTick Tick
 	SpreadingTimeline.TickTimeline(DeltaTime);
 
 	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
-	if (!Character->GetAimingComponent()->GetIsAiming() || !Weapon->GetIsEnoughAmmo() || Weapon->GetIsReloading())
+	if (!Character->GetAimingComponent()->GetIsAiming() || !Weapon->GetIsEnoughAmmo())
 	{
 		StopShooting();
 		return;
@@ -41,7 +41,7 @@ void UCharacterShootingComponent::TickComponent(float DeltaTime, ELevelTick Tick
 
 void UCharacterShootingComponent::StartShooting()
 {
-	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); !Character->IsDead() && Character->GetWeaponHoldingComponent()->GetIsHolding() &&  Weapon != nullptr && Weapon->GetCanShoot() && Character->GetAimingComponent()->GetIsAiming())
+	if (IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon()); !Character->IsDead() && Character->GetWeaponHoldingComponent()->GetIsHolding() && Weapon != nullptr && (Weapon->GetCanShoot() || Weapon->GetIsReloading()) && Character->GetAimingComponent()->GetIsAiming())
 	{
 		IsShooting = true;
 		Shoot();
@@ -63,11 +63,14 @@ void UCharacterShootingComponent::Shoot()
 	if (Character->IsDead())
 		return;
 	
+	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
+	if (Weapon->GetIsReloading())
+		return;
+
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParameters;
 	CollisionParameters.AddIgnoredActor(GetOwner());
-
-	IFirearm* Weapon = Cast<IFirearm>(&*Character->GetWeaponHoldingComponent()->GetHoldingWeapon());
+	
 	const FVector StartPosition = Character->GetComponentByClass<UCameraComponent>()->GetComponentLocation();
 	const FVector EndPosition = StartPosition + Character->GetControlRotation().Quaternion().GetForwardVector() * 99999;
 	const bool WasHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartPosition, EndPosition, ECC_Visibility, CollisionParameters);

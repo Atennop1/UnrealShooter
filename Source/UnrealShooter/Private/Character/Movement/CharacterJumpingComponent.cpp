@@ -1,4 +1,4 @@
-// Copyright Atennop and Krypton. All Rights Reserved.
+// Copyright Atennop. All Rights Reserved.
 
 #include "Character/Movement/CharacterJumpingComponent.h"
 #include "Character/ShooterCharacter.h"
