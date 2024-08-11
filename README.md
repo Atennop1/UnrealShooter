@@ -12,5 +12,6 @@ My classmate from IT class [**Krypton**](https://github.com/kryptoNkn) suggested
 If we talk about who did what part of the project, then we can say that the entire game was made by me, except for the interface, menus and settings that were made by Krypton. The project was completed in just over 3 weeks.
  
  ## Conclusion
- This project was an interesting experience for both of us. I improved my skills in C++, learned many aspects of game development on the Unreal Engine on the fly, probably not touching on working with sound, because the game only has shooting sounds that came with a set of weapons
-<br>Krypton, in turn, got acquainted with creating an interface in Unreal Engine, learned how to implement settings, and also received a lot of useful criticism from me, which will help him develop
+This project was an interesting experience for both of us. I improved my skills in C++, learned many aspects of game development on the Unreal Engine on the fly, probably not touching on working with sound, because the game only has shooting sounds that came with a set of weapons
+ 
+Krypton, in turn, got acquainted with creating an interface in Unreal Engine, learned how to implement settings, and also received a lot of useful criticism from me, which will help him develop
